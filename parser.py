@@ -1,4 +1,6 @@
-verbs = ["talk", "look", "ask", "walk"]
+verbs = ["go", "walk",
+         "ask", "chat", "talk", "buy", "eat", "drink", "ride", "look", "play", "wait",
+         "inventory", "i", "help"]
 prepositions = ["to", "at", "in"]
 
 def process_sentence(sentence):
@@ -9,6 +11,7 @@ def process_sentence(sentence):
     object =""
     indirect_object =""
     if len(words) == 0:
+        print("You gave no sentence")
         return 0
 
     if verbs.count(words[0]) is not 0:
@@ -33,6 +36,8 @@ def process_sentence(sentence):
         print()
         return 1
     else:
+        print("I don't understand what '", words[0], "' means.", sep='')
+        print()
         return 0
 
 lause = "ask bumper car operator to a cafeteria"
@@ -43,3 +48,7 @@ process_sentence(lause2)
 
 lause3 = "talk to a cafe keeper in the cafeteria"
 process_sentence(lause3)
+
+while(lause is not ""):
+    lause = input("Give a sentence (Empty line finishes): ")
+    process_sentence(lause)
