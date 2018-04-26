@@ -1,11 +1,4 @@
-db = ''
-verbs = ["go", "walk",
-         "ask", "chat", "talk", "buy", "eat", "drink", "ride", "look", "play", "wait",
-         "inventory", "i", "help"]
-prepositions = ["to", "at", "in"]
-
-def db_connect(database_object):
-    db = database_object
+import globals
 
 def process_sentence(sentence):
     print()
@@ -18,15 +11,15 @@ def process_sentence(sentence):
         print("You gave no sentence")
         return 0
 
-    if verbs.count(words[0]) is not 0:
+    if globals.verbs.count(words[0]) is not 0:
         verb = words.pop(0)
 
         #if there is a preposition after a verb ("talk to" etc.)
-        if(prepositions.count(words[0]) is not 0):
+        if(globals.prepositions.count(words[0]) is not 0):
             del words[0]
 
         for word in words:
-            if(prepositions.count(word) is not 0):
+            if(globals.prepositions.count(word) is not 0):
                 index= words.index(word)
                 del words[index]
 
@@ -43,15 +36,3 @@ def process_sentence(sentence):
         print("I don't understand what '", words[0], "' means.", sep='')
         print()
         return 0
-
-def test_query():
-    cursor = db.cursor()
-
-    query1 = ("SELECT * FROM Pelihahmo")
-
-    cursor.execute(query1)
-    result = cursor.fetchall()
-
-    if cursor.rowcount >= 1:
-        for row in result:
-            print(row)
