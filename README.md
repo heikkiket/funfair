@@ -6,6 +6,7 @@ Written in Python. Uses SQL database.
 
 ## Pelin rakenteen suunnittelua
 
+
 ###Parser
 
 **Parser** palauttaa listan: *verb*, *object*, *indirect_object*
