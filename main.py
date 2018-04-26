@@ -5,16 +5,11 @@ import globals
 from lib.database import FunDb
 connect=FunDb.connect()
 
-#clear the screen
-print ("\n"*100)
 
 #Dmitri
 def direct_to_name (loc):
     location={"n":"North","e":"East","s":"South","w":"West","ne":"Northeast","se":"Southeast","sw":"Southwest","nw":"Northwest"}
     return location[loc]
-
-x=direct_to_name("ne")
-print ("Hello "+x)
 
 #aliohjelmat
 
@@ -76,6 +71,16 @@ def play(game):
 def wait():
     return
 def inventory():
+    cur=connect.cursor()
+    sql="select Items.Name as Item, Places.Name as Place from Items,Item_types,Places where Items.Itemtype_Id=Item_types.Itemtype_Id and Item_types.Place_Id=Places.Place_Id and Items.Player_Id=\"1\"";
+    cur.execute(sql)
+    if cur.rowcount>=1:
+        print ("\nYou are holding:\n")
+        for row in cur.fetchall():
+            print (row[0]+" from "+row[1])
+    else:
+        print ("\nYou are holding nothing\n")
+    print ("\n")
     return
 def help():
     return
@@ -92,12 +97,15 @@ def move(location, direction):
 
 #main loop
 
+#clear the screen
+print ("\n"*100)
+
 #playr location
 location = "1"
 look(location)
 
 action = ""
-while action != "quit":
+while action != "quit" and action != "q":
 # days muuttuja < 4 / exit
     sentence = input("What will you do? ")
     ret=parser.process_sentence(sentence)
@@ -123,5 +131,8 @@ while action != "quit":
 # play [game]
 # wait
 # inventory []
+    if (action=="i" or action=="inventory"):
+        inventory()
+
 # help
 # e, w, s, n, etc direction
