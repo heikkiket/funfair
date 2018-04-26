@@ -1,7 +1,7 @@
 #Global variables
 verbs = ["go", "walk",
          "ask", "chat", "talk", "buy", "eat", "drink", "ride", "look", "play", "wait",
-         "inventory", "i", "help", "quit"]
+         "inventory", "i", "help", "quit", "directions"]
 prepositions = ["to", "at", "in", "with"]
 debug = True
 

@@ -50,7 +50,7 @@ def look(location):
     return
 
 def show_passage(location):
-    cur=db.cursor()
+    cur=connect.cursor()
     sql="SELECT Description FROM Directions WHERE Direction_id IN (SELECT direction_id FROM has_passages WHERE place_id ="+str(location)+")Order by direction_id ASC LIMIT 10;"
     cur.execute(sql)
     if cur.rowcount>=1:
@@ -93,7 +93,10 @@ while action != "quit":
     action=ret[0]
 # look [location]
     if (action=="look" or action=="examine" or action=="view"):
-        look(4)
+        look(2)
+# diretions
+    if (action=="directions"):
+        show_passage(2)
        
 # ask/take [person] to [place]
 # chat/talk to/with [person]
