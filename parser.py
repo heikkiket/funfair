@@ -59,12 +59,20 @@ def test_query():
 lause = "ask bumper car operator to a cafeteria"
 process_sentence(lause)
 
+lause = "ask bumper car operator to a cafeteria"
+process_sentence(lause)
+
 lause2 = "walk north"
 process_sentence(lause2)
 
 lause3 = "talk to a cafe keeper in the cafeteria"
 process_sentence(lause3)
 
+
+lause="h"
+
 while(lause is not ""):
     lause = input("Give a sentence (Empty line finishes): ")
     process_sentence(lause)
+
+db.rollback()
