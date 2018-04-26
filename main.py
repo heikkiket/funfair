@@ -2,9 +2,8 @@ import globals
 import parser
 import tips
 
-hello = "ask bumper car operator to a cafeteria"
-parser.process_sentence(hello)
 
+#Dmitri
 def direct_to_name (loc):
     location={"n":"North","e":"East","s":"South","w":"West","ne":"Northeast","se":"Southeast","sw":"Southwest","nw":"Northwest"}
     return location[loc]
