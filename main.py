@@ -13,18 +13,37 @@ print ("Hello "+x)
 #aliohjelmat
 
 def prologue():
-    return 
+    print("Prologue")
+    return
+
 def epilogue():
     return
+
 def night():
+    print("At night you work at the warehouse. When having a break at the yard of the warehouse you see a distant glow from the closed funfair: the employees have set up campfire…")
     return
+          
 def final():
     return
+          
 def look(location):
-    print ("Looking in somewhere")
+    cur=db.cursor()
+    sql="SELECT Details FROM Places where Place_Id="+str(location)+";"
+    cur.execute(sql)
+    for row in cur:
+        print (row[0])
     return
-def show_passages(location):
+          
+def show_passage(location):
+    cur=db.cursor()
+    sql="SELECT Description FROM Directions WHERE Direction_id IN (SELECT direction_id FROM has_passages WHERE place_id ="+str(location)+")Order by direction_id ASC LIMIT 10;"
+    cur.execute(sql)
+    if cur.rowcount>=1:
+        print ("From here you can go: ")
+        for row in cur.fetchall() :
+            print (row[0])
     return
+          
 def ask(person, place):
     return
 def chat(person):
@@ -48,8 +67,8 @@ def help():
 def move(location, direction):
     return
 
-
 #main loop
+
 action = ""
 while action != "quit":
 # days muuttuja < 4 / exit
@@ -60,6 +79,7 @@ while action != "quit":
 # look [location]
     if (action=="look" or action=="examine" or action=="view"):
         look(1)
+
         
 # ask/take [person] to [place]
 # chat/talk to/with [person]
