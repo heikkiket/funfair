@@ -15,6 +15,9 @@ def process_sentence(sentence):
     if globals.verbs.count(words[0]) is not 0:
         verb = words.pop(0)
 
+        if len(words) == 0:
+            return [verb, '','']
+
         #if there is a preposition after a verb ("talk to" etc.)
         if(globals.prepositions.count(words[0]) is not 0):
             del words[0]
