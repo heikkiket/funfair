@@ -1,17 +1,11 @@
-import tsd
-import mysql.connector
-
-db = mysql.connector.connect(host="127.0.0.1",
-                      user="dbuser",
-                      passwd="dbpass",
-                      db="gddpeli",
-                      buffered=True)
-
-
+db = ''
 verbs = ["go", "walk",
          "ask", "chat", "talk", "buy", "eat", "drink", "ride", "look", "play", "wait",
          "inventory", "i", "help"]
 prepositions = ["to", "at", "in"]
+
+def db_connect(database_object):
+    db = database_object
 
 def process_sentence(sentence):
     print()
@@ -50,21 +44,14 @@ def process_sentence(sentence):
         print()
         return 0
 
-#x=tsd.location(4)
+def test_query():
+    cursor = db.cursor()
 
-#lause = "ask bumper car operator to a cafeteria"
-#process_sentence(lause)
+    query1 = ("SELECT * FROM Pelihahmo")
 
-#lause2 = "walk north"
-#process_sentence(lause2)
+    cursor.execute(query1)
+    result = cursor.fetchall()
 
-#lause3 = "talk to a cafe keeper in the cafeteria"
-#process_sentence(lause3)
-
-#lause="h"
-
-#while(lause is not ""):
-#    lause = input("Give a sentence (Empty line finishes): ")
-#    process_sentence(lause)
-
-db.rollback()
+    if cursor.rowcount >= 1:
+        for row in result:
+            print(row)
