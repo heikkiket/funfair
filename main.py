@@ -21,6 +21,7 @@ def night():
 def final():
     return
 def look(location):
+    print ("Looking in somewhere")
     return
 def show_passages(location):
     return
@@ -53,8 +54,8 @@ while True:
 # days muuttuja < 4 / exit
 
     sentence = input("What will you do? ")
-    parser.process_sentence(sentence)
-
+    ret=parser.process_sentence(sentence)
+    action=ret[0]
 # look [location]
     if (action=="look" or action=="examine" or action=="view"):
         look(1)
