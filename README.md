@@ -5,7 +5,9 @@ This is a game that happens in a small town where funfair arrives.
 Written in Python. Uses SQL database.
 
 ## Pelin rakenteen suunnittelua
+
 ###Parser
+
 **Parser** palauttaa listan: *verb*, *object*, *indirect_object*
 
 Jokainen verbi on oma aliohjelmansa. talk(), ask() jne
