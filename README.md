@@ -44,6 +44,10 @@ Campfire on oma erillinen looppinsa. Siellä voi puhua kaikille eri henkilöille
 Jos campfirellä puhuu Ferris Wheel -operatorille, pääsee maailmanpyörään.
 
 ## Moduulit
+* **lib/database.py** - tietokannan yhteys, kytketään käskyllä 
+<pre>from lib.database import FunDb
+connect=FunDb.connect()</pre>
+jonka jälkeen tietokantaan otettaan yhteyttä "connect"-muuttujan kautta, esim "cur=connect.cursor()"
 * **globals.py** - tallettaa globaalit muuttujat, joita kutsutaan kaikista moduuleista
 
     *Muista aina moduulin alkuun:*

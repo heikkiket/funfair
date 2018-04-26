@@ -1,9 +1,7 @@
 import parser
 import globals
 
-#importing DB settings
-from lib.database import FunDb
-connect=FunDb.connect()
+
 
 #clear the screen
 print ("\n"*100)
