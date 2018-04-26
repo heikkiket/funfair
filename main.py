@@ -79,24 +79,40 @@ def inventory():
     return
 def help():
     return
+
 def move(location, direction):
-    return
+    destination=location
+    cur=connect.cursor()
+    sql = "SELECT `Has_passagesPlace_Id` FROM `Has_passages` WHERE `Direction_Id`= '"+ direction +"' AND `Place_Id` = "+str(location)+";"
+    cur.execute(sql)
+    if cur.rowcount>=1:
+        for row in cur.fetchall():
+            destination = row[0]
+    return destination
 
 #main loop
+
+#playr location
+location = "1"
+look(location)
 
 action = ""
 while action != "quit":
 # days muuttuja < 4 / exit
-
     sentence = input("What will you do? ")
     ret=parser.process_sentence(sentence)
     action=ret[0]
 # look [location]
     if (action=="look" or action=="examine" or action=="view"):
-        look(2)
+        look(location)
 # diretions
     if (action=="directions"):
-        show_passage(2)
+        show_passage(location)
+# move
+    if (action=="n"):
+        newlocation = move(location,action)
+        location = newlocation
+        look(location)
        
 # ask/take [person] to [place]
 # chat/talk to/with [person]
