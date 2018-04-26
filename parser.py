@@ -1,7 +1,11 @@
+db = null
 verbs = ["go", "walk",
          "ask", "chat", "talk", "buy", "eat", "drink", "ride", "look", "play", "wait",
          "inventory", "i", "help"]
 prepositions = ["to", "at", "in"]
+
+def db_connect(database_object):
+    db = database_object
 
 def process_sentence(sentence):
     print()
@@ -39,6 +43,18 @@ def process_sentence(sentence):
         print("I don't understand what '", words[0], "' means.", sep='')
         print()
         return 0
+
+def test_query():
+    cursor = db.cursor()
+
+    query1 = ("SELECT * FROM Pelihahmo")
+
+    cursor.execute(query1)
+    result = cursor.fetchall()
+
+    if cursor.rowcount >= 1:
+        for row in result:
+            print(row)
 
 lause = "ask bumper car operator to a cafeteria"
 process_sentence(lause)
