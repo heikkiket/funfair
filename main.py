@@ -1,6 +1,12 @@
 import parser
-import mysql.connector
 import globals
+
+#importing DB settings
+from lib.database import FunDb
+connect=FunDb.connect()
+
+#clear the screen
+print ("\n"*100)
 
 #Dmitri
 def direct_to_name (loc):
@@ -21,7 +27,12 @@ def night():
 def final():
     return
 def look(location):
-    print ("Looking in somewhere")
+    cur=connect.cursor()
+    sql="SELECT Name, Description, Details FROM Places where Place_Id="+str(location)+";"
+    cur.execute(sql)
+    if cur.rowcount>=1:
+        for row in cur.fetchall():
+            print ("\n"+row[0]+"\n\n"+row[1]+"\n\n"+row[2]+"\n\n")
     return
 def show_passages(location):
     return
@@ -59,7 +70,7 @@ while action != "quit":
     action=ret[0]
 # look [location]
     if (action=="look" or action=="examine" or action=="view"):
-        look(1)
+        look(4)
         
 # ask/take [person] to [place]
 # chat/talk to/with [person]
