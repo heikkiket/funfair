@@ -10,7 +10,7 @@ def process_sentence(sentence):
     indirect_object =""
     if len(words) == 0:
         print("You gave no sentence")
-        return 0
+        return ['', '', '']
 
     if globals.verbs.count(words[0]) is not 0:
         verb = words.pop(0)
@@ -37,4 +37,4 @@ def process_sentence(sentence):
     else:
         print("I don't understand what '", words[0], "' means.", sep='')
         print()
-        return 0
+        return ['', '', '']
