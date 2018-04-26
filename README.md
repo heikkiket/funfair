@@ -44,11 +44,12 @@ Campfire on oma erillinen looppinsa. Siellä voi puhua kaikille eri henkilöille
 Jos campfirellä puhuu Ferris Wheel -operatorille, pääsee maailmanpyörään.
 
 ## Moduulit
-**globals.py** - tallettaa globaalit muuttujat, joita kutsutaan kaikista moduuleista
-*Muista aina moduulin alkuun!*
-<pre>import globals
-# Ja muuttujia kutsutaan:
-globals.verbs</pre>
-**parser.py** - Sisältää parserin
-**tips.py** - Vihjemekaniikka
-**main.py** Pelin päämoduuli, joka kutsuu kaikkia muita
+* **globals.py** - tallettaa globaalit muuttujat, joita kutsutaan kaikista moduuleista
+
+    *Muista aina moduulin alkuun:*
+    <pre>import globals</pre>
+    *Ja muuttujia kutsutaan:*
+    <pre>globals.verbs</pre>
+* **parser.py** - Sisältää parserin
+* **tips.py** - Vihjemekaniikka
+* **main.py** Pelin päämoduuli, joka kutsuu kaikkia muita
