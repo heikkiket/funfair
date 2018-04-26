@@ -6,6 +6,7 @@ Written in Python. Uses SQL database.
 
 ## Pelin rakenteen suunnittelua
 
+Muutama sananen rakenteesta...
 
 ###Parser
 
