@@ -1,8 +1,9 @@
 import globals
 
 def process_sentence(sentence):
-    print()
-    print("sentence:", sentence)
+    if globals.debug == True:
+        print()
+        print("sentence:", sentence)
     words = sentence.split()
     verb = ""
     object =""
@@ -27,11 +28,12 @@ def process_sentence(sentence):
                 break;
             object += word + ' '
 
-        print("verb:", verb)
-        print("object:", object)
-        print("indirect_object:", indirect_object)
-        print()
-        return 1
+        if globals.debug == True:
+            print("verb:", verb)
+            print("object:", object)
+            print("indirect_object:", indirect_object)
+            print()
+        return [verb, object, indirect_object]
     else:
         print("I don't understand what '", words[0], "' means.", sep='')
         print()
