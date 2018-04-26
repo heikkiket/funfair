@@ -1,6 +1,12 @@
 import parser
-import mysql.connector
 import globals
+
+#importing DB settings
+from lib.database import FunDb
+connect=FunDb.connect()
+
+#clear the screen
+print ("\n"*100)
 
 #Dmitri
 def direct_to_name (loc):
@@ -26,14 +32,23 @@ def night():
 def final():
     return
           
-def look(location):
-    cur=db.cursor()
-    sql="SELECT Details FROM Places where Place_Id="+str(location)+";"
+#def look(location):
+#    cur=db.cursor()
+#    sql="SELECT Details FROM Places where Place_Id="+str(location)+";"
+#    cur.execute(sql)
+#    for row in cur:
+#        print (row[0])
+#    return
+                  
+def look(location):         
+    cur=connect.cursor()
+    sql="SELECT Name, Description, Details FROM Places where Place_Id="+str(location)+";"
     cur.execute(sql)
-    for row in cur:
-        print (row[0])
+    if cur.rowcount>=1:
+        for row in cur.fetchall():
+            print ("\n"+row[0]+"\n\n"+row[1]+"\n\n"+row[2]+"\n\n")
     return
-          
+
 def show_passage(location):
     cur=db.cursor()
     sql="SELECT Description FROM Directions WHERE Direction_id IN (SELECT direction_id FROM has_passages WHERE place_id ="+str(location)+")Order by direction_id ASC LIMIT 10;"
@@ -43,7 +58,7 @@ def show_passage(location):
         for row in cur.fetchall() :
             print (row[0])
     return
-          
+
 def ask(person, place):
     return
 def chat(person):
@@ -78,9 +93,8 @@ while action != "quit":
     action=ret[0]
 # look [location]
     if (action=="look" or action=="examine" or action=="view"):
-        look(1)
-
-        
+        look(4)
+       
 # ask/take [person] to [place]
 # chat/talk to/with [person]
 # buy [item]

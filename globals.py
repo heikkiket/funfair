@@ -5,6 +5,10 @@ verbs = ["go", "walk",
 prepositions = ["to", "at", "in", "with"]
 debug = True
 
+#importing DB settings
+from lib.database import FunDb
+connect=FunDb.connect()
+
 #muuttujat
 
 #days
