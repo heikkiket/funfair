@@ -1,3 +1,13 @@
+import tsd
+import mysql.connector
+
+db = mysql.connector.connect(host="127.0.0.1",
+                      user="dbuser",
+                      passwd="dbpass",
+                      db="gddpeli",
+                      buffered=True)
+
+
 verbs = ["go", "walk",
          "ask", "chat", "talk", "buy", "eat", "drink", "ride", "look", "play", "wait",
          "inventory", "i", "help"]
@@ -40,15 +50,21 @@ def process_sentence(sentence):
         print()
         return 0
 
-lause = "ask bumper car operator to a cafeteria"
-process_sentence(lause)
+#x=tsd.location(4)
 
-lause2 = "walk north"
-process_sentence(lause2)
+#lause = "ask bumper car operator to a cafeteria"
+#process_sentence(lause)
 
-lause3 = "talk to a cafe keeper in the cafeteria"
-process_sentence(lause3)
+#lause2 = "walk north"
+#process_sentence(lause2)
 
-while(lause is not ""):
-    lause = input("Give a sentence (Empty line finishes): ")
-    process_sentence(lause)
+#lause3 = "talk to a cafe keeper in the cafeteria"
+#process_sentence(lause3)
+
+#lause="h"
+
+#while(lause is not ""):
+#    lause = input("Give a sentence (Empty line finishes): ")
+#    process_sentence(lause)
+
+db.rollback()
