@@ -19,13 +19,4 @@ def location (where):
         print (row[1])
     return
     
-def direct (loc):
-    if loc=="e":
-        return "East"
-    elif loc=="n":
-        return "North"
-    elif loc=="w":
-        return "West"
-    elif loc=="s":
-        return "South"
     
