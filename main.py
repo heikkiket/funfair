@@ -48,9 +48,10 @@ def help():
 def move(location, direction):
     return
 
-#main loop
 
-while True:
+#main loop
+action = ""
+while action != "quit":
 # days muuttuja < 4 / exit
 
     sentence = input("What will you do? ")
@@ -59,6 +60,7 @@ while True:
 # look [location]
     if (action=="look" or action=="examine" or action=="view"):
         look(1)
+        
 # ask/take [person] to [place]
 # chat/talk to/with [person]
 # buy [item]
