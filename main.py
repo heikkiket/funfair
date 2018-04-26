@@ -1,4 +1,6 @@
+import globals
 import parser
+import tips
 
 hello = "ask bumper car operator to a cafeteria"
 parser.process_sentence(hello)
