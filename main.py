@@ -65,10 +65,19 @@ def drink(item):
 def eat(item):
     return
 def ride(ride):
+    cur=connect.cursor()
+    sql="SELECT ACTION FROM Places Where Place_Id ="+str(location)+";"
+    cur.execute(sql)
+    if cur.rowcount>=1:
+        for row in cur:
+            print (row[0])
     return
-def play(game):
+def play():
+    print("You play a game")
+    #randomize game??
     return
 def wait():
+    print("What on earth are you waiting for?")
     return
 def inventory():
     cur=connect.cursor()
@@ -83,6 +92,7 @@ def inventory():
     print ("\n")
     return
 def help():
+    print("Print some help here")
     return
 
 def move(location, direction):
@@ -110,6 +120,7 @@ while action != "quit" and action != "q":
     sentence = input("What will you do? ")
     ret=parser.process_sentence(sentence)
     action=ret[0]
+    obj=ret[1]
 # look [location]
     if (action=="look" or action=="examine" or action=="view"):
         look(location)
@@ -117,7 +128,13 @@ while action != "quit" and action != "q":
     if (action=="directions"):
         show_passage(location)
 # move
-    if (action=="n"):
+
+    if (action=="go" or action=="walk" or action=="move" and obj in ["e", "n", "ne", "nw", "s", "se", "sw", "w", "east", "north", "northeast", "northwest", "south", "southwest", "west"]):
+        newlocation = move(location,obj)
+        location = newlocation
+        look(location)
+        
+    if (action in ["e", "n", "ne", "nw", "s", "se", "sw", "w", "east", "north", "northeast", "northwest", "south", "southwest", "west"]):
         newlocation = move(location,action)
         location = newlocation
         look(location)
@@ -128,11 +145,20 @@ while action != "quit" and action != "q":
 # drink [item]
 # eat [item]
 # ride [ride]
+    if (action=="ride" and obj== "carousel" or "roller" or "wormster" or "bumper"):
+        ride(location)
 # play [game]
+    if (action=="play" location=="7"):
+        play()
+    if (action=="play" and location!="7"):
+        print("You have to go to the game hall to play games")
 # wait
+    if (action=="wait"):
+        wait()
 # inventory []
     if (action=="i" or action=="inventory"):
         inventory()
 
 # help
-# e, w, s, n, etc direction
+    if (action=="help"):
+        help()

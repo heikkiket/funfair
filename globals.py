@@ -1,8 +1,9 @@
 #Global variables
-verbs = ["go", "walk",
+verbs = ["go", "walk", "move",
          "ask", "chat", "talk", "buy", "eat", "drink", "ride", "look", "play", "wait",
-         "inventory", "i", "help", "quit", "directions", "n","q"]
-prepositions = ["to", "at", "in", "with"]
+         "inventory", "i", "help", "quit", "directions", "q", "e", "n", "ne", "nw", "s", "se",
+         "sw", "w", "east", "north", "northeast", "northwest", "south", "southwest", "west"]
+prepositions = ["to", "at", "in", "with", "the"]
 debug = True
 
 #importing DB settings
