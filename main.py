@@ -11,6 +11,29 @@ def direct_to_name (loc):
     location={"n":"North","e":"East","s":"South","w":"West","ne":"Northeast","se":"Southeast","sw":"Southwest","nw":"Northwest"}
     return location[loc]
 
+def getalias (fromname):
+    if fromname=="persons":
+        fromname="Persons"
+        idfield="Person_Id"
+    elif fromname=="items":
+        fromname="Item_types"
+        idfield="Itemtype_Id"
+    elif fromname=="places":
+        fromname="Places"
+        idfield="Place_Id"
+    else:
+        fromname="Persons"
+        idfiled="Person_Id"       
+    aliases={}
+    cur=connect.cursor()
+    sql="select "+idfield+", Alias from "+fromname+" where Alias is not null;"
+    cur.execute(sql)
+    if cur.rowcount>=1:
+        for row in cur.fetchall():
+            for alias in row[1].split(";"):
+                aliases.update({alias:row[0]})
+    return aliases
+
 #aliohjelmat
 
 def prologue():
@@ -72,7 +95,7 @@ def wait():
     return
 def inventory():
     cur=connect.cursor()
-    sql="select Items.Name as Item, Places.Name as Place from Items,Item_types,Places where Items.Itemtype_Id=Item_types.Itemtype_Id and Item_types.Place_Id=Places.Place_Id and Items.Player_Id=\"1\"";
+    sql="select Items.Name, Places.Name from Items,Item_types,Places where Items.Itemtype_Id=Item_types.Itemtype_Id and Item_types.Place_Id=Places.Place_Id and Items.Player_Id=\"1\"";
     cur.execute(sql)
     if cur.rowcount>=1:
         print ("\nYou are holding:\n")
@@ -99,6 +122,17 @@ def move(location, direction):
 
 #clear the screen
 print ("\n"*100)
+
+
+#temp addition, can be deleted later
+persons=getalias("persons")
+print (persons)
+items=getalias("items")
+print (items)
+places=getalias("places")
+print (places)
+
+
 
 #playr location
 location = "1"
