@@ -156,14 +156,14 @@ while action != "quit" and action != "q":
     action=ret[0]
     obj=ret[1]
 # look [location]
-    if (action=="look" or action=="examine" or action=="view"):
+    if (action in ["look", "examine", "view"]):
         look(location)
 # diretions
     if (action=="directions"):
         show_passage(location)
 # move
 
-    if (action=="go" or action=="walk" or action=="move" and obj in ["e", "n", "ne", "nw", "s", "se", "sw", "w", "east", "north", "northeast", "northwest", "south", "southwest", "west"]):
+    if (action in ["go","walk","move"] and obj in ["e", "n", "ne", "nw", "s", "se", "sw", "w", "east", "north", "northeast", "northwest", "south", "southwest", "west"]):
         newlocation = move(location,obj)
         location = newlocation
         look(location)
@@ -179,7 +179,7 @@ while action != "quit" and action != "q":
 # drink [item]
 # eat [item]
 # ride [ride]
-    if (action=="ride" and obj== "carousel" or "roller" or "wormster" or "bumper"):
+    if (action=="ride" and obj in ["carousel", "roller", "wormster", "bumper"]):
         ride(location)
 # play [game]
     if (action=="play" and location==7):
