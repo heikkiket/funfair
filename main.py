@@ -190,9 +190,9 @@ while action != "quit" and action != "q":
     if (action=="wait"):
         wait()
 # inventory []
-    if (action=="i" or action=="inventory"):
+    if (action in ["i","inventory"]):
         inventory()
 
 # help
-    if (action=="help" or action=="h"):
+    if (action in ["help", "h"]):
         help()
