@@ -182,9 +182,9 @@ while action != "quit" and action != "q":
     if (action=="ride" and obj== "carousel" or "roller" or "wormster" or "bumper"):
         ride(location)
 # play [game]
-    if (action=="play" and location=="7"):
+    if (action=="play" and location==7):
         play()
-    if (action=="play" and location!="7"):
+    if (action=="play" and location!=7):
         print("You have to go to the game hall to play games")
 # wait
     if (action=="wait"):
@@ -194,5 +194,5 @@ while action != "quit" and action != "q":
         inventory()
 
 # help
-    if (action=="help"):
+    if (action=="help" or action=="h"):
         help()
