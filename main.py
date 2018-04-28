@@ -69,7 +69,7 @@ def look(location):
 
 def show_passage(location):
     cur=connect.cursor()
-    sql="SELECT Description FROM Directions WHERE Direction_id IN (SELECT direction_id FROM has_passages WHERE place_id ="+str(location)+")Order by direction_id ASC LIMIT 10;"
+    sql="SELECT Description FROM Directions WHERE Direction_id IN (SELECT direction_id FROM Has_passages WHERE place_id ="+str(location)+")Order by direction_id ASC LIMIT 10;"
     cur.execute(sql)
     if cur.rowcount>=1:
         print ("From here you can go: ")
