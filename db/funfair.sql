@@ -116,7 +116,6 @@ CREATE TABLE `Item_types` (
   `Itemtype_Id` int(11) NOT NULL,
   `Name` varchar(40) NOT NULL,
   `Place_Id` int(11) NOT NULL,
-  `Alias` text,
   PRIMARY KEY (`Itemtype_Id`),
   KEY `Place_Id` (`Place_Id`),
   CONSTRAINT `item_types_ibfk_1` FOREIGN KEY (`Place_Id`) REFERENCES `Places` (`Place_Id`)
@@ -125,13 +124,13 @@ CREATE TABLE `Item_types` (
 LOCK TABLES `Item_types` WRITE;
 /*!40000 ALTER TABLE `Item_types` DISABLE KEYS */;
 
-INSERT INTO `Item_types` (`Itemtype_Id`, `Name`, `Place_Id`, `Alias`)
+INSERT INTO `Item_types` (`Itemtype_Id`, `Name`, `Place_Id`)
 VALUES
-	(1,'Ride Tickets',1,NULL),
-	(2,'Game Prizes',7,NULL),
-	(3,'Drinks from Cafe',12,'coffee'),
-	(4,'Foods from Cafe',12,NULL),
-	(5,'Candies',11,NULL);
+	(1,'Ride Tickets',1),
+	(2,'Game Prizes',7),
+	(3,'Drinks from Cafe',12),
+	(4,'Foods from Cafe',12),
+	(5,'Candies',11);
 
 /*!40000 ALTER TABLE `Item_types` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -178,6 +177,7 @@ CREATE TABLE `Items` (
   `Name` varchar(40) DEFAULT NULL,
   `Itemtype_Id` int(11) NOT NULL,
   `Player_Id` int(11) DEFAULT NULL,
+  `Alias` text,
   PRIMARY KEY (`Item_Id`),
   KEY `Itemtype_Id` (`Itemtype_Id`),
   KEY `Player_Id` (`Player_Id`),

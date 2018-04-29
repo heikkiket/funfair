@@ -1,4 +1,4 @@
-#Tips system
+# Tips system
 from lib.database import FunDb
 import random
 
@@ -24,7 +24,7 @@ tips = []
 
 def create_connections():
     while len(connections) < 4:
-        digit = randint(1,7)
+        digit = randint(1, 7)
         if connections.count(str(digit)) == 0:
             connections.append(str(digit))
 
@@ -82,7 +82,7 @@ def create_tip(tip_type):
     ids = random_pair(connected)
     line = lines[line_type][randint(0, len(lines[line_type]) - 1)]
 
-    query="SELECT Name FROM Persons WHERE Person_ID IN " + str(ids)
+    query = "SELECT Name FROM Persons WHERE Person_ID IN " + str(ids)
     cursor.execute(query)
     result = cursor.fetchall()
     names = (result[0][0], result[1][0])
@@ -92,7 +92,7 @@ def create_tip(tip_type):
 
 def random_pair(connected):
     if connected:
-        id = randint(0,1)*2
+        id = randint(0, 1)*2
         return connections[id], connections[id+1]
     else:
         while True:
