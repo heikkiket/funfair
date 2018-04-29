@@ -18,10 +18,12 @@ Parserin palauttama lista prosessoidaan ja tehdään valinta, mitä aliohjelmaa 
 
 ### Vihjeet
 Tehdään **vihjemoduuli**, joka pitää kirjaa vihjeistä
-Pelin alussa kutsutaan arpominen: *tips.randomize()*. Tämä aliohjelma arpoo, ketkä henkilöt pitävät toisistaan.
+Pelin alussa kutsutaan arpominen: *tips.create_connections()*. Tämä aliohjelma arpoo, ketkä henkilöt pitävät toisistaan.
+Pelin tai päivän alussa kutsutaan *tips.generate_tips*
 
 Talk-phasessa kutsutaan tips-moduulia esim näin: *tips.give_tip()*
 give_tip -aliohjelma sitten ratkaisee, antaako se tässä keskustelussa vihjeen vai ei. Se myös päättää, antaako tosi vihjeen vai paikkansapitämättömän vihjeen.
+Aliohjelma palauttaa valmiiksi muotoillun vihjeen, jos vihjeitä on jäljellä. Vaihtoehtoisesti ei mitään.
 
 ### Päivät ja kyselyt
 Tehdään *days*-muuttuja, joka laskee päivien määrää.

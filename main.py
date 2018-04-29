@@ -69,7 +69,7 @@ def look(location):
 
 def show_passage(location):
     cur=connect.cursor()
-    sql="SELECT Description FROM Directions WHERE Direction_id IN (SELECT direction_id FROM has_passages WHERE place_id ="+str(location)+")Order by direction_id ASC LIMIT 10;"
+    sql="SELECT Description FROM Directions WHERE Direction_id IN (SELECT direction_id FROM Has_passages WHERE place_id ="+str(location)+")Order by direction_id ASC LIMIT 10;"
     cur.execute(sql)
     if cur.rowcount>=1:
         print ("From here you can go: ")
@@ -156,14 +156,14 @@ while action != "quit" and action != "q":
     action=ret[0]
     obj=ret[1]
 # look [location]
-    if (action=="look" or action=="examine" or action=="view"):
+    if (action in ["look", "examine", "view"]):
         look(location)
 # diretions
     if (action=="directions"):
         show_passage(location)
 # move
 
-    if (action=="go" or action=="walk" or action=="move" and obj in ["e", "n", "ne", "nw", "s", "se", "sw", "w", "east", "north", "northeast", "northwest", "south", "southwest", "west"]):
+    if (action in ["go","walk","move"] and obj in ["e", "n", "ne", "nw", "s", "se", "sw", "w", "east", "north", "northeast", "northwest", "south", "southwest", "west"]):
         newlocation = move(location,obj)
         location = newlocation
         look(location)
@@ -179,7 +179,7 @@ while action != "quit" and action != "q":
 # drink [item]
 # eat [item]
 # ride [ride]
-    if (action=="ride" and obj== "carousel" or "roller" or "wormster" or "bumper"):
+    if (action=="ride" and obj in ["carousel", "roller", "wormster", "bumper"]):
         ride(location)
 # play [game]
     if (action=="play" and location==7):
@@ -190,9 +190,9 @@ while action != "quit" and action != "q":
     if (action=="wait"):
         wait()
 # inventory []
-    if (action=="i" or action=="inventory"):
+    if (action in ["i","inventory"]):
         inventory()
 
 # help
-    if (action=="help" or action=="h"):
+    if (action in ["help", "h"]):
         help()
