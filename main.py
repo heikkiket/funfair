@@ -77,11 +77,13 @@ def ask(person, place):
 def chat():
     utils.print_text(tips.give_tip())
     cur=connect.cursor()
-    sql="SELECT line_text FROM Line WHERE Place_Id = "+str(location)+" ORDER BY RAND() LIMIT 1;"
+    sql="SELECT line_text FROM Line LEFT JOIN Persons On persons.`Person_Id` = line.`Person_Id` WHERE Alias = '"+ obj +"' AND line.`Place_Id` = "+str(location)+" ORDER BY RAND() LIMIT 1;"
     cur.execute(sql)
     if cur.rowcount>=1:
         for row in cur:
             utils.print_text(row[0])
+    else:
+        utils.print_text("The person you want to chat with is not here")
     return
 def buy(item):
     return
@@ -177,6 +179,8 @@ while action != "quit" and action != "q":
 # ask/take [person] to [place]
 # chat/talk to/with [person]
     if (action=="chat" or action=="talk" and obj in [persons]):
+        utils.print_text(location)
+        utils.print_text(obj)
         chat()
 # buy [item]
 # drink [item]
