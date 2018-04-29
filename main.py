@@ -1,5 +1,7 @@
 import parser
 import globals
+import tips
+from lib import utils
 
 #importing DB settings
 from lib.database import FunDb
@@ -37,26 +39,18 @@ def getalias (fromname):
 #aliohjelmat
 
 def prologue():
-    print("Prologue")
+    utils.print_text("Prologue")
     return
 
 def epilogue():
     return
 
 def night():
-    print("At night you work at the warehouse. When having a break at the yard of the warehouse you see a distant glow from the closed funfair: the employees have set up campfire…")
+    utils.print_text("At night you work at the warehouse. When having a break at the yard of the warehouse you see a distant glow from the closed funfair: the employees have set up campfire…")
     return
           
 def final():
     return
-          
-#def look(location):
-#    cur=db.cursor()
-#    sql="SELECT Details FROM Places where Place_Id="+str(location)+";"
-#    cur.execute(sql)
-#    for row in cur:
-#        print (row[0])
-#    return
                   
 def look(location):         
     cur=connect.cursor()
@@ -64,7 +58,7 @@ def look(location):
     cur.execute(sql)
     if cur.rowcount>=1:
         for row in cur.fetchall():
-            print ("\n"+row[0]+"\n\n"+row[1]+"\n\n"+row[2]+"\n\n")
+            utils.print_text("\n"+row[0]+"\n\n"+row[1]+"\n\n"+row[2]+"\n\n")
     return
 
 def show_passage(location):
@@ -72,14 +66,22 @@ def show_passage(location):
     sql="SELECT Description FROM Directions WHERE Direction_id IN (SELECT direction_id FROM Has_passages WHERE place_id ="+str(location)+")Order by direction_id ASC LIMIT 10;"
     cur.execute(sql)
     if cur.rowcount>=1:
-        print ("From here you can go: ")
+        utils.print_text("From here you can go: ")
         for row in cur.fetchall() :
-            print (row[0])
+            utils.print_text(row[0])
     return
 
 def ask(person, place):
+    
     return
-def chat(person):
+def chat():
+    utils.print_text(tips.give_tip())
+    cur=connect.cursor()
+    sql="SELECT line_text FROM Line WHERE Place_Id = "+str(location)+" ORDER BY RAND() LIMIT 1;"
+    cur.execute(sql)
+    if cur.rowcount>=1:
+        for row in cur:
+            utils.print_text(row[0])
     return
 def buy(item):
     return
@@ -93,29 +95,29 @@ def ride(ride):
     cur.execute(sql)
     if cur.rowcount>=1:
         for row in cur:
-            print (row[0])
+            utils.print_text(row[0])
     return
 def play():
-    print("You play a game")
+    utils.print_text("You play a game")
     #randomize game??
     return
 def wait():
-    print("What on earth are you waiting for?")
+    utils.print_text("What on earth are you waiting for?")
     return
 def inventory():
     cur=connect.cursor()
     sql="select Items.Name, Places.Name from Items,Item_types,Places where Items.Itemtype_Id=Item_types.Itemtype_Id and Item_types.Place_Id=Places.Place_Id and Items.Player_Id=\"1\"";
     cur.execute(sql)
     if cur.rowcount>=1:
-        print ("\nYou are holding:\n")
+        utils.print_text("\nYou are holding:\n")
         for row in cur.fetchall():
-            print (row[0]+" from "+row[1])
+            utils.print_text(row[0]+" from "+row[1])
     else:
-        print ("\nYou are holding nothing\n")
-    print ("\n")
+        utils.print_text("\nYou are holding nothing\n")
+    utils.print_text("\n")
     return
 def help():
-    print("Print some help here")
+    utils.print_text("Print some help here")
     return
 
 def move(location, direction):
@@ -131,16 +133,15 @@ def move(location, direction):
 #main loop
 
 #clear the screen
-print ("\n"*100)
-
+utils.print_text("\n"*100)
 
 #temp addition, can be deleted later
 persons=getalias("persons")
-print (persons)
+utils.print_text(persons)
 items=getalias("items")
-print (items)
+utils.print_text(items)
 places=getalias("places")
-print (places)
+utils.print_text(places)
 
 
 
@@ -175,6 +176,8 @@ while action != "quit" and action != "q":
        
 # ask/take [person] to [place]
 # chat/talk to/with [person]
+    if (action=="chat" or action=="talk" and obj in [persons]):
+        chat()
 # buy [item]
 # drink [item]
 # eat [item]
@@ -185,7 +188,7 @@ while action != "quit" and action != "q":
     if (action=="play" and location==7):
         play()
     if (action=="play" and location!=7):
-        print("You have to go to the game hall to play games")
+        utils.print_text("You have to go to the game hall to play games")
 # wait
     if (action=="wait"):
         wait()
