@@ -1,5 +1,5 @@
 import parser
-import globals
+import globals as g
 import tips
 from lib import utils
 
@@ -39,17 +39,25 @@ def getalias (fromname):
 #aliohjelmat
 
 def prologue():
-    utils.print_text("Prologue")
+    utils.print_text("DAY NUMBER: " + str(g.days))
+    utils.print_text("The Game begins")
     return
 
 def epilogue():
     return
 
 def night():
-    utils.print_text("At night you work at the warehouse. When having a break at the yard of the warehouse you see a distant glow from the closed funfair: the employees have set up campfire…")
+    g.asks = 0
+    g.days = g.days +1
+    if g.days>3:
+        final()
+    else:
+        utils.print_text("At night you work at the warehouse. When having a break at the yard of the warehouse you see a distant glow from the closed funfair: the employees have set up campfire…")
+        utils.print_text("DAY NUMBER: " + str(g.days))
     return
           
 def final():
+    utils.print_text("The campfire!! The END")
     return
                   
 def look(location):         
@@ -72,8 +80,12 @@ def show_passage(location):
     return
 
 def ask(person, place):
-    
+    utils.print_text("One ask used")
+    g.asks = g.asks +1
+    if g.asks>1:
+        night()
     return
+
 def chat():
     utils.print_text(tips.give_tip())
     cur=connect.cursor()
@@ -145,19 +157,20 @@ utils.print_text(items)
 places=getalias("places")
 utils.print_text(places)
 
-
-
 #playr location
 location = "1"
 look(location)
 
+prologue()
+
 action = ""
-while action != "quit" and action != "q":
+while action != "quit" and action != "q" and g.days<4:
 # days muuttuja < 4 / exit
     sentence = input("What will you do? ")
     ret=parser.process_sentence(sentence)
     action=ret[0]
     obj=ret[1]
+    iobj=[2]
 # look [location]
     if (action in ["look", "examine", "view"]):
         look(location)
@@ -177,6 +190,8 @@ while action != "quit" and action != "q":
         look(location)
        
 # ask/take [person] to [place]
+    if (action=="ask" or action=="take" and obj in [persons] and iobj in [places]):
+        ask(obj, iobj)
 # chat/talk to/with [person]
     if (action=="chat" or action=="talk" and obj in [persons]):
         utils.print_text(location)
@@ -199,7 +214,7 @@ while action != "quit" and action != "q":
 # inventory []
     if (action in ["i","inventory"]):
         inventory()
-
 # help
     if (action in ["help", "h"]):
         help()
+epilogue()

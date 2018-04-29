@@ -10,7 +10,5 @@ debug = True
 from lib.database import FunDb
 connect=FunDb.connect()
 
-#muuttujat
-
-#days
-#asks
+days = 1
+asks = 0
