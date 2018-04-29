@@ -39,8 +39,9 @@ def getalias (fromname):
 #aliohjelmat
 
 def prologue():
-    utils.print_text("DAY NUMBER: " + str(g.days))
-    utils.print_text("The Game begins")
+    utils.print_text("\nThere is a funfair in town...the game begins.\n\nDAY NUMBER: " + str(g.days))
+    utils.print_text("MORNING\n\nThe town's own newspaper, Takaseudun Sanomat, has succeeded on putting out a new issue.\n“THE FISHING FESTIVAL MIGHT TAKE PLACE AT THE MARKET PLACE INSTEAD OF THE LOCAL LAKE”\nWhatever. You decide to go to the funfair.\n")
+    look(location)
     return
 
 def epilogue():
@@ -52,10 +53,15 @@ def night():
     if g.days>3:
         final()
     else:
-        utils.print_text("At night you work at the warehouse. When having a break at the yard of the warehouse you see a distant glow from the closed funfair: the employees have set up campfire…")
+        utils.print_text("\nNow it’s late and you have to go to work. The funfair is closing down.\n\nNIGHT TIME\n")
+        utils.print_text("At night you work at the warehouse. When having a break at the yard of the warehouse you see a distant glow from the closed funfair: the employees have set up campfire…\n")
         utils.print_text("DAY NUMBER: " + str(g.days))
+        if g.days == 1:
+            utils.print_text("MORNING\n\nThe town's own newspaper, Takaseudun Sanomat, has succeeded on putting out a new issue.\n“A LOCAL DEER SUSPECTED OF SPEEDING”\nWhatever. You decide to go to the funfair.\n")
+        if g.days == 2:
+            utils.print_text("MORNING\n\nThe town's own newspaper, Takaseudun Sanomat, has succeeded on putting out a new issue.\n“TOWN MUSEUM WANTS TO EVICT DOGS CAMPING ON THE MUSEUM YARD”\nWhatever. You decide to go to the funfair.\n")
     return
-          
+
 def final():
     utils.print_text("The campfire!! The END")
     return
@@ -80,6 +86,7 @@ def show_passage(location):
     return
 
 def ask(person, place):
+    
     utils.print_text("One ask used")
     g.asks = g.asks +1
     if g.asks>1:
@@ -159,7 +166,6 @@ utils.print_text(places)
 
 #playr location
 location = "1"
-look(location)
 
 prologue()
 
