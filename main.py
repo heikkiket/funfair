@@ -194,5 +194,5 @@ while action != "quit" and action != "q":
         inventory()
 
 # help
-    if (action=="help"):
+    if (action=="help" or action=="h"):
         help()
