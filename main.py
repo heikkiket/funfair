@@ -95,7 +95,7 @@ def ask(person, where):
     g.asks = g.asks + 1
     if g.asks > 1:
         night()
-    return
+    return person, place
 
 
 def chat():
@@ -110,17 +110,18 @@ def chat():
         utils.print_text("The person you want to chat with is not here")
     return
 
+
 def buy(item):
     
-    return
+    return item
 
 
 def drink(item):
-    return
+    return item
 
 
 def eat(item):
-    return
+    return item
 
 
 def ride(rid):
@@ -190,7 +191,7 @@ utils.print_text("\n" * 100)
 # places = getalias("places")
 # utils.print_text(places)
 
-#generate connections and tips
+# generate connections and tips
 tips.create_connections()
 tips.generate_tips()
 
@@ -215,7 +216,7 @@ while action != "quit" and action != "q" and g.days < 4:
     if action in ["look", "examine", "view"]:
         look(location)
     # directions
-    if action == "directions":
+    if action in ["directions", "direction"]:
         show_passage(location)
     # move
 
@@ -272,7 +273,7 @@ while action != "quit" and action != "q" and g.days < 4:
             
     # buy [item]
     if action == "buy" and ret["direct_item_id"] != 0:
-        buy()
+        buy(obj)
     # drink [item]
     # eat [item]
     # chat/talk to/with [person]
