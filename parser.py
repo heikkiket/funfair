@@ -84,4 +84,4 @@ def getalias(obj):
     return aliases
 
 
-print(process_sentence("go elna to carousel"))
+print(process_sentence("ASK Elna to Carousel"))

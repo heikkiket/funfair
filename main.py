@@ -133,6 +133,7 @@ def wait():
 
 def inventory():
     cur = connect.cursor()
+    # Need to change "1" at the end of this line
     sql = "select Items.Name, Places.Name from Items,Item_types,Places where Items.Itemtype_Id=Item_types.Itemtype_Id and Item_types.Place_Id=Places.Place_Id and Items.Player_Id=\"1\""
     cur.execute(sql)
     if cur.rowcount >= 1:
@@ -167,15 +168,14 @@ def move(loc, direction):
 # clear the screen
 utils.print_text("\n" * 100)
 
-<<<<<<< HEAD
-=======
+
 # temp addition, can be deleted later
-persons = getalias("persons")
-utils.print_text(persons)
-items = getalias("items")
-utils.print_text(items)
-places = getalias("places")
-utils.print_text(places)
+# persons = getalias("persons")
+# utils.print_text(persons)
+# items = getalias("items")
+# utils.print_text(items)
+# places = getalias("places")
+# utils.print_text(places)
 
 #generate connections and tips
 tips.create_connections()
@@ -183,7 +183,6 @@ tips.generate_tips()
 
 print("Connections: " + str(tips.connections))
 
->>>>>>> aa68a0dad33054712df5ab8640282a8306db01dd
 # player location
 location = "1"
 
@@ -221,18 +220,14 @@ while action != "quit" and action != "q" and g.days < 4:
     if action == "ask" or action == "take" and obj in [parser.persons] and iobj in [parser.places]:
         ask(obj, iobj)
 # buy [item]
-    if (action=="buy" and obj in [items]):
+    if action== "buy" and obj in [items]:
         buy()
 # drink [item]
 # eat [item]
     # chat/talk to/with [person]
-<<<<<<< HEAD
     if action == "chat" or action == "talk" and ret["person"] != 0:
         utils.print_text(location)
         utils.print_text(obj)
-=======
-    if action == "chat" or action == "talk" and obj in [persons]:
->>>>>>> aa68a0dad33054712df5ab8640282a8306db01dd
         chat()
     # buy [item]
     # drink [item]
@@ -254,4 +249,5 @@ while action != "quit" and action != "q" and g.days < 4:
     # help
     if action in ["help", "h"]:
         helpme()
+
 epilogue()
