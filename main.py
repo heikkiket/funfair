@@ -47,6 +47,8 @@ def night():
         if g.days == 2:
             utils.print_text(
                 "MORNING\n\nThe town's own newspaper, Takaseudun Sanomat, has succeeded on putting out a new issue.\n“TOWN MUSEUM WANTS TO EVICT DOGS CAMPING ON THE MUSEUM YARD”\nWhatever. You decide to go to the funfair.\n")
+    location = "1"
+    look(location)
     return
 
 
@@ -77,8 +79,19 @@ def show_passage(loc):
     return
 
 
-def ask(person, place):
-    utils.print_text("One ask used")
+def ask(person, where):
+    print(tips.connections)
+    print(person)
+    cur = connect.cursor()
+    sql = "SELECT Person_Id FROM Persons WHERE Place_Id = " + str(where) + ";"
+    cur.execute(sql)
+    #if connection is right etc
+    #else:
+ #       utils.print_text("You failed making a pair")
+    if tips.connected_names == 2:
+        utils.print_text("You have made two connections! No reason to wander around anymore. It's time to enjoy the campfire with all the funfair employees and hear what they have to say.")
+        g.days = 4
+        final()
     g.asks = g.asks + 1
     if g.asks > 1:
         night()
@@ -87,7 +100,7 @@ def ask(person, place):
 
 def chat():
     cur = connect.cursor()
-    sql = "SELECT line_text FROM Line LEFT JOIN Persons On persons.`Person_Id` = line.`Person_Id` WHERE Alias like '%" + obj + "%' AND line.`Place_Id` = " + str(location) + " ORDER BY RAND() LIMIT 1;"
+    sql = "SELECT line_text FROM Line LEFT JOIN Persons On persons.`Person_Id` = line.`Person_Id` WHERE Alias like '%" + obj + "%' AND line.`Place_Id` = " + str(location) + " AND line.`Item_Id` is null ORDER BY RAND() LIMIT 1;"
     cur.execute(sql)
     if cur.rowcount >= 1:
         for row in cur:
@@ -219,8 +232,44 @@ while action != "quit" and action != "q" and g.days < 4:
         look(location)
 
     # ask/take [person] to [place]
-    if action == "ask" or action == "take" and ret["direct_person_id"] != 0 and ret["indirect_place_id"] != 0:
-        ask(obj, iobj)
+    if action == "ask" or action == "take" and ret["direct_person_id"] != 0 and ret["indirect_place_id"] != 0 and location != ret["indirect_place_id"]:
+        person = ret["direct_person_id"]
+        where = ret["indirect_place_id"]
+        wrong = "There is something wrong with what you're asking"
+        if location in [2, 3, 5, 6, 7, 11, 12] and where in [2, 3, 5, 6, 7, 11, 12] and person in [1, 2, 3, 4, 5, 6, 7]:
+            if location == 2 and where == 2:
+                utils.print_text(wrong)
+            elif location == 3 and where == 3:
+                utils.print_text(wrong)
+            elif location == 5 and where == 5:
+                utils.print_text(wrong)
+            elif location == 6 and where == 6:
+                utils.print_text(wrong)
+            elif location == 7 and where == 7:
+                utils.print_text(wrong)
+            elif location == 11 and where == 11:
+                utils.print_text(wrong)
+            elif location == 12 and where == 12:
+                utils.print_text(wrong)
+            elif location == 2 and person != 1:
+                utils.print_text(wrong)
+            elif location == 3 and person != 4:
+                utils.print_text(wrong)
+            elif location == 5 and person != 3:
+                utils.print_text(wrong)
+            elif location == 6 and person != 5:
+                utils.print_text(wrong)
+            elif location == 7 and person != 2:
+                utils.print_text(wrong)
+            elif location == 11 and person != 7:
+                utils.print_text(wrong)
+            elif location == 12 and person != 6:
+                utils.print_text(wrong)
+            else:
+                ask(person, where)
+        else:
+            utils.print_text(wrong)
+            
     # buy [item]
     if action == "buy" and ret["direct_item_id"] != 0:
         buy()
