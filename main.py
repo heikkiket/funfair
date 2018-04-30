@@ -87,7 +87,7 @@ def ask(person, place):
 
 def chat():
     cur = connect.cursor()
-    sql = "SELECT line_text FROM Line LEFT JOIN Persons On persons.`Person_Id` = line.`Person_Id` WHERE Alias = '" + obj + "' AND line.`Place_Id` = " + str(location) + " ORDER BY RAND() LIMIT 1;"
+    sql = "SELECT line_text FROM Line LEFT JOIN Persons On persons.`Person_Id` = line.`Person_Id` WHERE Alias like '%" + obj + "%' AND line.`Place_Id` = " + str(location) + " ORDER BY RAND() LIMIT 1;"
     cur.execute(sql)
     if cur.rowcount >= 1:
         for row in cur:
@@ -181,7 +181,8 @@ utils.print_text("\n" * 100)
 tips.create_connections()
 tips.generate_tips()
 
-print("Connections: " + str(tips.connections))
+if g.debug is True:
+    print("Connections: " + str(tips.connections))
 
 # player location
 location = "1"
@@ -196,6 +197,7 @@ while action != "quit" and action != "q" and g.days < 4:
     action = ret["verb"]
     obj = ret["object"]
     iobj = ret["indirect"]
+
     # look [location]
     if action in ["look", "examine", "view"]:
         look(location)
@@ -217,15 +219,15 @@ while action != "quit" and action != "q" and g.days < 4:
         look(location)
 
     # ask/take [person] to [place]
-    if action == "ask" or action == "take" and obj in [parser.persons] and iobj in [parser.places]:
+    if action == "ask" or action == "take" and ret["direct_person_id"] != 0 and ret["indirect_place_id"] != 0:
         ask(obj, iobj)
-# buy [item]
-    if action== "buy" and obj in [items]:
+    # buy [item]
+    if action == "buy" and ret["direct_item_id"] != 0:
         buy()
-# drink [item]
-# eat [item]
+    # drink [item]
+    # eat [item]
     # chat/talk to/with [person]
-    if action == "chat" or action == "talk" and ret["person"] != 0:
+    if action == "chat" or action == "talk" and ret["direct_person_id"] != 0:
         utils.print_text(location)
         utils.print_text(obj)
         chat()

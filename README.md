@@ -10,11 +10,28 @@ Muutama sananen rakenteesta...
 
 ###Parser
 
-**Parser** palauttaa listan: *verb*, *object*, *indirect_object*
+**Parser** palauttaa sanakirjan: {'indirect_place_id': 6, 'verb': 'ask', 'object': 'elna', 'direct_person_id': 1, 'indirect': 'carousel'} missä *verb* on verbi, *object* on objekti ja *indirect* on epäsuora objekti. 
+*direct_person_id* on suoran henkilön id tietokannassa aliaksella haettu ja *indirect_place_id* on epäsuoran paikan id tietokannasta aliaksella haettu.
+
+Suoria voivat olla:
+
+*direct_person_id* - henkilön id aliaksella haettu
+
+*direct_item_id* - esinen id aliaksella haettu
+
+*direct_place_id* - paikan id aliaksella haettu
+
+Epäsuoria voivat olla:
+
+*indirect_person_id* - henkilön id aliaksella haettu
+
+*indirect_item_id* - esinen id aliaksella haettu
+
+*indirect_place_id* - paikan id aliaksella haettu
 
 Jokainen verbi on oma aliohjelmansa. talk(), ask() jne
 
-Parserin palauttama lista prosessoidaan ja tehdään valinta, mitä aliohjelmaa kutsutaan. Aliohjelmalle annetaan *object* ja *indirect_object*
+Parserin palauttama sanakirja prosessoidaan ja tehdään valinta, mitä aliohjelmaa kutsutaan. Aliohjelmalle annetaan *object* ja *indirect_object*
 
 ### Vihjeet
 Tehdään **vihjemoduuli**, joka pitää kirjaa vihjeistä

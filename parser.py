@@ -36,9 +36,9 @@ def process_sentence(sentence):
                 break
             object += word + ' '
 
-        verb = verb.strip()
-        object = object.strip()
-        indirect_object = indirect_object.strip()
+        verb = verb.strip().lower()
+        object = object.strip().lower()
+        indirect_object = indirect_object.strip().lower()
 
         if globals.debug is True:
             print("verb:", verb)
@@ -46,7 +46,10 @@ def process_sentence(sentence):
             print("indirect_object:", indirect_object)
             print()
         for_return = {"verb": verb, "object": object, "indirect": indirect_object}
-        for_return.update(getalias(object))
+        for_return.update(get_alias(object, 1))
+        for_return.update(get_alias(indirect_object, 2))
+        if globals.debug is True:
+            print(for_return)
         return for_return
     else:
         print("I don't understand what '", words[0], "' means.", sep='')
@@ -54,34 +57,37 @@ def process_sentence(sentence):
         return
 
 
-def getalias(obj):
+def get_alias(obj, id=1):
+    sql1 = "select Person_Id, Alias from Persons where Alias is not null;"
+    sql2 = "select Item_Id, Alias from Items where Alias is not null;"
+    sql3 = "select Place_Id, Alias from Places where Alias is not null;"
+
     aliases = {}
-    cur = connect.cursor()
-    # checking persons
-    sql = "select Person_Id, Alias from Persons where Alias is not null;"
-    cur.execute(sql)
-    if cur.rowcount >= 1:
-        for row in cur.fetchall():
-            for alias in row[1].split(";"):
-                if alias == obj:
-                    aliases.update({"person": row[0]})
-    # cheking items
-    sql = "select Item_Id, Alias from Items where Alias is not null;"
-    cur.execute(sql)
-    if cur.rowcount >= 1:
-        for row in cur.fetchall():
-            for alias in row[1].split(";"):
-                if alias == obj:
-                    aliases.update({"item": row[0]})
-    # cheking places
-    sql = "select Place_Id, Alias from Places where Alias is not null;"
-    cur.execute(sql)
-    if cur.rowcount >= 1:
-        for row in cur.fetchall():
-            for alias in row[1].split(";"):
-                if alias == obj:
-                    aliases.update({"place": row[0]})
+
+    if id == 2:
+        aliases.update(get_alias_from_db(sql1, "indirect_person_id", obj))
+        aliases.update(get_alias_from_db(sql2, "indirect_item_id", obj))
+        aliases.update(get_alias_from_db(sql3, "indirect_place_id", obj))
+    else:
+        # checking persons
+        aliases.update(get_alias_from_db(sql1, "direct_person_id", obj))
+        # checking items
+        aliases.update(get_alias_from_db(sql2, "direct_item_id", obj))
+        # checking places
+        aliases.update(get_alias_from_db(sql3, "direct_place_id", obj))
     return aliases
 
 
-print(process_sentence("ASK Elna to Carousel"))
+def get_alias_from_db(sql, to, obj):
+    return_alias = {}
+    cur = connect.cursor()
+    cur.execute(sql)
+    if cur.rowcount >= 1:
+        for row in cur.fetchall():
+            for alias in row[1].split(";"):
+                if alias == obj:
+                    return_alias = {to: row[0]}
+    return return_alias
+
+
+print(process_sentence("go Elna to Carousel"))
