@@ -5,9 +5,9 @@
 # http://www.sequelpro.com/
 # https://github.com/sequelpro/sequelpro
 #
-# Host: 127.0.0.1 (MySQL 5.7.21)
+# Host: 127.0.0.1 (MySQL 5.5.5-10.2.14-MariaDB)
 # Database: funfair
-# Generation Time: 2018-04-27 07:57:29 +0000
+# Generation Time: 2018-04-30 10:59:28 +0000
 # ************************************************************
 
 
@@ -155,12 +155,12 @@ LOCK TABLES `Item_types_Action` WRITE;
 INSERT INTO `Item_types_Action` (`Action`, `Itemtype_Id`)
 VALUES
 	('Buy',1),
-	('Eat',1),
 	('Buy',3),
-	('Drink',3),
 	('Buy',4),
-	('Eat',4),
 	('Buy',5),
+	('Drink',3),
+	('Eat',1),
+	('Eat',4),
 	('Eat',5);
 
 /*!40000 ALTER TABLE `Item_types_Action` ENABLE KEYS */;
@@ -177,7 +177,7 @@ CREATE TABLE `Items` (
   `Name` varchar(40) DEFAULT NULL,
   `Itemtype_Id` int(11) NOT NULL,
   `Player_Id` int(11) DEFAULT NULL,
-  `Alias` text,
+  `Alias` text DEFAULT NULL,
   PRIMARY KEY (`Item_Id`),
   KEY `Itemtype_Id` (`Itemtype_Id`),
   KEY `Player_Id` (`Player_Id`),
@@ -188,22 +188,22 @@ CREATE TABLE `Items` (
 LOCK TABLES `Items` WRITE;
 /*!40000 ALTER TABLE `Items` DISABLE KEYS */;
 
-INSERT INTO `Items` (`Item_Id`, `Name`, `Itemtype_Id`, `Player_Id`)
+INSERT INTO `Items` (`Item_Id`, `Name`, `Itemtype_Id`, `Player_Id`, `Alias`)
 VALUES
-	(1,'Ride tickets',1,NULL),
-	(2,'Stuffed Teddy Bear',2,NULL),
-	(3,'Blue pencil',2,NULL),
-	(4,'Funfair themed playing cards',2,NULL),
-	(5,'Cup of coffee',3,NULL),
-	(6,'Cup of tea',3,NULL),
-	(7,'Can of soda',3,NULL),
-	(8,'Bottle of water',3,NULL),
-	(9,'Cinnamon bun',4,NULL),
-	(10,'Cookie',4,NULL),
-	(11,'Chocolate brownie',4,NULL),
-	(12,'Pink candy floss',5,NULL),
-	(13,'Candies',5,NULL),
-	(14,'Licorice',5,NULL);
+	(1,'Ride tickets',1,NULL,NULL),
+	(2,'Stuffed Teddy Bear',2,NULL,NULL),
+	(3,'Blue pencil',2,NULL,NULL),
+	(4,'Funfair themed playing cards',2,NULL,NULL),
+	(5,'Cup of coffee',3,NULL,'coffee'),
+	(6,'Cup of tea',3,NULL,'tea'),
+	(7,'Can of soda',3,NULL,NULL),
+	(8,'Bottle of water',3,NULL,'water'),
+	(9,'Cinnamon bun',4,NULL,NULL),
+	(10,'Cookie',4,NULL,'cookie'),
+	(11,'Chocolate brownie',4,NULL,NULL),
+	(12,'Pink candy floss',5,NULL,NULL),
+	(13,'Candies',5,NULL,NULL),
+	(14,'Licorice',5,NULL,NULL);
 
 /*!40000 ALTER TABLE `Items` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -259,7 +259,7 @@ CREATE TABLE `Persons` (
   `Connectable` int(11) DEFAULT NULL,
   `Place_Id` int(11) NOT NULL,
   `Connects_Person_Id` int(11) DEFAULT NULL,
-  `Alias` text,
+  `Alias` text DEFAULT NULL,
   PRIMARY KEY (`Person_Id`),
   KEY `Place_Id` (`Place_Id`),
   KEY `Connects_Person_Id` (`Connects_Person_Id`),
@@ -272,7 +272,7 @@ LOCK TABLES `Persons` WRITE;
 
 INSERT INTO `Persons` (`Person_Id`, `Name`, `Connectable`, `Place_Id`, `Connects_Person_Id`, `Alias`)
 VALUES
-	(1,'Elna the Clown',1,2,NULL,'clown;the clown;pelle'),
+	(1,'Elna the Clown',1,2,NULL,'clown;the clown;pelle;elna'),
 	(2,'The Magician',1,7,NULL,'magician'),
 	(3,'Security Officer',1,5,NULL,'security'),
 	(4,'Bumper Car Operator',1,3,NULL,NULL),
@@ -296,9 +296,9 @@ CREATE TABLE `Places` (
   `Place_Id` int(11) NOT NULL,
   `Name` varchar(30) NOT NULL DEFAULT '',
   `Description` text NOT NULL,
-  `Details` text,
-  `Alias` text,
-  `Action` text,
+  `Details` text DEFAULT NULL,
+  `Alias` text DEFAULT NULL,
+  `Action` text DEFAULT NULL,
   PRIMARY KEY (`Place_Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -309,16 +309,16 @@ INSERT INTO `Places` (`Place_Id`, `Name`, `Description`, `Details`, `Alias`, `Ac
 VALUES
 	(1,'Ticket Office','You are at the ticket office.','The ticket office is near the entrance of the funfair. The ticket vendor is selling tickets. To the south there is exit but you don\'t want to leave just yet. To the north there seems to be some kind of stage.','ticket office',NULL),
 	(2,'Open Air Stage','You are at the open air stage.','There is Elna the clown at the open air stage.',NULL,NULL),
-	(3,'Bumper Cars','You are at Bumper Cars.','There is a bumper car opetaror. She seems to be a bit angry to some teens who are all just hitting each other\'s cars.',NULL,'You ride bumper cars'),
+	(3,'Bumper Cars','You are at Bumper Cars.','There is a bumper car opetaror. She seems to be a bit angry to some teens who are all just hitting each other\'s cars.','elna','You ride bumper cars'),
 	(4,'Roller Coaster','You are at the Wormster.','Old man runs the roller coaster very slowly. He seems not to want to talk with you. The roller coaster itself seems smiley though, it looks like a green happy worm. ',NULL,'You ride wormster'),
 	(5,'Security Station','You are now at the Security Station. ','The security station is a small booth with a red cross on the roof. There is a security officer.',NULL,NULL),
-	(6,'Carousel','You are now at the Carousel.','There is a carousel operator working. She seems like a nice girl.',NULL,'You ride carousel'),
+	(6,'Carousel','You are now at the Carousel.','There is a carousel operator working. She seems like a nice girl.','carousel;carusel','You ride carousel'),
 	(7,'Game Hall','You are now at the Game Hall.','There is a lot of games to choose from. The magician seems to be managing all the games. You see at least Bottle Pyramid and Pull-A-String -games being played.',NULL,NULL),
 	(8,'Ferris Wheel','You are at the Ferris Wheel. ','You see an old Ferris Wheel and want to jump in. It seems not to be working though. There is a mechanics working on it but they are too busy to notice you. On the ground there is a ferris wheel operator sitting and looking bored.',NULL,NULL),
 	(9,'Ticket Office','You are at the Food Court.','To the north there is a Candy Shop, southwest Cafe, southeast Mirror Maze, southwest Rollercoaster, south open air stage and southeast Security Station.\n',NULL,NULL),
 	(10,'Mirror Maze','You are at the Mirror Maze.','The mirror maze is full on mirrors. You see some kids making funny faces. Best to leave where you came from, to the southwest where is the food court crossing point.',NULL,NULL),
-	(11,'Candy Shop','You are at the Candy Shop.','The candy shop keeper is chewing a licorice. She has big eyeglasses and pink hair. There is a lot of candies and loose licorice around you and a candy floss machine in the corner. ',NULL,NULL),
-	(12,'Cafe','You are at the Cafe. ','Everything smells so good you almost want to have a cup of coffee. There seems to be good looking cinnamon buns, cookies and brownies on the shelf as well. There is a cafe keeper. He seems happy and old.',NULL,NULL),
+	(11,'Candy Shop','You are at the Candy Shop.','The candy shop keeper is chewing a licorice. She has big eyeglasses and pink hair. There is a lot of candies and loose licorice around you and a candy floss machine in the corner. ','candy shop',NULL),
+	(12,'Cafe','You are at the Cafe. ','Everything smells so good you almost want to have a cup of coffee. There seems to be good looking cinnamon buns, cookies and brownies on the shelf as well. There is a cafe keeper. He seems happy and old.','cafe',NULL),
 	(13,'Campfire','You are at the campfire behind the Cafe.','You are at the campfire. The cafe keeper yells you from the cafe to come back. The only way out is west back to the cafe.',NULL,NULL);
 
 /*!40000 ALTER TABLE `Places` ENABLE KEYS */;

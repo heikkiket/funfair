@@ -16,30 +16,6 @@ def direct_to_name(loc):
     return locations[loc]
 
 
-def getalias(fromname):
-    if fromname == "persons":
-        fromname = "Persons"
-        idfield = "Person_Id"
-    elif fromname == "items":
-        fromname = "Items"
-        idfield = "Item_Id"
-    elif fromname == "places":
-        fromname = "Places"
-        idfield = "Place_Id"
-    else:
-        fromname = "Persons"
-        idfield = "Person_Id"
-    aliases = {}
-    cur = connect.cursor()
-    sql = "select " + idfield + ", Alias from " + fromname + " where Alias is not null;"
-    cur.execute(sql)
-    if cur.rowcount >= 1:
-        for row in cur.fetchall():
-            for alias in row[1].split(";"):
-                aliases.update({alias: row[0]})
-    return aliases
-
-
 # aliohjelmat
 
 
@@ -194,14 +170,6 @@ def move(loc, direction):
 
 utils.print_text("\n" * 100)
 
-# temp addition, can be deleted later
-persons = getalias("persons")
-utils.print_text(persons)
-items = getalias("items")
-utils.print_text(items)
-places = getalias("places")
-utils.print_text(places)
-
 # player location
 location = "1"
 
@@ -212,9 +180,9 @@ while action != "quit" and action != "q" and g.days < 4:
     # days muuttuja < 4 / exit
     sentence = input("What will you do? ")
     ret = parser.process_sentence(sentence)
-    action = ret[0]
-    obj = ret[1]
-    iobj = [2]
+    action = ret["verb"]
+    obj = ret["object"]
+    iobj = ret["indirect"]
     # look [location]
     if action in ["look", "examine", "view"]:
         look(location)
@@ -236,10 +204,10 @@ while action != "quit" and action != "q" and g.days < 4:
         look(location)
 
     # ask/take [person] to [place]
-    if action == "ask" or action == "take" and obj in [persons] and iobj in [places]:
+    if action == "ask" or action == "take" and obj in [parser.persons] and iobj in [parser.places]:
         ask(obj, iobj)
     # chat/talk to/with [person]
-    if action == "chat" or action == "talk" and obj in [persons]:
+    if action == "chat" or action == "talk" and ret["person"] != 0:
         utils.print_text(location)
         utils.print_text(obj)
         chat()
