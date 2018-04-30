@@ -100,6 +100,7 @@ def chat():
 
 
 def buy(item):
+    
     return
 
 
@@ -206,6 +207,15 @@ while action != "quit" and action != "q" and g.days < 4:
     # ask/take [person] to [place]
     if action == "ask" or action == "take" and obj in [parser.persons] and iobj in [parser.places]:
         ask(obj, iobj)
+<<<<<<< HEAD
+# chat/talk to/with [person]
+    if (action=="chat" or action=="talk" and obj in [persons]):
+        chat()
+# buy [item]
+    if (action=="buy" and obj in [items]):
+        buy()
+# drink [item]
+# eat [item]
     # chat/talk to/with [person]
     if action == "chat" or action == "talk" and ret["person"] != 0:
         utils.print_text(location)
