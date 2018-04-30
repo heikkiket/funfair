@@ -105,6 +105,7 @@ def chat():
         utils.print_text("The person you want to chat with is not here")
     return
 def buy(item):
+    
     return
 def drink(item):
     return
@@ -200,10 +201,10 @@ while action != "quit" and action != "q" and g.days<4:
         ask(obj, iobj)
 # chat/talk to/with [person]
     if (action=="chat" or action=="talk" and obj in [persons]):
-        utils.print_text(location)
-        utils.print_text(obj)
         chat()
 # buy [item]
+    if (action=="buy" and obj in [items]):
+        buy()
 # drink [item]
 # eat [item]
 # ride [ride]
