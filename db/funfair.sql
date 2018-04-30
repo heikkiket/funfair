@@ -5,9 +5,9 @@
 # http://www.sequelpro.com/
 # https://github.com/sequelpro/sequelpro
 #
-# Host: 127.0.0.1 (MySQL 5.5.5-10.2.14-MariaDB)
+# Host: 127.0.0.1 (MySQL 5.7.21)
 # Database: funfair
-# Generation Time: 2018-04-30 10:59:28 +0000
+# Generation Time: 2018-04-30 12:41:59 +0000
 # ************************************************************
 
 
@@ -155,12 +155,12 @@ LOCK TABLES `Item_types_Action` WRITE;
 INSERT INTO `Item_types_Action` (`Action`, `Itemtype_Id`)
 VALUES
 	('Buy',1),
-	('Buy',3),
-	('Buy',4),
-	('Buy',5),
-	('Drink',3),
 	('Eat',1),
+	('Buy',3),
+	('Drink',3),
+	('Buy',4),
 	('Eat',4),
+	('Buy',5),
 	('Eat',5);
 
 /*!40000 ALTER TABLE `Item_types_Action` ENABLE KEYS */;
@@ -177,7 +177,7 @@ CREATE TABLE `Items` (
   `Name` varchar(40) DEFAULT NULL,
   `Itemtype_Id` int(11) NOT NULL,
   `Player_Id` int(11) DEFAULT NULL,
-  `Alias` text DEFAULT NULL,
+  `Alias` text,
   PRIMARY KEY (`Item_Id`),
   KEY `Itemtype_Id` (`Itemtype_Id`),
   KEY `Player_Id` (`Player_Id`),
@@ -190,20 +190,20 @@ LOCK TABLES `Items` WRITE;
 
 INSERT INTO `Items` (`Item_Id`, `Name`, `Itemtype_Id`, `Player_Id`, `Alias`)
 VALUES
-	(1,'Ride tickets',1,NULL,NULL),
+	(1,'Ride tickets',1,NULL,'tickets'),
 	(2,'Stuffed Teddy Bear',2,NULL,NULL),
 	(3,'Blue pencil',2,NULL,NULL),
 	(4,'Funfair themed playing cards',2,NULL,NULL),
 	(5,'Cup of coffee',3,NULL,'coffee'),
 	(6,'Cup of tea',3,NULL,'tea'),
-	(7,'Can of soda',3,NULL,NULL),
+	(7,'Can of soda',3,NULL,'soda'),
 	(8,'Bottle of water',3,NULL,'water'),
-	(9,'Cinnamon bun',4,NULL,NULL),
+	(9,'Cinnamon bun',4,NULL,'bun'),
 	(10,'Cookie',4,NULL,'cookie'),
-	(11,'Chocolate brownie',4,NULL,NULL),
-	(12,'Pink candy floss',5,NULL,NULL),
-	(13,'Candies',5,NULL,NULL),
-	(14,'Licorice',5,NULL,NULL);
+	(11,'Chocolate brownie',4,NULL,'brownie'),
+	(12,'Pink candy floss',5,NULL,'candy floss'),
+	(13,'Candies',5,NULL,'candies'),
+	(14,'Licorice',5,NULL,'licorice');
 
 /*!40000 ALTER TABLE `Items` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -240,9 +240,29 @@ VALUES
 	(1,'There is bad blood around in our funfair. Walk around to find out!',8,1,NULL,NULL),
 	(2,'You want to buy ride tickets? Okey, here you go.',8,1,1,NULL),
 	(3,'Would you have guessed the clown is my mother? It feels like I\'ve live my whole life here. Sometimes I wonder about the meaning of life. I study philosophy.',8,1,NULL,NULL),
-	(4,'I’m not sure, but I think candy shop keeper and security officer don’t get along very well.',1,2,NULL,NULL),
-	(5,'I think carousel keeper and Elna don’t get along very well.',5,6,NULL,NULL),
-	(6,'It’s such a nice day today. I think the kids will have a blast when I perform later. The janitor roasted some marshmallows last night.',1,2,NULL,NULL);
+	(4,'My name is Elna and I\'m the funfair clown.',1,2,NULL,NULL),
+	(5,'I’m proud of my parents. There isn’t many funfairs nowadays in Finland anymore. I’m bored but this is my life.',5,6,NULL,NULL),
+	(6,'It’s such a nice day today. I think the kids will have a blast when I perform later. The janitor roasted some marshmallows last night.',1,2,NULL,NULL),
+	(7,'My name Is Valter and I\'m the funfair magician. ',2,7,NULL,NULL),
+	(8,'The magician looks at you and winks his eye. You don\'t really know what to think of him. ',2,7,NULL,NULL),
+	(9,'I’m glad everything is going so smoothly today. I heard there is almost no crime in this town.',3,5,NULL,NULL),
+	(10,'I think this place is really dull.',5,6,NULL,NULL),
+	(11,'I think my cookies are excellent today. My name is Peter by the way.',6,12,NULL,NULL),
+	(12,'Blah blah! My name is Sara.',5,6,NULL,NULL),
+	(13,'I prefer dark roast when it comes to coffee.',6,12,NULL,NULL),
+	(14,'I would love to cycle around this town. It’s the best when you go around a lot, you get to see new places and learn new magic tricks.',2,7,NULL,NULL),
+	(15,'It seems a bit slower today. Maybe I will read today. I like to travel and sometimes I feel like travelling when exploring a new book!',1,2,NULL,NULL),
+	(16,'You can come talk to me if you see a criminal.',3,5,NULL,NULL),
+	(17,'I\'m Linda.',3,5,NULL,NULL),
+	(18,'Oh my shoes! I\'d love to talk to you but it\'s so crazy here today.',4,3,NULL,NULL),
+	(19,'Are you just like one of these vandals? Oh maybe not, you seem a bit older. I\'m Lena by the way. Sometimes I think I will have grey hair at the end of summer becouse all the reckless driving.',4,3,NULL,NULL),
+	(20,'The bumper car operator is busy yells at some children. You think it\'s better not to bother her.',4,3,NULL,NULL),
+	(21,'You know what\'s the purpose of reindeer? To make grass grow hehehe.',6,12,NULL,NULL),
+	(22,'\"I\'m Matilda. \" The candy shop keeper says while arranging all the candy.',7,11,NULL,NULL),
+	(23,'This is a cool place to work. Meet new people, see new places, eat lots of candy floss. I study geopgraphy. Won\'t really work for me as practical training for school but no worries.',7,11,NULL,NULL),
+	(24,'I make excellent candy floss. You should try some.',7,11,NULL,NULL),
+	(25,'I\'m Arthur. I wish the ferris wheel is repaired soon.',10,8,NULL,NULL),
+	(26,'...',9,13,NULL,NULL);
 
 /*!40000 ALTER TABLE `Line` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -259,7 +279,7 @@ CREATE TABLE `Persons` (
   `Connectable` int(11) DEFAULT NULL,
   `Place_Id` int(11) NOT NULL,
   `Connects_Person_Id` int(11) DEFAULT NULL,
-  `Alias` text DEFAULT NULL,
+  `Alias` text,
   PRIMARY KEY (`Person_Id`),
   KEY `Place_Id` (`Place_Id`),
   KEY `Connects_Person_Id` (`Connects_Person_Id`),
@@ -272,16 +292,16 @@ LOCK TABLES `Persons` WRITE;
 
 INSERT INTO `Persons` (`Person_Id`, `Name`, `Connectable`, `Place_Id`, `Connects_Person_Id`, `Alias`)
 VALUES
-	(1,'Elna the Clown',1,2,NULL,'clown;the clown;pelle;elna'),
-	(2,'The Magician',1,7,NULL,'magician'),
+	(1,'Elna the Clown',1,2,NULL,'clown;the clown;pelle;elna;elna the clown'),
+	(2,'The Magician',1,7,NULL,'valter'),
 	(3,'Security Officer',1,5,NULL,'security'),
-	(4,'Bumper Car Operator',1,3,NULL,NULL),
-	(5,'Carousel Operator',1,5,NULL,NULL),
-	(6,'Cafe Keeper',1,12,NULL,NULL),
-	(7,'Candy Shop Keeper',1,11,NULL,NULL),
-	(8,'Ticket Vendor',NULL,1,NULL,NULL),
-	(9,'Funfair Director',NULL,13,NULL,NULL),
-	(10,'Ferris Wheel Operator',NULL,8,NULL,NULL);
+	(4,'Bumper Car Operator',1,3,NULL,'lena'),
+	(5,'Carousel Operator',1,5,NULL,'sara'),
+	(6,'Cafe Keeper',1,12,NULL,'peter; cafe keeper'),
+	(7,'Candy Shop Keeper',1,11,NULL,'matilda; candy shop keeper'),
+	(8,'Ticket Vendor',NULL,1,NULL,'edvin'),
+	(9,'Funfair Director',NULL,13,NULL,'director; birgitta'),
+	(10,'Ferris Wheel Operator',NULL,8,NULL,'arthur');
 
 /*!40000 ALTER TABLE `Persons` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -296,9 +316,9 @@ CREATE TABLE `Places` (
   `Place_Id` int(11) NOT NULL,
   `Name` varchar(30) NOT NULL DEFAULT '',
   `Description` text NOT NULL,
-  `Details` text DEFAULT NULL,
-  `Alias` text DEFAULT NULL,
-  `Action` text DEFAULT NULL,
+  `Details` text,
+  `Alias` text,
+  `Action` text,
   PRIMARY KEY (`Place_Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -308,18 +328,18 @@ LOCK TABLES `Places` WRITE;
 INSERT INTO `Places` (`Place_Id`, `Name`, `Description`, `Details`, `Alias`, `Action`)
 VALUES
 	(1,'Ticket Office','You are at the ticket office.','The ticket office is near the entrance of the funfair. The ticket vendor is selling tickets. To the south there is exit but you don\'t want to leave just yet. To the north there seems to be some kind of stage.','ticket office',NULL),
-	(2,'Open Air Stage','You are at the open air stage.','There is Elna the clown at the open air stage.',NULL,NULL),
-	(3,'Bumper Cars','You are at Bumper Cars.','There is a bumper car opetaror. She seems to be a bit angry to some teens who are all just hitting each other\'s cars.','elna','You ride bumper cars'),
-	(4,'Roller Coaster','You are at the Wormster.','Old man runs the roller coaster very slowly. He seems not to want to talk with you. The roller coaster itself seems smiley though, it looks like a green happy worm. ',NULL,'You ride wormster'),
-	(5,'Security Station','You are now at the Security Station. ','The security station is a small booth with a red cross on the roof. There is a security officer.',NULL,NULL),
-	(6,'Carousel','You are now at the Carousel.','There is a carousel operator working. She seems like a nice girl.','carousel;carusel','You ride carousel'),
-	(7,'Game Hall','You are now at the Game Hall.','There is a lot of games to choose from. The magician seems to be managing all the games. You see at least Bottle Pyramid and Pull-A-String -games being played.',NULL,NULL),
-	(8,'Ferris Wheel','You are at the Ferris Wheel. ','You see an old Ferris Wheel and want to jump in. It seems not to be working though. There is a mechanics working on it but they are too busy to notice you. On the ground there is a ferris wheel operator sitting and looking bored.',NULL,NULL),
-	(9,'Ticket Office','You are at the Food Court.','To the north there is a Candy Shop, southwest Cafe, southeast Mirror Maze, southwest Rollercoaster, south open air stage and southeast Security Station.\n',NULL,NULL),
-	(10,'Mirror Maze','You are at the Mirror Maze.','The mirror maze is full on mirrors. You see some kids making funny faces. Best to leave where you came from, to the southwest where is the food court crossing point.',NULL,NULL),
+	(2,'Open Air Stage','You are at the open air stage.','There is Elna the clown at the open air stage.','stage',NULL),
+	(3,'Bumper Cars','You are at Bumper Cars.','There is a bumper car opetaror. She seems to be a bit angry to some teens who are all just hitting each other\'s cars.','bumper cars','You ride bumper cars'),
+	(4,'Roller Coaster','You are at the Wormster.','Old man runs the roller coaster very slowly. He seems not to want to talk with you. The roller coaster itself seems smiley though, it looks like a green happy worm. ','roller coaster','You ride wormster'),
+	(5,'Security Station','You are now at the Security Station. ','The security station is a small booth with a red cross on the roof. There is a security officer.','security;security station',NULL),
+	(6,'Carousel','You are now at the Carousel.','There is a carousel operator working. She seems like a nice girl.','carousel','You ride carousel'),
+	(7,'Game Hall','You are now at the Game Hall.','There is a lot of games to choose from. The magician seems to be managing all the games. You see at least Bottle Pyramid and Pull-A-String -games being played.','game hall;games',NULL),
+	(8,'Ferris Wheel','You are at the Ferris Wheel. ','You see an old Ferris Wheel and want to jump in. It seems not to be working though. There is a mechanics working on it but they are too busy to notice you. On the ground there is a ferris wheel operator sitting and looking bored.','ferris wheel',NULL),
+	(9,'Food Court','You are at the Food Court.','To the north there is a Candy Shop, southwest Cafe, southeast Mirror Maze, southwest Rollercoaster, south open air stage and southeast Security Station.\n','food court',NULL),
+	(10,'Mirror Maze','You are at the Mirror Maze.','The mirror maze is full on mirrors. You see some kids making funny faces. Best to leave where you came from, to the southwest where is the food court crossing point.','maze; mirror maze',NULL),
 	(11,'Candy Shop','You are at the Candy Shop.','The candy shop keeper is chewing a licorice. She has big eyeglasses and pink hair. There is a lot of candies and loose licorice around you and a candy floss machine in the corner. ','candy shop',NULL),
 	(12,'Cafe','You are at the Cafe. ','Everything smells so good you almost want to have a cup of coffee. There seems to be good looking cinnamon buns, cookies and brownies on the shelf as well. There is a cafe keeper. He seems happy and old.','cafe',NULL),
-	(13,'Campfire','You are at the campfire behind the Cafe.','You are at the campfire. The cafe keeper yells you from the cafe to come back. The only way out is west back to the cafe.',NULL,NULL);
+	(13,'Campfire','You are at the campfire behind the Cafe.','You are at the campfire. The cafe keeper yells you from the cafe to come back. The only way out is west back to the cafe.','campfire',NULL);
 
 /*!40000 ALTER TABLE `Places` ENABLE KEYS */;
 UNLOCK TABLES;
