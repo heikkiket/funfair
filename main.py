@@ -110,18 +110,16 @@ def ask(person, place):
 
 
 def chat():
-    utils.print_text(tips.give_tip())
     cur = connect.cursor()
-    sql = "SELECT line_text FROM Line LEFT JOIN Persons On persons.`Person_Id` = line.`Person_Id` WHERE Alias = '" + obj + "' AND line.`Place_Id` = " + str(
-        location) + " ORDER BY RAND() LIMIT 1;"
+    sql = "SELECT line_text FROM Line LEFT JOIN Persons On persons.`Person_Id` = line.`Person_Id` WHERE Alias = '" + obj + "' AND line.`Place_Id` = " + str(location) + " ORDER BY RAND() LIMIT 1;"
     cur.execute(sql)
     if cur.rowcount >= 1:
         for row in cur:
             utils.print_text(row[0])
+            utils.print_text(tips.give_tip())
     else:
         utils.print_text("The person you want to chat with is not here")
     return
-
 
 def buy(item):
     
@@ -191,8 +189,6 @@ def move(loc, direction):
 # main loop
 
 # clear the screen
-
-
 utils.print_text("\n" * 100)
 
 # temp addition, can be deleted later
@@ -202,6 +198,12 @@ items = getalias("items")
 utils.print_text(items)
 places = getalias("places")
 utils.print_text(places)
+
+#generate connections and tips
+tips.create_connections()
+tips.generate_tips()
+
+print("Connections: " + str(tips.connections))
 
 # player location
 location = "1"
@@ -239,10 +241,6 @@ while action != "quit" and action != "q" and g.days < 4:
     # ask/take [person] to [place]
     if action == "ask" or action == "take" and obj in [persons] and iobj in [places]:
         ask(obj, iobj)
-<<<<<<< HEAD
-# chat/talk to/with [person]
-    if (action=="chat" or action=="talk" and obj in [persons]):
-        chat()
 # buy [item]
     if (action=="buy" and obj in [items]):
         buy()
@@ -250,8 +248,6 @@ while action != "quit" and action != "q" and g.days < 4:
 # eat [item]
     # chat/talk to/with [person]
     if action == "chat" or action == "talk" and obj in [persons]:
-        utils.print_text(location)
-        utils.print_text(obj)
         chat()
     # buy [item]
     # drink [item]
