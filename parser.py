@@ -45,7 +45,7 @@ def process_sentence(sentence):
             print("object:", object)
             print("indirect_object:", indirect_object)
             print()
-        for_return = {"verb": verb, "object": object, "inderect": indirect_object}
+        for_return = {"verb": verb, "object": object, "indirect": indirect_object}
         for_return.update(getalias(object))
         return for_return
     else:
