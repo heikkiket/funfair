@@ -80,7 +80,7 @@ def show_passage(loc):
 
 
 def ask(person, where):
-    #split connections
+    # split connections
     connections_1, connections_2 = tips.split_connections(tips.connections)
     print("Connection 1: "+ str(connections_1))
     print("Connection 2: "+ str(connections_2))
@@ -92,12 +92,12 @@ def ask(person, where):
     if cur.rowcount >= 1:
         for row in cur.fetchall():
             person_2 = row[0]
-    print("You tried:" + str(person) +" and " + str(person_2))
+    print("You tried:" + str(person) + " and " + str(person_2))
     if str(person) in connections_1 and str(person_2) in connections_1:
-        utils.print_text("It’s a succesful pair!")
+        utils.print_text("It’s a successful pair!")
         tips.connected_names = tips.connected_names + 1
     elif str(person) in connections_2 and str(person_2) in connections_2:
-        utils.print_text("It’s a succesful pair!")
+        utils.print_text("It’s a successful pair!")
         tips.connected_names = tips.connected_names + 1
     else:
         utils.print_text("You failed making a pair")
@@ -109,6 +109,7 @@ def ask(person, where):
     if g.asks > 1:
         night()
     return
+
 
 def chat():
     cur = connect.cursor()
