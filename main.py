@@ -92,10 +92,10 @@ def ask(person, where):
         for row in cur.fetchall():
             person_2 = row[0]
     print("You tried:" + str(person) +" and " + str(person_2))
-    if person in connections_1 and person_2 in connections_1:
+    if str(person) in connections_1 and str(person_2) in connections_1:
         utils.print_text("It’s a succesful pair!")
         tips.connected_names = tips.connected_names + 1
-    elif person in connections_2 and person_2 in connections_2:
+    elif str(person) in connections_2 and str(person_2) in connections_2:
         utils.print_text("It’s a succesful pair!")
         tips.connected_names = tips.connected_names + 1
     else:
