@@ -21,6 +21,10 @@ negative_tips = 3
 false_tips = 1
 tips = []
 
+#connections split into two
+def split_connections(connections):
+    half = len(connections)//2
+    return connections[:half], connections[half:]
 
 def create_connections():
     while len(connections) < 4:

@@ -80,14 +80,26 @@ def show_passage(loc):
 
 
 def ask(person, where):
-    print(tips.connections)
-    print(person)
+    #split connections
+    connections_1, connections_2 = tips.split_connections(tips.connections)
+    print("Connection 1: "+ str(connections_1))
+    print("Connection 2: "+ str(connections_2))
     cur = connect.cursor()
+    #get person_2 id
     sql = "SELECT Person_Id FROM Persons WHERE Place_Id = " + str(where) + ";"
     cur.execute(sql)
-    #if connection is right etc
-    #else:
- #       utils.print_text("You failed making a pair")
+    if cur.rowcount >= 1:
+        for row in cur.fetchall():
+            person_2 = row[0]
+    print("You tried:" + str(person) +" and " + str(person_2))
+    if person in connections_1 and person_2 in connections_1:
+        utils.print_text("It’s a succesful pair!")
+        tips.connected_names = tips.connected_names + 1
+    elif person in connections_2 and person_2 in connections_2:
+        utils.print_text("It’s a succesful pair!")
+        tips.connected_names = tips.connected_names + 1
+    else:
+        utils.print_text("You failed making a pair")
     if tips.connected_names == 2:
         utils.print_text("You have made two connections! No reason to wander around anymore. It's time to enjoy the campfire with all the funfair employees and hear what they have to say.")
         g.days = 4
@@ -95,8 +107,7 @@ def ask(person, where):
     g.asks = g.asks + 1
     if g.asks > 1:
         night()
-    return person, place
-
+    return
 
 def chat():
     cur = connect.cursor()
@@ -236,7 +247,7 @@ while action != "quit" and action != "q" and g.days < 4:
     if action == "ask" or action == "take" and ret["direct_person_id"] != 0 and ret["indirect_place_id"] != 0 and location != ret["indirect_place_id"]:
         person = ret["direct_person_id"]
         where = ret["indirect_place_id"]
-        wrong = "There is something wrong with what you're asking"
+        wrong = "There is something wrong with what you're asking (person or place where you're asking to go"
         if location in [2, 3, 5, 6, 7, 11, 12] and where in [2, 3, 5, 6, 7, 11, 12] and person in [1, 2, 3, 4, 5, 6, 7]:
             if location == 2 and where == 2:
                 utils.print_text(wrong)
