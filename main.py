@@ -85,6 +85,7 @@ def ask(person, where):
     print("Connection 1: "+ str(connections_1))
     print("Connection 2: "+ str(connections_2))
     cur = connect.cursor()
+    person_2 = ""
     #get person_2 id
     sql = "SELECT Person_Id FROM Persons WHERE Place_Id = " + str(where) + ";"
     cur.execute(sql)
@@ -111,7 +112,7 @@ def ask(person, where):
 
 def chat():
     cur = connect.cursor()
-    sql = "SELECT line_text FROM Line LEFT JOIN Persons On persons.`Person_Id` = line.`Person_Id` WHERE Alias like '%" + obj + "%' AND line.`Place_Id` = " + str(location) + " AND line.`Item_Id` is null ORDER BY RAND() LIMIT 1;"
+    sql = "SELECT line_text FROM Line LEFT JOIN Persons On Persons.`Person_Id` = Line.`Person_Id` WHERE Alias like '%" + obj + "%' AND Line.`Place_Id` = " + str(location) + " AND Line.`Item_Id` is null ORDER BY RAND() LIMIT 1;"
     cur.execute(sql)
     if cur.rowcount >= 1:
         for row in cur:
