@@ -1,5 +1,5 @@
 import globals
-# importing DB settings
+from lib import utils
 from lib.database import FunDb
 
 connect = FunDb.connect()
@@ -7,14 +7,14 @@ connect = FunDb.connect()
 
 def process_sentence(sentence):
     if globals.debug is True:
-        print()
-        print("sentence:", sentence)
+        utils.print_text()
+        utils.print_text("sentence: " + sentence)
     words = sentence.split()
     verb = ""
     object = ""
     indirect_object = ""
     if len(words) == 0:
-        print("You gave no sentence")
+        utils.print_text("You gave no sentence")
         return {}
 
     if globals.verbs.count(words[0]) is not 0:
@@ -40,20 +40,23 @@ def process_sentence(sentence):
         object = object.strip().lower()
         indirect_object = indirect_object.strip().lower()
 
+        object = remove_articles(object)
+        indirect_object = remove_articles(indirect_object)
+
         if globals.debug is True:
-            print("verb:", verb)
-            print("object:", object)
-            print("indirect_object:", indirect_object)
-            print()
+            utils.print_text("verb: " + verb)
+            utils.print_text("object: " + object)
+            utils.print_text("indirect_object: " + indirect_object)
+            utils.print_text
         for_return = {"verb": verb, "object": object, "indirect": indirect_object}
         for_return.update(get_alias(object, 1))
         for_return.update(get_alias(indirect_object, 2))
         if globals.debug is True:
-            print(for_return)
+            utils.print_text(for_return)
         return for_return
     else:
-        print("I don't understand what '", words[0], "' means.", sep='')
-        print()
+        utils.print_text("I don't understand what '" + words[0] + "' means.")
+        utils.print_text()
         return
 
 
@@ -75,6 +78,9 @@ def get_alias(obj, id=1):
         aliases.update(get_alias_from_db(sql2, "direct_item_id", obj))
         # checking places
         aliases.update(get_alias_from_db(sql3, "direct_place_id", obj))
+    if obj is not '' and aliases == {}:
+        utils.print_text("I don't understand what '" + obj + "' means.")
+        utils.print_text()
     return aliases
 
 
@@ -89,5 +95,16 @@ def get_alias_from_db(sql, to, obj):
                     return_alias = {to: row[0]}
     return return_alias
 
+def remove_articles(string):
+    articles = ["the", "a", "an"]
+    words = string.split()
+    index = 0
+    while index < len(words):
+        if articles.count(words[index]) is not 0:
+            del(words[index])
+        else:
+            index += 1
 
-print(process_sentence("go Elna to Carousel"))
+    string = ' '.join(words)
+    string = string.strip()
+    return string

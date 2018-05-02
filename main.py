@@ -280,6 +280,25 @@ while action != "quit" and action != "q" and g.days < 4:
 
     # ask/take [person] to [place]
     if action == "ask" or action == "take":
+        SELECT
+        Person_Id, Place_Id
+        From
+        Persons
+        WHERE
+        Connectable = 1
+        AND
+        Person_Id = 1
+        AND
+        NOT
+        Persons.Place_Id = 13
+        AND
+        EXISTS
+        (Select Places.Place_Id From Persons
+        JOIN Places ON Persons.Place_Id = Places.Place_Id
+        WHERE Connectable = 1 AND Places.Place_ID=13);
+
+        person = ret["direct_person_id"]
+        where = ret["indirect_place_id"]
         wrong = "There is something wrong with what you're asking (person or place where you're asking to go"
         if obj == "":
             utils.print_text("Could you specify who who would you like to take somewhere?")
@@ -328,6 +347,7 @@ while action != "quit" and action != "q" and g.days < 4:
     # drink [item]
     # eat [item]
     # chat/talk to/with [person]
+<<<<<<< HEAD
     if action == "chat" or action == "talk":
         if obj == "":
             utils.print_text("You have to be a bit more specific")
@@ -335,6 +355,13 @@ while action != "quit" and action != "q" and g.days < 4:
             chat()
         else:
             utils.print_text("Are you nuts?")
+=======
+    if action == "chat" or action == "talk" and ret["direct_person_id"] != 0:
+        if g.debug:
+            utils.print_text(location)
+            utils.print_text(obj)
+        chat()
+>>>>>>> 0f85cafb771f3add40a8c31c4b95d591600e5a5a
     # buy [item]
     # drink [item]
     # eat [item]
