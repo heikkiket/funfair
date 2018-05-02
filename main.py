@@ -247,6 +247,23 @@ while action != "quit" and action != "q" and g.days < 4:
 
     # ask/take [person] to [place]
     if action == "ask" or action == "take" and ret["direct_person_id"] != 0 and ret["indirect_place_id"] != 0 and location != ret["indirect_place_id"]:
+        SELECT
+        Person_Id, Place_Id
+        From
+        Persons
+        WHERE
+        Connectable = 1
+        AND
+        Person_Id = 1
+        AND
+        NOT
+        Persons.Place_Id = 13
+        AND
+        EXISTS
+        (Select Places.Place_Id From Persons
+        JOIN Places ON Persons.Place_Id = Places.Place_Id
+        WHERE Connectable = 1 AND Places.Place_ID=13);
+
         person = ret["direct_person_id"]
         where = ret["indirect_place_id"]
         wrong = "There is something wrong with what you're asking (person or place where you're asking to go"
