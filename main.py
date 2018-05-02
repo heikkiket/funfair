@@ -52,7 +52,10 @@ def night():
 
 
 def final():
-    utils.print_text("The campfire!! The END")
+    if tips.connected_names == 2:
+        utils.print_text("The campfire!! The END You win!")
+    else:
+        utils.print_text("The campfire!! The END You lose :(")
     return
 
 
@@ -85,9 +88,9 @@ def success(person, where):
         utils.print_text(text + " the Bumper Car Operator. It's odd but she seems to be in a good mood. She offers the " + str(person) + " a ride "\
         " and this might turn into a friendsip")
     elif where == 5:
-        utils.print_text(text + " the Security Station. She grabs a pile of candy bars with her. " \
-        "Security officer sits at her station looking really bored. " + str(person) + " gives candy bars to her "\
-        "and tells her to cheer up. The Security officer can’t hold a smile. They immediately start chatting.")
+        utils.print_text(text + " the Security Station. She has been wanting to discuss the weather. " \
+        " "+ str(person) + " tells her to cheer up. "\
+        "The Security officer can’t hold a smile. They immediately start chatting.")
     elif where == 6:
         utils.print_text(text + " the Carousel Operator. She welcomes the company. 'There is a classical consert coming up in the next town we go' she "\
         " says and they make plans to go together.")
