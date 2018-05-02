@@ -291,8 +291,9 @@ while action != "quit" and action != "q" and g.days < 4:
     # eat [item]
     # chat/talk to/with [person]
     if action == "chat" or action == "talk" and ret["direct_person_id"] != 0:
-        utils.print_text(location)
-        utils.print_text(obj)
+        if g.debug:
+            utils.print_text(location)
+            utils.print_text(obj)
         chat()
     # buy [item]
     # drink [item]
