@@ -11,10 +11,6 @@ cursor = connect.cursor()
 connections = []
 connected_names = 0
 
-lines = {'positive': ["I think %s and %s will get along well",
-                      "I think %s could get easily along with %s.",
-                      "I think %s and %s have a similar sense of humour"],
-         'negative': ["I think %s and %s won't get along very well"]}
 
 # Amount of different tips
 positive_tips = 2
@@ -59,11 +55,12 @@ def generate_tips():
     global negative_tips
 
     for i in range(positive_tips):
-        tips.append(create_tip('positive'))
+        #TODO Positive tips can both be from same pair
+        create_tip('positive')
     for i in range(negative_tips):
-        tips.append(create_tip('negative'))
+        create_tip('negative')
     for i in range(false_tips):
-        tips.append(create_tip('false'))
+        create_tip('false')
     random.shuffle(tips)
 
 
@@ -71,28 +68,40 @@ def create_tip(tip_type):
 
     if tip_type == 'negative':
         connected = False
-        line_type = 'negative'
+        is_positive = 0
     elif tip_type == 'positive':
         connected = True
-        line_type = 'positive'
+        is_positive = 1
     elif tip_type == 'false':
         connected = randint(0, 1)
         if connected:
-            line_type = 'negative'
+            is_positive = 0
         else:
-            line_type = 'positive'
+            is_positive = 1
     else:
         return ''
 
     ids = random_pair(connected)
-    line = lines[line_type][randint(0, len(lines[line_type]) - 1)]
+
+    query = "SELECT Text FROM Line_templates WHERE Positive =" + str(is_positive) + " ORDER BY RAND() LIMIT 1"
+    cursor.execute(query)
+    result = cursor.fetchall()
+    line_template = result[0][0]
 
     query = "SELECT Name FROM Persons WHERE Person_ID IN " + str(ids)
     cursor.execute(query)
     result = cursor.fetchall()
     names = (result[0][0], result[1][0])
 
-    return line % names
+    line = line_template % names
+
+    while True:
+        person_id = str(randint(1, 7))
+        if ids.count(person_id) == 0:
+            break
+
+    query = "INSERT INTO Line (Line_Text, Person_Id, Is_tip) VALUES (%s, %s, 1)"
+    cursor.execute(query, (line, person_id))
 
 
 def random_pair(connected):
@@ -108,6 +117,12 @@ def random_pair(connected):
         return rand1, rand2
 
 
-def give_tip():
-    if len(tips) > 0:
-        return tips.pop(0)
+def give_tip(person_id):
+    query = "SELECT Line_text FROM Line WHERE Is_tip = 1 AND Person_Id=%s"
+    query = "SELECT Line_text FROM Line WHERE Is_tip = 1 AND Person_Id=%s"
+    cursor.execute(query, (person_id,))
+    if cursor.rowcount > 0:
+        result = cursor.fetchall()
+        return result[0][0]
+    else:
+        return ""
