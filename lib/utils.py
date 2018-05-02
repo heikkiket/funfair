@@ -1,2 +1,2 @@
-def print_text(text):
+def print_text(text=""):
     print(text)
