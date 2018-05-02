@@ -93,14 +93,47 @@ def ask(person, where):
         for row in cur.fetchall():
             person_2 = row[0]
     print("You tried:" + str(person) + " and " + str(person_2))
+    sql = "SELECT Name FROM Persons WHERE Person_Id = " + str(person) + ";"
+    cur.execute(sql)
+    if cur.rowcount >= 1:
+        for row in cur.fetchall():
+            person_2_name = row[0]
+    #kesken
     if str(person) in connections_1 and str(person_2) in connections_1:
         utils.print_text("It’s a successful pair!")
         tips.connected_names = tips.connected_names + 1
     elif str(person) in connections_2 and str(person_2) in connections_2:
         utils.print_text("It’s a successful pair!")
         tips.connected_names = tips.connected_names + 1
+        if where == 2:
+            utils.print_text("You asked " + str(person_2_name) + " to visit Elna at the stage. They get along well etc.")
+        elif where == 3:
+            utils.print_text("You asked " + str(person_2_name) + " to visit bumper operator. They get along well etc.")
+        elif where == 5:
+            utils.print_text("You asked " + str(person_2_name) + " to visit Security Officer. They get along well etc.")
+        elif where == 6:
+            utils.print_text("You asked " + str(person_2_name) + " to visit Carousel operator. They get along well etc.")
+        elif where == 7:
+            utils.print_text("You asked " + str(person_2_name) + " to visit Magician. They get along well etc.")
+        elif where == 11:
+            utils.print_text("You asked " + str(person_2_name) + " to visit Candy Shop Keeper. They get along well etc.")
+        else:
+            utils.print_text("You asked " + str(person_2_name) + " to visit Cafe Keeper. They get along well etc.")
     else:
-        utils.print_text("You failed making a pair")
+        if where == 2:
+            utils.print_text("You asked " + str(person_2_name) + " to visit Elna at the stage. Unfortunately Elna and " + str(person_2_name) +" do not get along. You failed making a pair")
+        elif where == 3:
+            utils.print_text("You failed making a pair etc")
+        elif where == 5:
+            utils.print_text("You failed making a pair etc")
+        elif where == 6:
+            utils.print_text("You failed making a pair etc")
+        elif where == 7:
+            utils.print_text("You failed making a pair etc")
+        elif where == 11:
+            utils.print_text("You failed making a pair etc")
+        else:
+            utils.print_text("You failed making a pair etc")
     if tips.connected_names == 2:
         utils.print_text("You have made two connections! No reason to wander around anymore. It's time to enjoy the campfire with all the funfair employees and hear what they have to say.")
         g.days = 4
@@ -246,41 +279,46 @@ while action != "quit" and action != "q" and g.days < 4:
         look(location)
 
     # ask/take [person] to [place]
-    if action == "ask" or action == "take" and ret["direct_person_id"] != 0 and ret["indirect_place_id"] != 0 and location != ret["indirect_place_id"]:
-        person = ret["direct_person_id"]
-        where = ret["indirect_place_id"]
+    if action == "ask" or action == "take":
         wrong = "There is something wrong with what you're asking (person or place where you're asking to go"
-        if location in [2, 3, 5, 6, 7, 11, 12] and where in [2, 3, 5, 6, 7, 11, 12] and person in [1, 2, 3, 4, 5, 6, 7]:
-            if location == 2 and where == 2:
-                utils.print_text(wrong)
-            elif location == 3 and where == 3:
-                utils.print_text(wrong)
-            elif location == 5 and where == 5:
-                utils.print_text(wrong)
-            elif location == 6 and where == 6:
-                utils.print_text(wrong)
-            elif location == 7 and where == 7:
-                utils.print_text(wrong)
-            elif location == 11 and where == 11:
-                utils.print_text(wrong)
-            elif location == 12 and where == 12:
-                utils.print_text(wrong)
-            elif location == 2 and person != 1:
-                utils.print_text(wrong)
-            elif location == 3 and person != 4:
-                utils.print_text(wrong)
-            elif location == 5 and person != 3:
-                utils.print_text(wrong)
-            elif location == 6 and person != 5:
-                utils.print_text(wrong)
-            elif location == 7 and person != 2:
-                utils.print_text(wrong)
-            elif location == 11 and person != 7:
-                utils.print_text(wrong)
-            elif location == 12 and person != 6:
-                utils.print_text(wrong)
+        if obj == "":
+            utils.print_text("Could you specify who who would you like to take somewhere?")
+        elif "direct_person_id" in ret and "indirect_place_id" in ret:
+            if ret["direct_person_id"] != 0 and ret["indirect_place_id"] != 0 and location != ret["indirect_place_id"]:
+                person = ret["direct_person_id"]
+                where = ret["indirect_place_id"]
             else:
-                ask(person, where)
+                if location in [2, 3, 5, 6, 7, 11, 12] and where in [2, 3, 5, 6, 7, 11, 12] and person in [1, 2, 3, 4, 5, 6, 7]:
+                    if location == 2 and where == 2:
+                        utils.print_text(wrong)
+                    elif location == 3 and where == 3:
+                        utils.print_text(wrong)
+                    elif location == 5 and where == 5:
+                        utils.print_text(wrong)
+                    elif location == 6 and where == 6:
+                        utils.print_text(wrong)
+                    elif location == 7 and where == 7:
+                        utils.print_text(wrong)
+                    elif location == 11 and where == 11:
+                        utils.print_text(wrong)
+                    elif location == 12 and where == 12:
+                        utils.print_text(wrong)
+                    elif location == 2 and person != 1:
+                        utils.print_text(wrong)
+                    elif location == 3 and person != 4:
+                        utils.print_text(wrong)
+                    elif location == 5 and person != 3:
+                        utils.print_text(wrong)
+                    elif location == 6 and person != 5:
+                        utils.print_text(wrong)
+                    elif location == 7 and person != 2:
+                        utils.print_text(wrong)
+                    elif location == 11 and person != 7:
+                        utils.print_text(wrong)
+                    elif location == 12 and person != 6:
+                        utils.print_text(wrong)
+                    else:
+                        ask(person, where)
         else:
             utils.print_text(wrong)
             
@@ -290,10 +328,13 @@ while action != "quit" and action != "q" and g.days < 4:
     # drink [item]
     # eat [item]
     # chat/talk to/with [person]
-    if action == "chat" or action == "talk" and ret["direct_person_id"] != 0:
-        utils.print_text(location)
-        utils.print_text(obj)
-        chat()
+    if action == "chat" or action == "talk":
+        if obj == "":
+            utils.print_text("You have to be a bit more specific")
+        elif "direct_person_id" in ret:
+            chat()
+        else:
+            utils.print_text("Are you nuts?")
     # buy [item]
     # drink [item]
     # eat [item]
