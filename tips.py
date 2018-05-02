@@ -10,6 +10,7 @@ cursor = connect.cursor()
 # connections in number forms and by names
 connections = []
 connected_names = 0
+
 lines = {'positive': ["I think %s and %s will get along well",
                       "I think %s could get easily along with %s.",
                       "I think %s and %s have a similar sense of humour"],
