@@ -39,6 +39,13 @@ def create_connections():
         cursor.execute(query1, {'id1': connection[0], 'id2': connection[1]})
     return 0
 
+def succesful_connection(connection):
+    for person_id in connection:
+        cursor.execute("UPDATE Persons SET Is_Connected=1 WHERE Person_Id=%s", (person_id,))
+    del(connections[connections.index(connection)])
+
+
+
 
 #this function is not used anywhere, but the SQL is too great to be deleted...
 def get_names():
@@ -123,6 +130,7 @@ def random_pair(connected):
                 "ORDER BY RAND() LIMIT 2"
         cursor.execute(query)
         result = cursor.fetchall()
+
         return result[0][0], result[1][0]
 
 
@@ -139,10 +147,16 @@ def give_tip(person_id):
     else:
         result = ""
 
-    if randint(0, 3) > 0:
+    if randint(0, 1) > 0:
         result = ""
     else:
         if found_row:
             cursor.execute("DELETE FROM Line Where Lines_Id=%s", (line_id,))
     return result
 
+def show_tips():
+    sql = "SELECT Line_text, Person_Id FROM Line WHERE Is_tip = 1"
+    cursor.execute(sql)
+    if cursor.rowcount > 0:
+        for row in cursor.fetchall():
+            print(row)

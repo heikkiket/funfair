@@ -106,8 +106,7 @@ def success(person, where):
     return
 
 def ask(person, where):
-    print("Connection 1: "+ str(connections_1))
-    print("Connection 2: "+ str(connections_2))
+
     cur = connect.cursor()
     person_2 = ""
     sql = "SELECT Person_Id FROM Persons WHERE Place_Id = " + str(where) + ";"
@@ -116,30 +115,35 @@ def ask(person, where):
         for row in cur.fetchall():
             person_2 = row[0]
             print("You tried:" + str(person) + " and " + str(person_2))
+
     sql = "SELECT Name FROM Persons WHERE Person_Id = " + str(person) + ";"
     cur.execute(sql)
     if cur.rowcount >= 1:
         for row in cur.fetchall():
             person_2_name = row[0]
-    if str(person) in connections_1 and str(person_2) in connections_1:
-        success(person_2_name, where)
-        tips.connected_names = tips.connected_names + 1
-        del connections_1[:]
-        tips.connected_pair.append(person)
-        tips.connected_pair.append(person_2)
-        if tips.connected_names == 1:
-            utils.print_text("Excellent! One more connection to make.")
-    elif person in connection and person_2 in connection:
-        success(person_2_name, where)
-        tips.connected_names = tips.connected_names + 1
-        tips.connected_pair.append(person)
-        tips.connected_pair.append(person_2)
-        del connections_2[:]
-        if tips.connected_names == 1:
-            utils.print_text("Excellent! One more connection to make.")
-    elif str(person) in tips.connected_pair and str(person_2) in tips.connected_pair:
+
+    success_to_connect = False
+
+    #Get already made connections
+    sql = "Select Person_Id FROM Persons Where NOT Connects_Person_Id IS NULL AND Is_Connected = '1'"
+    cur.execute(sql)
+    made_connections = cur.fetchall()
+
+    if tuple([person]) in made_connections and tuple([person_2]) in made_connections:
         utils.print_text("You have already connected this pair")
-    else:
+        success_to_connect = True
+
+    #Test new connection
+    for connection in tips.connections:
+        if person in connection and person_2 in connection:
+            success(person_2_name, where)
+            tips.succesful_connection(connection)
+            success_to_connect = True
+            if len(tips.connections) > 0:
+                utils.print_text("Excellent! One more connection to make.")
+
+    #Print no success -message
+    if not success_to_connect:
         text = "You take " + str(person_2_name) + " to visit"
         if where == 2:
             utils.print_text(text + " Elna at the Open-Air Stage. Elna starts her show, but "+ str(person_2_name) + " doesn’t seem to like it at all.")
@@ -158,23 +162,28 @@ def ask(person, where):
         else:
             utils.print_text(text + " to visit Cafe Keeper. Peter greets you and offers coffee but " + str(person_2_name) +" has already had a cup.")
         utils.print_text("You failed making a pair")
-    if tips.connected_names == 2:
+
+    g.asks = g.asks + 1
+
+    if made_connections == 4:
         utils.print_text("You have made two connections! No reason to wander around anymore. It's time to enjoy the campfire with all the funfair employees and hear what they have to say.")
         g.days = 4
         final()
-    g.asks = g.asks + 1
+
     if g.asks > 1:
         night()
     return
 
 def chat():
     cur = connect.cursor()
-    sql = "SELECT line_text FROM Line LEFT JOIN Persons On Persons.`Person_Id` = Line.`Person_Id` WHERE Alias like '%" + obj + "%' AND Line.`Place_Id` = " + str(location) + " AND Line.`Item_Id` is null ORDER BY RAND() LIMIT 1;"
+    sql = "SELECT line_text FROM Line LEFT JOIN Persons On Persons.`Person_Id` = Line.`Person_Id` " \
+            "WHERE Alias like '%" + obj + "%' AND Line.`Place_Id` = " + str(location) + " AND Line.`Item_Id` is null " \
+            "ORDER BY RAND() LIMIT 1;"
     cur.execute(sql)
     if cur.rowcount >= 1:
         for row in cur:
             utils.print_text(row[0])
-            utils.print_text(tips.give_tip())
+            utils.print_text(tips.give_tip(ret['direct_person_id']))
     else:
         utils.print_text("The person you want to chat with is not here")
     return
@@ -269,11 +278,11 @@ utils.print_text("\n" * 100)
 # utils.print_text(places)
 
 # generate connections and tips
-#tips.create_connections()
-#tips.generate_tips()
-#connections_1, connections_2 = tips.split_connections(tips.connections)
+tips.create_connections()
+tips.generate_tips()
 
 if g.debug is True:
+    tips.show_tips()
     print("Connections: " + str(tips.connections))
 
 # player location
