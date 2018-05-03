@@ -259,15 +259,6 @@ def move(loc, direction):
 # clear the screen
 utils.print_text("\n" * 100)
 
-
-# temp addition, can be deleted later
-# persons = getalias("persons")
-# utils.print_text(persons)
-# items = getalias("items")
-# utils.print_text(items)
-# places = getalias("places")
-# utils.print_text(places)
-
 # generate connections and tips
 #tips.create_connections()
 #tips.generate_tips()
