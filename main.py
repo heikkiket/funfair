@@ -2,6 +2,7 @@ import parser
 import globals as g
 import tips
 from lib import utils
+import random
 
 # importing DB settings
 from lib.database import FunDb
@@ -128,7 +129,7 @@ def ask(person, where):
         tips.connected_pair.append(person_2)
         if tips.connected_names == 1:
             utils.print_text("Excellent! One more connection to make.")
-    elif person in connection and person_2 in connection
+    elif person in connection and person_2 in connection:
         success(person_2_name, where)
         tips.connected_names = tips.connected_names + 1
         tips.connected_pair.append(person)
@@ -180,8 +181,7 @@ def chat():
 
 
 def buy(item):
-    
-    return item
+    return
 
 
 def drink(item):
@@ -192,7 +192,7 @@ def eat(item):
     return item
 
 
-def ride(rid):
+def ride():
     cur = connect.cursor()
     sql = "SELECT ACTION FROM Places Where Place_Id =" + str(location) + ";"
     cur.execute(sql)
@@ -204,7 +204,16 @@ def ride(rid):
 
 def play():
     utils.print_text("You play a game")
-    # randomize game??
+    game = random.randint(1,3)
+    win = random.randint(1,4)
+    if game == 1:
+        utils.print_text("You play pull-a-string")
+    if game == 2:
+        utils.print_text("You play bottle pyramid")
+    if game == 3:
+        utils.print_text("You play climb the ladder")
+    if win == 1:
+           utils.print_text("You win!")
     return
 
 
@@ -260,9 +269,9 @@ utils.print_text("\n" * 100)
 # utils.print_text(places)
 
 # generate connections and tips
-tips.create_connections()
-tips.generate_tips()
-connections_1, connections_2 = tips.split_connections(tips.connections)
+#tips.create_connections()
+#tips.generate_tips()
+#connections_1, connections_2 = tips.split_connections(tips.connections)
 
 if g.debug is True:
     print("Connections: " + str(tips.connections))
@@ -274,13 +283,11 @@ prologue()
 
 action = ""
 while action != "quit" and action != "q" and g.days < 4:
-    # days muuttuja < 4 / exit
     sentence = input("What will you do? ")
     ret = parser.process_sentence(sentence)
     action = ret["verb"]
     obj = ret["object"]
     iobj = ret["indirect"]
-
     # look [location]
     if action in ["look", "examine", "view"]:
         look(location)
@@ -288,19 +295,16 @@ while action != "quit" and action != "q" and g.days < 4:
     if action in ["directions", "direction"]:
         show_passage(location)
     # move
-
     if action in ["go", "walk", "move"] and obj in ["e", "n", "ne", "nw", "s", "se", "sw", "w", "east", "north",
                                                     "northeast", "northwest", "south", "southwest", "west"]:
         newlocation = move(location, obj)
         location = newlocation
         look(location)
-
     if action in ["e", "n", "ne", "nw", "s", "se", "sw", "w", "east", "north", "northeast", "northwest", "south",
                   "southwest", "west"]:
         newlocation = move(location, action)
         location = newlocation
         look(location)
-
     # ask/take [person] to [place]
     if action == "ask" or action == "take":
         wrong = "There is something wrong with what you're asking (person or place where you're asking to go)"
@@ -323,8 +327,14 @@ while action != "quit" and action != "q" and g.days < 4:
             utils.print_text(wrong)
 
     # buy [item]
-    if action == "buy" and ret["direct_item_id"] != 0:
-        buy(obj)
+    if action == "buy":
+        if obj == "":
+            utils.print_text("You have to be a bit more specific")
+        elif obj in ret:
+            if ret["direct_item_id"] != 0:
+                buy(obj)
+        else:
+            utils.print_text("Are you nuts?")
     # drink [item]
     # eat [item]
     # chat/talk to/with [person]
@@ -335,15 +345,28 @@ while action != "quit" and action != "q" and g.days < 4:
             chat()
         else:
             utils.print_text("Are you nuts?")
-    # buy [item]
     # drink [item]
     # eat [item]
     # ride [ride]
-    if action == "ride" and obj in ["carousel", "roller", "wormster", "bumper"]:
-        ride(location)
+    if action == "ride":
+        if obj == "":
+            utils.print_text("You have to be a bit more specific")
+        elif "direct_place_id" in ret:
+            if ret["direct_place_id"] == location:
+                if location == (3 or 4 or 6):
+                    ride()
+                else:
+                    utils.print_text("Excuse me?")
+            else:
+                utils.print_text("There is nothing for you to ride here")
+        else:
+            utils.print_text("Are you nuts?")
     # play [game]
     if action == "play" and location == 7:
-        play()
+        if action == "play" and obj == "":
+            play()
+        else:
+            utils.print_text("The magician wants to choose a game for you, don't choose yourself!")
     if action == "play" and location != 7:
         utils.print_text("You have to go to the game hall to play games")
     # wait
