@@ -10,7 +10,7 @@ cursor = connect.cursor()
 # connections in number forms and by names
 connections = []
 connected_names = 0
-
+connected_pair = []
 
 # Amount of different tips
 positive_tips = 2

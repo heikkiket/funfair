@@ -124,14 +124,20 @@ def ask(person, where):
         success(person_2_name, where)
         tips.connected_names = tips.connected_names + 1
         del connections_1[:]
+        tips.connected_pair.append(person)
+        tips.connected_pair.append(person_2)
         if tips.connected_names == 1:
             utils.print_text("Excellent! One more connection to make.")
-    elif str(person) in connections_2 and str(person_2) in connections_2:
+    elif person in connection and person_2 in connection
         success(person_2_name, where)
         tips.connected_names = tips.connected_names + 1
+        tips.connected_pair.append(person)
+        tips.connected_pair.append(person_2)
         del connections_2[:]
         if tips.connected_names == 1:
-            utils.print_text("Excellent! One more connection to make.")        
+            utils.print_text("Excellent! One more connection to make.")
+    elif str(person) in tips.connected_pair and str(person_2) in tips.connected_pair:
+        utils.print_text("You have already connected this pair")
     else:
         text = "You take " + str(person_2_name) + " to visit"
         if where == 2:
@@ -159,7 +165,6 @@ def ask(person, where):
     if g.asks > 1:
         night()
     return
-
 
 def chat():
     cur = connect.cursor()
