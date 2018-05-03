@@ -12,3 +12,6 @@ debug = True
 
 days = 1
 asks = 0
+
+# width of text to be printed
+width = 150

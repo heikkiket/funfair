@@ -1,14 +1,14 @@
-def print_text(text=""):
-    # width of text to be printed
-    width = 150
+import .globals as g
 
+
+def print_text(text=""):
     lines = text.split("\n")
     list_lines = []
     for line in lines:
         words = line.split()
         form_string = ""
         for word in words:
-            if len(form_string) <= width:
+            if len(form_string) < g.print_width:
                 form_string += " " + word
             else:
                 list_lines.append(form_string.strip())
