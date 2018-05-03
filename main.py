@@ -71,6 +71,7 @@ def final():
 
 def newspaper():
     # TODO print_text can be pulled from the DB
+    # SELECT Line_text FROM Line WHERE Item_Id = %(newspaper_id)s ORDER BY RAND() LIMIT 1
     if g.days == 1:
         print_text = "THE FISHING FESTIVAL MIGHT TAKE PLACE AT THE MARKET PLACE INSTEAD OF THE LOCAL LAKE"
     if g.days == 2:
