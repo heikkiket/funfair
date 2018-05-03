@@ -18,36 +18,35 @@ negative_tips = 3
 false_tips = 1
 tips = []
 
-#connections split into two
-def split_connections(connections):
-    half = len(connections)//2
-    return connections[:half], connections[half:]
-
 def create_connections():
-    while len(connections) < 4:
-        digit = randint(1, 7)
-        if connections.count(str(digit)) == 0:
-            connections.append(str(digit))
+    global connections
+    query = "SELECT Person_Id FROM Persons WHERE Connectable=1 ORDER BY RAND() LIMIT 4"
+    cursor.execute(query)
+    result = cursor.fetchall()
+    raw_connections = []
+    for i in result:
+        raw_connections.append(i[0])
+    half = len(raw_connections) // 2
+    connections = [raw_connections[:half], raw_connections[half:]]
 
-    for i in range(0, len(connections), 2):
+    for connection in connections:
         query1 = "UPDATE Persons " \
                 "SET Connects_Person_Id=CASE Person_Id " \
-                "WHEN '" + connections[i] + "' THEN '" + connections[i + 1] + "' " \
-                "WHEN '" + connections[i + 1] + "' THEN '" + connections[i] + "' " \
+                "WHEN %(id1)s THEN %(id2)s " \
+                "WHEN %(id2)s THEN %(id1)s " \
                 "END " \
-                "WHERE Person_Id IN('" + connections[i] + "', '" + connections[i + 1] + "')"
-        # print(query1)
-        cursor.execute(query1)
+                "WHERE Person_Id IN(%(id1)s, %(id2)s)"
+        cursor.execute(query1, {'id1': connection[0], 'id2': connection[1]})
     return 0
 
 
+#this function is not used anywhere, but the SQL is too great to be deleted...
 def get_names():
-    global connected_names
     query = "SELECT DISTINCT Persons1.Name AS Person1, Persons2.Name AS Person2 FROM Persons AS Persons1 "\
             "JOIN Persons As Persons2 ON Persons1.Person_Id=Persons2.Connects_Person_Id "
 
     cursor.execute(query)
-    connected_names = cursor.fetchall()
+    return cursor.fetchall()
 
 
 def generate_tips():
@@ -106,8 +105,8 @@ def create_tip(tip_type):
 
 def random_pair(connected):
     if connected:
-        id = randint(0, 1)*2
-        return connections[id], connections[id+1]
+        id = randint(0, 1)
+        return connections[id]
     else:
         while True:
             rand1 = str(randint(1, 7))
@@ -123,6 +122,12 @@ def give_tip(person_id):
     cursor.execute(query, (person_id,))
     if cursor.rowcount > 0:
         result = cursor.fetchall()
-        return result[0][0]
     else:
         return ""
+        result = ""
+
+    if randint(0, 3) > 0:
+        result = ""
+    return result
+
+create_connections()
