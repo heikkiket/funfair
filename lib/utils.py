@@ -22,3 +22,7 @@ def print_text(text=""):
 
 
     #print(text)
+
+def make_break():
+    input("[PRESS ENTER]")
+    print()
