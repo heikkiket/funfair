@@ -12,3 +12,4 @@ debug = True
 
 days = 1
 asks = 0
+name = ""

@@ -52,7 +52,7 @@ def process_sentence(sentence):
         for_return.update(get_alias(object, 1))
         for_return.update(get_alias(indirect_object, 2))
         if globals.debug is True:
-            utils.print_text(for_return)
+            utils.print_text(str(for_return))
         return for_return
     else:
         utils.print_text("I don't understand what '" + words[0] + "' means.")

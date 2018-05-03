@@ -19,13 +19,21 @@ def direct_to_name(loc):
 
 # aliohjelmat
 
+def main_menu():
+    utils.print_text()
+    utils.print_text("F U N F A I R   A F F A I R")
+    utils.print_text("2018")
+    utils.print_text("Dmitri Tsyganok, Suvi Sihvola, Heikki Ketoharju")
+    utils.print_text()
+    g.name = input("How can I call you? ")
+
+
 
 def prologue():
-    utils.print_text("Intro text")
-    name = input("How can I call you? ")
     clear_screen()
-    utils.print_text("Hello, " + str(name) + ", and welcome! Let's play!")
+    utils.print_text("Hello, " + str(g.name) + ", and welcome! Let's play!")
     utils.print_text("\nThere is a funfair in town...the game begins.\n\nDAY NUMBER: " + str(g.days))
+    utils.make_break()
     newspaper()
     look(location)
     return
@@ -307,6 +315,8 @@ if g.debug is True:
 
 # player location
 location = "1"
+
+main_menu()
 
 prologue()
 
