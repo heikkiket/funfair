@@ -20,13 +20,17 @@ def direct_to_name(loc):
 # aliohjelmat
 
 def main_menu():
+    cur = connect.cursor()
     utils.print_text()
     utils.print_text("F U N F A I R   A F F A I R")
     utils.print_text("2018")
     utils.print_text("Dmitri Tsyganok, Suvi Sihvola, Heikki Ketoharju")
     utils.print_text()
     g.name = input("How can I call you? ")
-
+    query = "INSERT INTO Player(Player_Id, Name, Score, Place_Id) SELECT MAX(Player_Id) + 1, '"+g.name+"', 0, " \
+            "(select Place_Id from Places where Name=\"Work\") from Player;"
+    print(query)
+    cur.execute(query)
 
 def prologue():
     clear_screen()

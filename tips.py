@@ -18,6 +18,7 @@ negative_tips = 3
 false_tips = 1
 tips = []
 
+
 def create_connections():
     global connections
     query = "SELECT Person_Id FROM Persons WHERE Connectable=1 ORDER BY RAND() LIMIT 4"
@@ -38,6 +39,7 @@ def create_connections():
                 "WHERE Person_Id IN(%(id1)s, %(id2)s)"
         cursor.execute(query1, {'id1': connection[0], 'id2': connection[1]})
     return 0
+
 
 def succesful_connection(connection):
     for person_id in connection:
@@ -153,6 +155,7 @@ def give_tip(person_id):
         if found_row:
             cursor.execute("DELETE FROM Line Where Lines_Id=%s", (line_id,))
     return result
+
 
 def show_tips():
     sql = "SELECT Line_text, Person_Id FROM Line WHERE Is_tip = 1"
