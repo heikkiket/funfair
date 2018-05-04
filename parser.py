@@ -114,4 +114,3 @@ def remove_articles(string):
     string = ' '.join(words)
     string = string.strip()
     return string
-
