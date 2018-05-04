@@ -317,8 +317,8 @@ def move(loc, direction):
 clear_screen()
 
 # generate connections and tips
-# tips.create_connections()
-# tips.generate_tips()
+tips.create_connections()
+tips.generate_tips()
 
 if g.debug is True:
     tips.show_tips()
