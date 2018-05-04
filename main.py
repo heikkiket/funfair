@@ -213,7 +213,12 @@ def play():
     if game == 3:
         utils.print_text("You play climb the ladder")
     if win == 1:
-           utils.print_text("You win!")
+        cur = connect.cursor()
+        sql = "SELECT Items.`Name` From Items Where Itemtype_Id = 2 ORDER BY RAND() LIMIT 1;"
+        cur.execute(sql)
+        if cur.rowcount >= 1:
+            for row in cur:
+                utils.print_text("You win " + row[0] + "! Amazing!")
     return
 
 
