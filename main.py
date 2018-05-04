@@ -259,7 +259,7 @@ def play():
         utils.print_text("You play bottle pyramid")
     if game == 3:
         utils.print_text("You play climb the ladder")
-    if win == 1:
+    if win == 1 or game == 1:
         sql = "SELECT Items.`Name` From Items Where Itemtype_Id = 2 ORDER BY RAND() LIMIT 1;"
         cur.execute(sql)
         if cur.rowcount >= 1:
@@ -313,8 +313,8 @@ def move(loc, direction):
 clear_screen()
 
 # generate connections and tips
-# tips.create_connections()
-# tips.generate_tips()
+tips.create_connections()
+tips.generate_tips()
 
 if g.debug is True:
     tips.show_tips()
