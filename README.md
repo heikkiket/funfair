@@ -10,12 +10,23 @@ Muutama sananen rakenteesta...
 
 ## TODO
 
-* DB: Items -> Item types
-* utils.print_text() syö välilyöntejä, fix
-* utils.print_text() str.center(150)
-* tips: eka tip tulee heti. (give_tip() tarkistaa, onko first_tip TRUE)
-* tips: päivät vaikuttavat todennäköisyyteen
-* Games: pelien siirto tietokantaan tai omat aliohjelmat?
+* DB: Items -> Item types **(Dmitri)**
+* utils.print_text() syö välilyöntejä, fix **(Dmitri)**
+* utils.print_text() str.center(150) **(Dmitri)**
+* tips: eka tip tulee heti. (give_tip() tarkistaa, onko first_tip TRUE) **(Heikki**
+* tips: päivät vaikuttavat todennäköisyyteen **(Heikki)**
+* Games: pelien siirto tietokantaan tai omat aliohjelmat? **(Heikki, Suvi)**
+* EAT **(Suvi)**
+* BUY **(Suvi)**
+* DRINK **(Suvi)**
+* Campfire: interaktiivinen? **(Heikki)**
+* Epilogi campfiren jälkeen **(Heikki)**
+* HELP **(Suvi)**
+* HELP [command] **(Dmitri?)**
+* Inventory **(Dmitri)**
+* GO, WALK, pitkät versiot ilmansuunnista **(Heikki)**
+* Directions kertomaan, mihin ilmansuunnat vievät **(Dmitri)**
+* RIDE tarkistettava, funktion on tarkistettava onko lippu. **(Suvi)**
 
 
 ###Parser
