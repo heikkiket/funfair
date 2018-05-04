@@ -13,6 +13,7 @@ Muutama sananen rakenteesta...
 ~~DB: Items -> Item types **(Dmitri)**~~ Done
 * utils.print_text() syö välilyöntejä, fix **(Dmitri)**
 * utils.print_text() str.center(150) **(Dmitri)**
+* nimen syöttö tietokantaan **(Dmitri)**
 * tips: eka tip tulee heti. (give_tip() tarkistaa, onko first_tip TRUE) **(Heikki**
 * tips: päivät vaikuttavat todennäköisyyteen **(Heikki)**
 * Games: pelien siirto tietokantaan tai omat aliohjelmat? **(Heikki, Suvi)**
