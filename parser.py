@@ -95,6 +95,7 @@ def get_alias_from_db(sql, to, obj):
                     return_alias = {to: row[0]}
     return return_alias
 
+
 def remove_articles(string):
     articles = ["the", "a", "an"]
     words = string.split()

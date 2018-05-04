@@ -1,6 +1,6 @@
 def print_text(text=""):
     # width of text to be printed
-    width = 150
+    print_width = 150
 
     lines = text.split("\n")
     list_lines = []
@@ -8,7 +8,7 @@ def print_text(text=""):
         words = line.split()
         form_string = ""
         for word in words:
-            if len(form_string) <= width:
+            if len(form_string) < print_width:
                 form_string += " " + word
             else:
                 list_lines.append(form_string.strip())

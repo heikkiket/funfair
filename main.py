@@ -28,7 +28,6 @@ def main_menu():
     g.name = input("How can I call you? ")
 
 
-
 def prologue():
     clear_screen()
     utils.print_text("Hello, " + str(g.name) + ", and welcome! Let's play!")
@@ -68,6 +67,7 @@ def final():
     else:
         utils.print_text("The campfire!! The END You lose :(")
     return
+
 
 def newspaper():
     # TODO print_text can be pulled from the DB
@@ -260,7 +260,13 @@ def play():
     if game == 3:
         utils.print_text("You play climb the ladder")
     if win == 1:
+        sql = "SELECT Items.`Name` From Items Where Itemtype_Id = 2 ORDER BY RAND() LIMIT 1;"
+        cur.execute(sql)
+        if cur.rowcount >= 1:
+            for row in cur:
+                utils.print_text("You win " + row[0] + "! Amazing!")
         utils.print_text("You win!")
+
     return
 
 
