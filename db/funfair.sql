@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.5.5-10.2.14-MariaDB)
 # Database: funfair
-# Generation Time: 2018-05-04 11:41:22 +0000
+# Generation Time: 2018-05-04 12:18:14 +0000
 # ************************************************************
 
 
@@ -339,9 +339,9 @@ VALUES
 	(1,'Elna the Clown',1,2,NULL,'clown;the clown;pelle;elna;elna the clown',0),
 	(2,'The Magician',1,7,NULL,'valter;magician;game keeper',0),
 	(3,'Security Officer',1,5,NULL,'security;security officer;the security officer;linda',0),
-	(4,'Bumper Car Operator',1,3,NULL,'lena;bumper operator;bumper cars operator;',0),
-	(5,'Carousel Operator',1,6,NULL,'sara;carousel operator;carousel',0),
-	(6,'Cafe Keeper',1,12,NULL,'peter;cafe keeper;cafe',0),
+	(4,'Bumper Car Operator',1,3,NULL,'lena;bumper operator;bumper cars operator;bumper car operator',0),
+	(5,'Carousel Operator',1,6,NULL,'sara;carousel operator',0),
+	(6,'Cafe Keeper',1,12,NULL,'peter;cafe keeper',0),
 	(7,'Candy Shop Keeper',1,11,NULL,'matilda;candy shop keeper;candy keeper',0),
 	(8,'Ticket Vendor',NULL,1,NULL,'edvin;ticker seller;ticket vendor',0),
 	(9,'Funfair Director',NULL,13,NULL,'director;birgitta;funfair director;boss',0),
@@ -375,7 +375,7 @@ VALUES
 	(2,'Open Air Stage','You are at the open air stage.','There is Elna the clown at the open air stage.','stage',NULL),
 	(3,'Bumper Cars','You are at Bumper Cars.','There is a bumper car opetaror. She seems to be a bit angry to some teens who are all just hitting each other\'s cars.','bumper cars','You ride bumper cars'),
 	(4,'Roller Coaster','You are at the Wormster.','Old man runs the roller coaster very slowly. He seems not to want to talk with you. The roller coaster itself seems smiley though, it looks like a green happy worm. ','roller coaster','You ride wormster'),
-	(5,'Security Station','You are now at the Security Station. ','The security station is a small booth with a red cross on the roof. There is a security officer.','security;security station',NULL),
+	(5,'Security Station','You are now at the Security Station. ','The security station is a small booth with a red cross on the roof. There is a security officer.','security station',NULL),
 	(6,'Carousel','You are now at the Carousel.','There is a carousel operator working. She seems like a nice girl.','carousel','You ride carousel'),
 	(7,'Game Hall','You are now at the Game Hall.','There is a lot of games to choose from. The magician seems to be managing all the games. You see at least Bottle Pyramid and Pull-A-String -games being played.','game hall;games',NULL),
 	(8,'Ferris Wheel','You are at the Ferris Wheel. ','You see an old Ferris Wheel and want to jump in. It seems not to be working though. There is a mechanics working on it but they are too busy to notice you. On the ground there is a ferris wheel operator sitting and looking bored.','ferris wheel',NULL),

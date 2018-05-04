@@ -10,7 +10,7 @@ Muutama sananen rakenteesta...
 
 ## TODO
 
-* DB: Items -> Item types **(Dmitri)**
+~~* DB: Items -> Item types **(Dmitri)**~~ Done
 * utils.print_text() syö välilyöntejä, fix **(Dmitri)**
 * utils.print_text() str.center(150) **(Dmitri)**
 * tips: eka tip tulee heti. (give_tip() tarkistaa, onko first_tip TRUE) **(Heikki**

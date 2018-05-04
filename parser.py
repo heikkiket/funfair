@@ -49,8 +49,13 @@ def process_sentence(sentence):
             utils.print_text("indirect_object: " + indirect_object)
             utils.print_text()
         for_return = {"verb": verb, "object": object, "indirect": indirect_object}
-        for_return.update(get_alias(object, 1))
-        for_return.update(get_alias(indirect_object, 2))
+
+        # checking if objects are not empty
+        if object:
+            for_return.update(get_alias(object, 1))
+        if indirect_object:
+            for_return.update(get_alias(indirect_object, 2))
+
         if globals.debug is True:
             utils.print_text(str(for_return))
         return for_return
@@ -91,7 +96,7 @@ def get_alias_from_db(sql, to, obj):
     if cur.rowcount >= 1:
         for row in cur.fetchall():
             for alias in row[1].split(";"):
-                if alias == obj:
+                if alias.strip() == obj:
                     return_alias.update({to: row[0]})
     return return_alias
 
@@ -102,7 +107,7 @@ def remove_articles(string):
     index = 0
     while index < len(words):
         if articles.count(words[index]) is not 0:
-            del(words[index])
+            del (words[index])
         else:
             index += 1
 
@@ -110,6 +115,3 @@ def remove_articles(string):
     string = string.strip()
     return string
 
-
-text = "talk to elna"
-print(process_sentence(text))

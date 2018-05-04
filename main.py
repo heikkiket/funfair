@@ -30,7 +30,7 @@ def main_menu():
     query = "INSERT INTO Player(Player_Id, Name, Score, Place_Id) SELECT MAX(Player_Id) + 1, '"+g.name+"', 0, " \
             "(select Place_Id from Places where Name=\"Work\") from Player;"
     print(query)
-    cur.execute(query)
+    # cur.execute(query)
 
 def prologue():
     clear_screen()
