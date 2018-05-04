@@ -27,10 +27,17 @@ def main_menu():
     utils.print_text("Dmitri Tsyganok, Suvi Sihvola, Heikki Ketoharju", True)
     utils.print_text("\n\n\n\n\n")
     g.name = input("How can I call you? ")
-    query = "INSERT INTO Player(Player_Id, Name, Score, Place_Id) SELECT MAX(Player_Id) + 1, '"+g.name+"', 0, " \
-            "(select Place_Id from Places where Name=\"Work\") from Player;"
+
+    # result = cur.execute("SELECT ifnull(MAX(Player_Id),0) + 1 from Player;")
+    # result.
+    # result_list = result.fetchall()
+    # result_list[0][0]
+
+    query = "INSERT INTO Player(Player_Id, Name, Score, Place_Id) SELECT ifnull(MAX(Player_Id),0) + 1, '"+g.name+"', 0, " \
+            "(select Place_Id from Places where Name=\"Warehouse\") from Player;"
     print(query)
-    # cur.execute(query)
+    cur.execute(query)
+
 
 def prologue():
     clear_screen()

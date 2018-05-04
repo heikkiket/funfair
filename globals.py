@@ -14,4 +14,4 @@ days = 1
 asks = 0
 
 name = ""
-
+name_id = 0

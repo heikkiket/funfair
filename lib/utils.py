@@ -1,4 +1,4 @@
-def print_text(text="",center=False):
+def print_text(text="", center=False):
     # width of text to be printed
     print_width = 150
 
