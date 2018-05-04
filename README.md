@@ -22,11 +22,13 @@ Muutama sananen rakenteesta...
 * Campfire: interaktiivinen? **(Heikki)**
 * Epilogi campfiren jälkeen **(Heikki)**
 * HELP **(Suvi)**
-* HELP [command] **(Dmitri?)**
+* HELP [command] **(Dmitri)**
 * Inventory **(Dmitri)**
 * GO, WALK, pitkät versiot ilmansuunnista **(Heikki)**
 * Directions kertomaan, mihin ilmansuunnat vievät **(Dmitri)**
 * RIDE tarkistettava, funktion on tarkistettava onko lippu. **(Suvi)**
+
+* Lisää tavaraa tietokantaan **(Dmitri, Heikki, Suvi)**
 
 
 ###Parser
