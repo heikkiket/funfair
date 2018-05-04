@@ -13,9 +13,10 @@ def process_sentence(sentence):
     verb = ""
     object = ""
     indirect_object = ""
+    for_return = {"verb":"", "object":"", "indirect":""}
     if len(words) == 0:
         utils.print_text("You gave no sentence")
-        return {}
+        return for_return
 
     if globals.verbs.count(words[0]) is not 0:
         verb = words.pop(0)
@@ -62,7 +63,7 @@ def process_sentence(sentence):
     else:
         utils.print_text("I don't understand what '" + words[0] + "' means.")
         utils.print_text()
-        return
+        return for_return
 
 
 def get_alias(obj, id=1):
