@@ -56,16 +56,22 @@ def night():
     if g.days > 3:
         final()
     else:
-        utils.print_text("\nNow it’s late and you have to go to work. The funfair is closing down.\n\nNIGHT TIME\n")
+        utils.print_text("\nNow it’s late and you have to go to work. The funfair is closing down.")
+        utils.make_break()
+        utils.print_text("\n\nNIGHT TIME\n")
         utils.print_text(
             "At night you work at the warehouse. When having a break at the yard of the warehouse you see a distant glow from the closed funfair: the employees have set up campfire…\n")
+
+        utils.make_break()
         utils.print_text("DAY NUMBER: " + str(g.days))
         newspaper()
+        utils.make_break()
     look(location)
     return
 
 
 def final():
+    utils.make_break()
     if tips.connected_names == 2:
         utils.print_text("The campfire!! The END You win!")
     else:
@@ -82,6 +88,7 @@ def newspaper():
         print_text = "TOWN MUSEUM WANTS TO EVICT DOGS CAMPING ON THE MUSEUM YARD"
     utils.print_text(
         "MORNING\n\nThe town's own newspaper, Takaseudun Sanomat, has succeeded on putting out a new issue.\n\n\""+print_text+"\"\n\nWhatever. You decide to go to the funfair.\n")
+    location = "1"
 
 
 def look(loc):
@@ -107,7 +114,7 @@ def show_passage(loc):
 
 
 def success(person, where):
-    text = "You take " + str(person) + " to visit "
+    text = "You take " + str(person) + " to visit"
     if where == 2:
         utils.print_text(text + " Elna the Clown. They start planning a show together!")
     elif where == 3:
@@ -126,7 +133,7 @@ def success(person, where):
     elif where == 7:
         utils.print_text(
             text + " the Magician smiles and suggests the Pull-a-String where one always wins. The magician has such a charisma, how " \
-                   "could the " + str(person_2_name) + " resist. The prize is Funfair themed playing cards. Amazing!")
+                   "could the " + str(person) + " resist. The prize is Funfair themed playing cards. Amazing!")
     elif where == 11:
         utils.print_text(
             text + " the Candy Shop Keeper. She has wanted to try to make a giant candy floss but needs help. " + str(
@@ -203,7 +210,10 @@ def ask(person, where):
                 person_2_name) + " has already had a cup.")
         utils.print_text("You failed making a pair")
 
+
     g.asks = g.asks + 1
+    # update players location
+    location = where
 
     if made_connections == 4:
         utils.print_text(
