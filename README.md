@@ -8,6 +8,16 @@ Written in Python. Uses SQL database.
 
 Muutama sananen rakenteesta...
 
+## TODO
+
+* DB: Items -> Item types
+* utils.print_text() syö välilyöntejä, fix
+* utils.print_text() str.center(150)
+* tips: eka tip tulee heti. (give_tip() tarkistaa, onko first_tip TRUE)
+* tips: päivät vaikuttavat todennäköisyyteen
+* Games: pelien siirto tietokantaan tai omat aliohjelmat?
+
+
 ###Parser
 
 **Parser** palauttaa sanakirjan: {'indirect_place_id': 6, 'verb': 'ask', 'object': 'elna', 'direct_person_id': 1, 'indirect': 'carousel'} missä *verb* on verbi, *object* on objekti ja *indirect* on epäsuora objekti. 
