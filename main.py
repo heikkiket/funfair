@@ -10,13 +10,6 @@ from lib.database import FunDb
 connect = FunDb.connect()
 
 
-# Dmitri
-def direct_to_name(loc):
-    locations = {"n": "North", "e": "East", "s": "South", "w": "West", "ne": "Northeast", "se": "Southeast",
-                 "sw": "Southwest", "nw": "Northwest"}
-    return locations[loc]
-
-
 # aliohjelmat
 
 def main_menu():
@@ -311,13 +304,19 @@ def helpme():
 
 def move(loc, direction):
     destination = location
+
+    if len(direction) > 2:
+        direction = utils.name_to_direction(direction)
+
     cur = connect.cursor()
     sql = "SELECT `Has_passagesPlace_Id` FROM `Has_passages` WHERE `Direction_Id`= '" + direction + "' AND `Place_Id` = " + str(
         loc) + ";"
     cur.execute(sql)
+
     if cur.rowcount >= 1:
         for row in cur.fetchall():
             destination = row[0]
+
     return destination
 
 
