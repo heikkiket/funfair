@@ -10,11 +10,11 @@ Muutama sananen rakenteesta...
 
 ## TODO
 
-~~DB: Items -> Item types **(Dmitri)**~~ Done
-* utils.print_text() syö välilyöntejä, fix **(Dmitri)**
-* utils.print_text() str.center(150) **(Dmitri)**
-* nimen syöttö tietokantaan **(Dmitri)**
-* tips: eka tip tulee heti. (give_tip() tarkistaa, onko first_tip TRUE) **(Heikki**
+~~DB: Items -> Item types (Dmitri)~~ **Done**
+~~utils.print_text() syö välilyöntejä, fix (Dmitri)~~ **Done**
+~~utils.print_text() str.center(150) (Dmitri)~~ **Done**
+* pelajan nimen syöttö tietokantaan **(Dmitri)**
+* tips: eka tip tulee heti. (give_tip() tarkistaa, onko first_tip TRUE) **(Heikki)**
 * tips: päivät vaikuttavat todennäköisyyteen **(Heikki)**
 * Games: pelien siirto tietokantaan tai omat aliohjelmat? **(Heikki, Suvi)**
 * EAT **(Suvi)**
@@ -41,7 +41,7 @@ Suoria voivat olla:
 
 *direct_person_id* - henkilön id aliaksella haettu
 
-*direct_item_id* - esinen id aliaksella haettu
+*direct_item_id* - esinen id aliaksella haettu, voi olla useita
 
 *direct_place_id* - paikan id aliaksella haettu
 
@@ -49,7 +49,7 @@ Epäsuoria voivat olla:
 
 *indirect_person_id* - henkilön id aliaksella haettu
 
-*indirect_item_id* - esinen id aliaksella haettu
+*indirect_item_id* - esinen id aliaksella haettu, voi olla useita
 
 *indirect_place_id* - paikan id aliaksella haettu
 
