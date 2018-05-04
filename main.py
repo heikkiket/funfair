@@ -19,17 +19,31 @@ def direct_to_name(loc):
 
 # aliohjelmat
 
+def main_menu():
+    utils.print_text()
+    utils.print_text("F U N F A I R   A F F A I R")
+    utils.print_text("2018")
+    utils.print_text("Dmitri Tsyganok, Suvi Sihvola, Heikki Ketoharju")
+    utils.print_text()
+    g.name = input("How can I call you? ")
+
 
 def prologue():
+    clear_screen()
+    utils.print_text("Hello, " + str(g.name) + ", and welcome! Let's play!")
     utils.print_text("\nThere is a funfair in town...the game begins.\n\nDAY NUMBER: " + str(g.days))
-    utils.print_text(
-        "MORNING\n\nThe town's own newspaper, Takaseudun Sanomat, has succeeded on putting out a new issue.\n“THE FISHING FESTIVAL MIGHT TAKE PLACE AT THE MARKET PLACE INSTEAD OF THE LOCAL LAKE”\nWhatever. You decide to go to the funfair.\n")
+    utils.make_break()
+    newspaper()
     look(location)
     return
 
 
 def epilogue():
     return
+
+
+def clear_screen():
+    utils.print_text("\n" * 100)
 
 
 def night():
@@ -42,12 +56,7 @@ def night():
         utils.print_text(
             "At night you work at the warehouse. When having a break at the yard of the warehouse you see a distant glow from the closed funfair: the employees have set up campfire…\n")
         utils.print_text("DAY NUMBER: " + str(g.days))
-        if g.days == 1:
-            utils.print_text(
-                "MORNING\n\nThe town's own newspaper, Takaseudun Sanomat, has succeeded on putting out a new issue.\n“A LOCAL DEER SUSPECTED OF SPEEDING”\nWhatever. You decide to go to the funfair.\n")
-        if g.days == 2:
-            utils.print_text(
-                "MORNING\n\nThe town's own newspaper, Takaseudun Sanomat, has succeeded on putting out a new issue.\n“TOWN MUSEUM WANTS TO EVICT DOGS CAMPING ON THE MUSEUM YARD”\nWhatever. You decide to go to the funfair.\n")
+        newspaper()
     look(location)
     return
 
@@ -58,6 +67,17 @@ def final():
     else:
         utils.print_text("The campfire!! The END You lose :(")
     return
+
+
+def newspaper():
+    # TODO print_text can be pulled from the DB
+    # SELECT Line_text FROM Line WHERE Item_Id = %(newspaper_id)s ORDER BY RAND() LIMIT 1
+    if g.days == 1:
+        print_text = "THE FISHING FESTIVAL MIGHT TAKE PLACE AT THE MARKET PLACE INSTEAD OF THE LOCAL LAKE"
+    if g.days == 2:
+        print_text = "TOWN MUSEUM WANTS TO EVICT DOGS CAMPING ON THE MUSEUM YARD"
+    utils.print_text(
+        "MORNING\n\nThe town's own newspaper, Takaseudun Sanomat, has succeeded on putting out a new issue.\n\n\""+print_text+"\"\n\nWhatever. You decide to go to the funfair.\n")
 
 
 def look(loc):
@@ -81,33 +101,40 @@ def show_passage(loc):
             utils.print_text(row[0])
     return
 
+
 def success(person, where):
     text = "You take " + str(person) + " to visit "
     if where == 2:
         utils.print_text(text + " Elna the Clown. They start planning a show together!")
     elif where == 3:
-        utils.print_text(text + " the Bumper Car Operator. It's odd but she seems to be in a good mood. She offers the " + str(person) + " a ride "\
-        " and this might turn into a friendsip")
+        utils.print_text(
+            text + " the Bumper Car Operator. It's odd but she seems to be in a good mood. She offers the " + str(
+                person) + " a ride " \
+                          " and this might turn into a friendship")
     elif where == 5:
         utils.print_text(text + " the Security Station. She has been wanting to discuss the weather. " \
-        " "+ str(person) + " tells her to cheer up. "\
-        "The Security officer can’t hold a smile. They immediately start chatting.")
+                                " " + str(person) + " tells her to cheer up. " \
+                                                    "The Security officer can’t hold a smile. They immediately start chatting.")
     elif where == 6:
-        utils.print_text(text + " the Carousel Operator. She welcomes the company. 'There is a classical consert coming up in the next town we go' she "\
-        " says and they make plans to go together.")
+        utils.print_text(
+            text + " the Carousel Operator. She welcomes the company. 'There is a classical consert coming up in the next town we go' she " \
+                   " says and they make plans to go together.")
     elif where == 7:
-        utils.print_text(text + " the Magician smiles and suggests the Pull-a-String where one always wins. The magician has such a charisma, how "\
-        "could the "+ str(person_2_name) + " resist. The prize is Funfair themed playing cards. Amazing!")
+        utils.print_text(
+            text + " the Magician smiles and suggests the Pull-a-String where one always wins. The magician has such a charisma, how " \
+                   "could the " + str(person_2_name) + " resist. The prize is Funfair themed playing cards. Amazing!")
     elif where == 11:
-        utils.print_text(text + " the Candy Shop Keeper. She has wanted to try to make a giant candy floss but needs help. " + str(person) + " offers assistance and children who "\
-        "enter the Candy Shop are thrilled!")
+        utils.print_text(
+            text + " the Candy Shop Keeper. She has wanted to try to make a giant candy floss but needs help. " + str(
+                person) + " offers assistance and children who " \
+                          "enter the Candy Shop are thrilled!")
     else:
-        utils.print_text(text + " the Cafe Keeper. Peter hugs " + str(person) + " and they drink coffee and and split a chocolate brownie.")
+        utils.print_text(text + " the Cafe Keeper. Peter hugs " + str(
+            person) + " and they drink coffee and and split a chocolate brownie.")
     return
 
+
 def ask(person, where):
-    print("Connection 1: "+ str(connections_1))
-    print("Connection 2: "+ str(connections_2))
     cur = connect.cursor()
     person_2 = ""
     sql = "SELECT Person_Id FROM Persons WHERE Place_Id = " + str(where) + ";"
@@ -116,65 +143,85 @@ def ask(person, where):
         for row in cur.fetchall():
             person_2 = row[0]
             print("You tried:" + str(person) + " and " + str(person_2))
+
     sql = "SELECT Name FROM Persons WHERE Person_Id = " + str(person) + ";"
     cur.execute(sql)
     if cur.rowcount >= 1:
         for row in cur.fetchall():
             person_2_name = row[0]
-    if str(person) in connections_1 and str(person_2) in connections_1:
-        success(person_2_name, where)
-        tips.connected_names = tips.connected_names + 1
-        del connections_1[:]
-        tips.connected_pair.append(person)
-        tips.connected_pair.append(person_2)
-        if tips.connected_names == 1:
-            utils.print_text("Excellent! One more connection to make.")
-    elif person in connection and person_2 in connection:
-        success(person_2_name, where)
-        tips.connected_names = tips.connected_names + 1
-        tips.connected_pair.append(person)
-        tips.connected_pair.append(person_2)
-        del connections_2[:]
-        if tips.connected_names == 1:
-            utils.print_text("Excellent! One more connection to make.")
-    elif str(person) in tips.connected_pair and str(person_2) in tips.connected_pair:
+
+    success_to_connect = False
+
+    # Get already made connections
+    sql = "Select Person_Id FROM Persons Where NOT Connects_Person_Id IS NULL AND Is_Connected = '1'"
+    cur.execute(sql)
+    made_connections = cur.fetchall()
+
+    if tuple([person]) in made_connections and tuple([person_2]) in made_connections:
         utils.print_text("You have already connected this pair")
-    else:
+        success_to_connect = True
+
+    # Test new connection
+    for connection in tips.connections:
+        if person in connection and person_2 in connection:
+            success(person_2_name, where)
+            tips.succesful_connection(connection)
+            success_to_connect = True
+            if len(tips.connections) > 0:
+                utils.print_text("Excellent! One more connection to make.")
+
+    # Print no success -message
+    if not success_to_connect:
         text = "You take " + str(person_2_name) + " to visit"
         if where == 2:
-            utils.print_text(text + " Elna at the Open-Air Stage. Elna starts her show, but "+ str(person_2_name) + " doesn’t seem to like it at all.")
+            utils.print_text(text + " Elna at the Open-Air Stage. Elna starts her show, but " + str(
+                person_2_name) + " doesn’t seem to like it at all.")
         elif where == 3:
-            utils.print_text(text + " the Bumper Car Operator. She is yelling at some teens and even though " + str(person_2_name) + " would like to "\
-            "have a ride "+ str(person_2_name) + " does not want to bother her.")
+            utils.print_text(text + " the Bumper Car Operator. She is yelling at some teens and even though " + str(
+                person_2_name) + " would like to " \
+                                 "have a ride " + str(person_2_name) + " does not want to bother her.")
         elif where == 5:
-            utils.print_text(text + " the Security Officer. No words are exchanged. "+ str(person_2_name) + " leaves before they have a change to talk")
+            utils.print_text(text + " the Security Officer. No words are exchanged. " + str(
+                person_2_name) + " leaves before they have a change to talk")
         elif where == 6:
-            utils.print_text(text + " the Carousel Operator. At the moment she fed up with everyting and when she sees " + str(person_2_name) + ""\
-            " she rolls her eyes. 'I will not operate the Carousel for you!'")
+            utils.print_text(
+                text + " the Carousel Operator. At the moment she fed up with everyting and when she sees " + str(
+                    person_2_name) + "" \
+                                     " she rolls her eyes. 'I will not operate the Carousel for you!'")
         elif where == 7:
-            utils.print_text(text + " the Magician, who smiles wickedly. The " + str(person_2_name) + " seems to be against all things magic in general.")
+            utils.print_text(text + " the Magician, who smiles wickedly. The " + str(
+                person_2_name) + " seems to be against all things magic in general.")
         elif where == 11:
-            utils.print_text(text + " the Candy Shop Keeper. " + str(person_2_name) +" has a sugarless diet and is really struggling to keep strong around all the candies.")
+            utils.print_text(text + " the Candy Shop Keeper. " + str(
+                person_2_name) + " has a sugarless diet and is really struggling to keep strong around all the candies.")
         else:
-            utils.print_text(text + " to visit Cafe Keeper. Peter greets you and offers coffee but " + str(person_2_name) +" has already had a cup.")
+            utils.print_text(text + " to visit Cafe Keeper. Peter greets you and offers coffee but " + str(
+                person_2_name) + " has already had a cup.")
         utils.print_text("You failed making a pair")
-    if tips.connected_names == 2:
-        utils.print_text("You have made two connections! No reason to wander around anymore. It's time to enjoy the campfire with all the funfair employees and hear what they have to say.")
+
+    g.asks = g.asks + 1
+
+    if made_connections == 4:
+        utils.print_text(
+            "You have made two connections! No reason to wander around anymore. It's time to enjoy the campfire with all the funfair employees and hear what they have to say.")
         g.days = 4
         final()
-    g.asks = g.asks + 1
+
     if g.asks > 1:
         night()
     return
 
+
 def chat():
     cur = connect.cursor()
-    sql = "SELECT line_text FROM Line LEFT JOIN Persons On Persons.`Person_Id` = Line.`Person_Id` WHERE Alias like '%" + obj + "%' AND Line.`Place_Id` = " + str(location) + " AND Line.`Item_Id` is null ORDER BY RAND() LIMIT 1;"
+    sql = "SELECT line_text FROM Line LEFT JOIN Persons On Persons.`Person_Id` = Line.`Person_Id` " \
+          "WHERE Alias like '%" + obj + "%' AND Line.`Place_Id` = " + str(location) + " AND Line.`Item_Id` is null " \
+                                                                                      "ORDER BY RAND() LIMIT 1;"
     cur.execute(sql)
     if cur.rowcount >= 1:
         for row in cur:
             utils.print_text(row[0])
-            utils.print_text(tips.give_tip())
+            utils.print_text(tips.give_tip(ret['direct_person_id']))
     else:
         utils.print_text("The person you want to chat with is not here")
     return
@@ -204,8 +251,8 @@ def ride():
 
 def play():
     utils.print_text("You play a game")
-    game = random.randint(1,3)
-    win = random.randint(1,4)
+    game = random.randint(1, 3)
+    win = random.randint(1, 4)
     if game == 1:
         utils.print_text("You play pull-a-string")
     if game == 2:
@@ -213,12 +260,13 @@ def play():
     if game == 3:
         utils.print_text("You play climb the ladder")
     if win == 1:
-        cur = connect.cursor()
         sql = "SELECT Items.`Name` From Items Where Itemtype_Id = 2 ORDER BY RAND() LIMIT 1;"
         cur.execute(sql)
         if cur.rowcount >= 1:
             for row in cur:
                 utils.print_text("You win " + row[0] + "! Amazing!")
+        utils.print_text("You win!")
+
     return
 
 
@@ -262,27 +310,20 @@ def move(loc, direction):
 # main loop
 
 # clear the screen
-utils.print_text("\n" * 100)
-
-
-# temp addition, can be deleted later
-# persons = getalias("persons")
-# utils.print_text(persons)
-# items = getalias("items")
-# utils.print_text(items)
-# places = getalias("places")
-# utils.print_text(places)
+clear_screen()
 
 # generate connections and tips
-#tips.create_connections()
-#tips.generate_tips()
-#connections_1, connections_2 = tips.split_connections(tips.connections)
+# tips.create_connections()
+# tips.generate_tips()
 
 if g.debug is True:
+    tips.show_tips()
     print("Connections: " + str(tips.connections))
 
 # player location
 location = "1"
+
+main_menu()
 
 prologue()
 
@@ -320,7 +361,10 @@ while action != "quit" and action != "q" and g.days < 4:
                 person = ret["direct_person_id"]
                 where = ret["indirect_place_id"]
                 cur = connect.cursor()
-                sql = "SELECT Person_Id, Place_Id From Persons WHERE Connectable = 1 AND Person_Id ='" + str(person) + "' AND NOT Persons.Place_Id ='" + str(where) + "' AND EXISTS (Select Places.Place_Id From Persons JOIN Places ON Persons.Place_Id = Places.Place_Id WHERE Connectable = 1 AND Places. Place_ID='" + str(where) + "');"
+                sql = "SELECT Person_Id, Place_Id From Persons WHERE Connectable = 1 AND Person_Id ='" + str(
+                    person) + "' AND NOT Persons.Place_Id ='" + str(
+                    where) + "' AND EXISTS (Select Places.Place_Id From Persons JOIN Places ON Persons.Place_Id = Places.Place_Id WHERE Connectable = 1 AND Places. Place_ID='" + str(
+                    where) + "');"
                 cur.execute(sql)
                 if cur.rowcount == 1:
                     ask(person, where)

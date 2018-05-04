@@ -39,6 +39,13 @@ def create_connections():
         cursor.execute(query1, {'id1': connection[0], 'id2': connection[1]})
     return 0
 
+def succesful_connection(connection):
+    for person_id in connection:
+        cursor.execute("UPDATE Persons SET Is_Connected=1 WHERE Person_Id=%s", (person_id,))
+    del(connections[connections.index(connection)])
+
+
+
 
 #this function is not used anywhere, but the SQL is too great to be deleted...
 def get_names():
@@ -95,39 +102,61 @@ def create_tip(tip_type):
     line = line_template % names
 
     while True:
-        person_id = str(randint(1, 7))
+        person_id = randint(1, 7)
         if ids.count(person_id) == 0:
             break
 
-    query = "INSERT INTO Line (Line_Text, Person_Id, Is_tip) VALUES (%s, %s, 1)"
-    cursor.execute(query, (line, person_id))
+    cursor.execute("SELECT MAX(Lines_Id) From Line")
+    result = cursor.fetchall()
+    line_id = result[0][0] + 1
+
+    query = "INSERT INTO Line (Lines_Id, Line_Text, Person_Id, Connects_Person_Id, Is_tip) VALUES (%s, %s, %s, %s, 1)"
+    cursor.execute(query, (line_id, line, person_id, ids[0]))
 
 
 def random_pair(connected):
+    pair = []
     if connected:
-        id = randint(0, 1)
-        return connections[id]
+        query = "Select Person_Id FROM Persons Where NOT Connects_Person_Id IS NULL AND Is_Connected = '0'" \
+                "ORDER BY RAND() LIMIT 1"
+        cursor.execute(query)
+        result = cursor.fetchall()
+        for connection in connections:
+            if result[0][0] in connection:
+                pair = connection
+        return tuple(pair)
     else:
-        while True:
-            rand1 = str(randint(1, 7))
-            rand2 = str(randint(1, 7))
-            if (connections.count(rand1) == 0 or connections.count(rand2) == 0) and rand1 != rand2:
-                break
-        return rand1, rand2
+        query = "Select Person_Id FROM Persons Where Connects_Person_Id IS NULL AND Connectable='1'" \
+                "ORDER BY RAND() LIMIT 2"
+        cursor.execute(query)
+        result = cursor.fetchall()
+
+        return result[0][0], result[1][0]
 
 
 def give_tip(person_id):
-    query = "SELECT Line_text FROM Line WHERE Is_tip = 1 AND Person_Id=%s"
-    query = "SELECT Line_text FROM Line WHERE Is_tip = 1 AND Person_Id=%s"
+    query = "SELECT Lines_Id, Line_text FROM Line WHERE Is_tip = 1 AND Person_Id=%s ORDER BY RAND () LIMIT 1"
     cursor.execute(query, (person_id,))
+    found_row = False
+
     if cursor.rowcount > 0:
         result = cursor.fetchall()
+        line_id = result[0][0]
+        result = result[0][1]
+        found_row = True
     else:
-        return ""
         result = ""
 
-    if randint(0, 3) > 0:
+    if randint(0, 1) > 0:
         result = ""
+    else:
+        if found_row:
+            cursor.execute("DELETE FROM Line Where Lines_Id=%s", (line_id,))
     return result
 
-create_connections()
+def show_tips():
+    sql = "SELECT Line_text, Person_Id FROM Line WHERE Is_tip = 1"
+    cursor.execute(sql)
+    if cursor.rowcount > 0:
+        for row in cursor.fetchall():
+            print(row)
