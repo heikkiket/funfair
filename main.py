@@ -237,10 +237,24 @@ def chat():
         utils.print_text("The person you want to chat with is not here")
     return
 
-
+# Need to change Player_Id later if not 1
 def buy(item):
+    sql = "SELECT Itemtype_Id FROM Item_types WHERE Alias LIKE '%" + item + "%' AND Place_Id = " + str(location) + ";"
+    cur.execute(sql)
+    if cur.rowcount >= 1:
+        for row in cur:
+           item_id = row[0]
+           sql = "UPDATE Items SET Player_Id = 1 WHERE Item_Id = " + str(item_id) + ";"
+           cur.execute(sql)
+           sql = "SELECT Name FROM Item_types WHERE Alias LIKE '%" + item + "%';"
+           cur.execute(sql)
+           if cur.rowcount >= 1:
+               for row in cur:
+                   utils.print_text("You bought " + row[0])
+    else:
+        utils.print_text("You cannot buy " + item + " from here")
+                                                                                                       
     return
-
 
 def drink(item):
     return item
@@ -417,11 +431,10 @@ while action != "quit" and action != "q" and g.days < 4:
     if action == "buy":
         if obj == "":
             utils.print_text("You have to be a bit more specific")
-        elif obj in ret:
-            if ret["direct_item_id"] != 0:
+        elif "direct_item_id" in ret:
                 buy(obj)
         else:
-            utils.print_text("Are you nuts?")
+            utils.print_text("Don't be silly, that's not something you can buy from here")
     # drink [item]
     # eat [item]
     # chat/talk to/with [person]
