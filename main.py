@@ -305,9 +305,19 @@ def inventory():
 
 
 def helpme():
-    utils.print_text("Print some help here")
+    utils.print_text("Some commands you could find useful:")
+    utils.print_text(str(','.join(g.verbs[0:2])))
+    utils.print_text(str(','.join(g.verbs[3:4])))
+    utils.print_text(str(','.join(g.verbs[5:7])))
+    utils.print_text(str(','.join(g.verbs[8:9])))
+    utils.print_text(str(','.join(g.verbs[10:11])))
+    utils.print_text(str(','.join(g.verbs[12:13])))
+    utils.print_text(str(','.join(g.verbs[14:15])))
+    utils.print_text(str(''.join(g.verbs[16]) + " [person] to [place]"))
+    utils.print_text(str('\n'.join(g.verbs[17:23])))
+    utils.print_text("For moving use compass points:")
+    utils.print_text(str(','.join(g.verbs[24::])))
     return
-
 
 def move(loc, direction):
     destination = location
