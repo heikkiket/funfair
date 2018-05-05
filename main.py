@@ -8,12 +8,12 @@ import random
 from lib.database import FunDb
 
 connect = FunDb.connect()
+cur = connect.cursor()
 
 
 # aliohjelmat
 
 def main_menu():
-    cur = connect.cursor()
     utils.print_text()
     utils.print_text("F U N F A I R   A F F A I R", True)
     utils.print_text("2018", True)
@@ -33,6 +33,7 @@ def main_menu():
 
 
 def prologue():
+
     clear_screen()
     utils.print_text("Hello, " + str(g.name) + ", and welcome! Let's play!")
     utils.print_text("\nThere is a funfair in town...the game begins.\n\nDAY NUMBER: " + str(g.days))
@@ -92,7 +93,6 @@ def newspaper():
 
 
 def look(loc):
-    cur = connect.cursor()
     sql = "SELECT Name, Description, Details FROM Places where Place_Id=" + str(loc) + ";"
     cur.execute(sql)
     if cur.rowcount >= 1:
@@ -102,7 +102,6 @@ def look(loc):
 
 
 def show_passage(loc):
-    cur = connect.cursor()
     sql = "SELECT Description FROM Directions WHERE Direction_id IN (SELECT direction_id FROM Has_passages WHERE place_id =" + str(
         loc) + ")Order by direction_id ASC LIMIT 10;"
     cur.execute(sql)
@@ -146,7 +145,6 @@ def success(person, where):
 
 
 def ask(person, where):
-    cur = connect.cursor()
     person_2 = ""
     sql = "SELECT Person_Id FROM Persons WHERE Place_Id = " + str(where) + ";"
     cur.execute(sql)
@@ -227,7 +225,6 @@ def ask(person, where):
 
 
 def chat():
-    cur = connect.cursor()
     sql = "SELECT line_text FROM Line LEFT JOIN Persons On Persons.`Person_Id` = Line.`Person_Id` " \
           "WHERE Alias like '%" + obj + "%' AND Line.`Place_Id` = " + str(location) + " AND Line.`Item_Id` is null " \
                                                                                       "ORDER BY RAND() LIMIT 1;"
@@ -254,7 +251,6 @@ def eat(item):
 
 
 def ride():
-    cur = connect.cursor()
     sql = "SELECT ACTION FROM Places Where Place_Id =" + str(location) + ";"
     cur.execute(sql)
     if cur.rowcount >= 1:
@@ -263,26 +259,40 @@ def ride():
     return
 
 
-def play():
-    utils.print_text("You play a game")
-    game = random.randint(1, 3)
+def play(game):
     win = random.randint(1, 4)
-    if game == 1:
-        utils.print_text("You play pull-a-string")
-    if game == 2:
-        utils.print_text("You play bottle pyramid")
-    if game == 3:
-        utils.print_text("You play climb the ladder")
-    if win == 1 or game == 1:
-        sql = "SELECT Items.`Name` From Items Where Itemtype_Id = 2 ORDER BY RAND() LIMIT 1;"
+
+    if game == "bottle pyramid":
+        bottle_pyramid(win)
+    elif game == ("pull-a-string" or "pull string"):
+        pull_a_string(win)
+    elif game == "climb ladder":
+        climb_ladder(win)
+    else:
+        utils.print_text("What game do you want to play?")
+        return
+
+    if win == 1:
+        sql = "SELECT Name From Items Where Itemtype_Id = 2 ORDER BY RAND() LIMIT 1;"
         cur.execute(sql)
         if cur.rowcount >= 1:
+            utils.print_text("You win!")
             for row in cur:
                 utils.print_text("You win " + row[0] + "! Amazing!")
-        utils.print_text("You win!")
 
     return
 
+def bottle_pyramid(win):
+    if win == 1:
+        utils.print_text("You play bottle pyramid and master every throw!")
+    else:
+        utils.print_text("You play bottle pyramid but it doesn't go very well.")
+
+def pull_a_string(win):
+    utils.print_text("You play pull-a-string")
+
+def climb_ladder(win):
+    utils.print_text("You play climb the ladder")
 
 def wait():
     utils.print_text("What on earth are you waiting for?")
@@ -290,7 +300,6 @@ def wait():
 
 
 def inventory():
-    cur = connect.cursor()
     # Need to change "1" at the end of this line
     sql = "select Items.Name, Places.Name from Items,Item_types,Places where Items.Itemtype_Id=Item_types.Itemtype_Id and Item_types.Place_Id=Places.Place_Id and Items.Player_Id=\"1\""
     cur.execute(sql)
@@ -314,8 +323,6 @@ def move(loc, direction):
 
     if len(direction) > 2:
         direction = utils.name_to_direction(direction)
-
-    cur = connect.cursor()
     sql = "SELECT `Has_passagesPlace_Id` FROM `Has_passages` WHERE `Direction_Id`= '" + direction + "' AND `Place_Id` = " + str(
         loc) + ";"
     cur.execute(sql)
@@ -354,6 +361,7 @@ while action != "quit" and action != "q" and g.days < 4:
     action = ret["verb"]
     obj = ret["object"]
     iobj = ret["indirect"]
+
     # look [location]
     if action in ["look", "examine", "view"]:
         look(location)
@@ -380,7 +388,6 @@ while action != "quit" and action != "q" and g.days < 4:
             if ret["direct_person_id"] != 0 and ret["indirect_place_id"] != 0 and location != ret["indirect_place_id"]:
                 person = ret["direct_person_id"]
                 where = ret["indirect_place_id"]
-                cur = connect.cursor()
                 sql = "SELECT Person_Id, Place_Id From Persons WHERE Connectable = 1 AND Person_Id ='" + str(
                     person) + "' AND NOT Persons.Place_Id ='" + str(
                     where) + "' AND EXISTS (Select Places.Place_Id From Persons JOIN Places ON Persons.Place_Id = Places.Place_Id WHERE Connectable = 1 AND Places. Place_ID='" + str(
@@ -432,10 +439,7 @@ while action != "quit" and action != "q" and g.days < 4:
             utils.print_text("Are you nuts?")
     # play [game]
     if action == "play" and location == 7:
-        if action == "play" and obj == "":
-            play()
-        else:
-            utils.print_text("The magician wants to choose a game for you, don't choose yourself!")
+        play(obj)
     if action == "play" and location != 7:
         utils.print_text("You have to go to the game hall to play games")
     # wait
