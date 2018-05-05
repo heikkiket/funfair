@@ -264,12 +264,13 @@ def play(game):
 
     if game == "bottle pyramid":
         bottle_pyramid(win)
-    elif game == ("pull-a-string" or "pull string"):
+    elif game == "pull-a-string" or game == "pull string":
         pull_a_string(win)
     elif game == "climb ladder":
         climb_ladder(win)
     else:
-        utils.print_text("What game do you want to play?")
+        utils.print_text("What game do you want to play? Possible games are:")
+        utils.print_text("    Bottle pyramid\n    Pull-a-string\n    Climb the ladder")
         return
 
     if win == 1:
