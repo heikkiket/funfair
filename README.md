@@ -14,9 +14,9 @@ Muutama sananen rakenteesta...
 * ~~utils.print_text() syö välilyöntejä, fix (Dmitri)~~ **Done**
 * ~~utils.print_text() str.center(150) (Dmitri)~~ **Done**
 * pelajan nimen syöttö tietokantaan **(Dmitri)**
-* tips: eka tip tulee heti. (give_tip() tarkistaa, onko first_tip TRUE) **(Heikki)**
+* ~~tips: eka tip tulee heti. (give_tip() tarkistaa, onko first_tip TRUE) (Heikki)~~ **(Done)**
 * tips: päivät vaikuttavat todennäköisyyteen **(Heikki)**
-* tips: arvotaanko vihjeitä myös hahmoille, joiden kanssa ei voi jutella? (Director) **(Heikki)**
+* ~~tips: arvotaanko vihjeitä myös hahmoille, joiden kanssa ei voi jutella? (Director) (Heikki)~~ **(Done)**
 * Games: pelien siirto tietokantaan tai omat aliohjelmat? **(Heikki, Suvi)**
 * EAT **(Suvi)**
 * BUY **(Suvi)**
