@@ -21,13 +21,9 @@ def main_menu():
     utils.print_text("\n\n\n\n\n")
     g.name = input("How can I call you? ")
 
-    # result = cur.execute("SELECT ifnull(MAX(Player_Id),0) + 1 from Player;")
-    # result.
-    # result_list = result.fetchall()
-    # result_list[0][0]
-
-    query = "INSERT INTO Player(Player_Id, Name, Score, Place_Id) SELECT ifnull(MAX(Player_Id),0) + 1, '"+g.name+"', 0, " \
-            "(select Place_Id from Places where Name=\"Warehouse\") from Player;"
+    cur.execute("SELECT ifnull(MAX(Player_Id),0) + 1 from Player;")
+    g.name_id = cur.fetchone()[0]
+    query = "INSERT INTO Player(Player_Id, Name, Score, Place_Id) values ("+str(g.name_id)+", '"+g.name+"', 0, (select Place_Id from Places where Name='Warehouse'));"
     print(query)
     cur.execute(query)
 
@@ -87,6 +83,8 @@ def newspaper():
         print_text = "THE FISHING FESTIVAL MIGHT TAKE PLACE AT THE MARKET PLACE INSTEAD OF THE LOCAL LAKE"
     if g.days == 2:
         print_text = "TOWN MUSEUM WANTS TO EVICT DOGS CAMPING ON THE MUSEUM YARD"
+    if g.days == 3:
+        print_text = "A MOOSE FROM THE LOCAL FOREST VISITED TOWN'S ZOOLOGICAL MUSEUM"
     utils.print_text(
         "MORNING\n\nThe town's own newspaper, Takaseudun Sanomat, has succeeded on putting out a new issue.\n\n\""+print_text+"\"\n\nWhatever. You decide to go to the funfair.\n")
     location = "1"
