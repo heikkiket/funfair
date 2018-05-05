@@ -24,7 +24,6 @@ def main_menu():
     cur.execute("SELECT ifnull(MAX(Player_Id),0) + 1 from Player;")
     g.name_id = cur.fetchone()[0]
     query = "INSERT INTO Player(Player_Id, Name, Score, Place_Id) values ("+str(g.name_id)+", '"+g.name+"', 0, (select Place_Id from Places where Name='Warehouse'));"
-    print(query)
     cur.execute(query)
 
 
