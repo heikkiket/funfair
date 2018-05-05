@@ -23,6 +23,7 @@ Muutama sananen rakenteesta...
 * DRINK **(Suvi)**
 * Campfire: interaktiivinen? **(Heikki)**
 * Epilogi campfiren jälkeen **(Heikki)**
+* Passages: locked=true **(Heikki)**
 * HELP **(Suvi)**
 * HELP [command] **(Dmitri)**
 * Inventory **(Dmitri)**

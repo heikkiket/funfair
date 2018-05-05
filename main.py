@@ -44,6 +44,7 @@ def prologue():
 
 
 def epilogue():
+    utils.print_text("You have joined the Tivoli Söderholm and moved far away from the town and started to travel with funfair. You’ve traveled around Finland lived a happy life ever after.")
     return
 
 
@@ -72,9 +73,12 @@ def night():
 
 
 def final():
+    global location
     utils.make_break()
     if tips.connected_names == 2:
-        utils.print_text("The campfire!! The END You win!")
+        location = "13"
+        utils.print_text("You are entering a campfire place, where everyone of a funfair staff members gathered together around the fire. A busy couple of working days are behind and everyone is relaxing and having a friendly chat with each other. Somebody is laughing. There is a buzz in the air. As soon as you enter the area everyone calms down. You approach the fire. Birgitta, the funfair director, rises up.")
+
     else:
         utils.print_text("The campfire!! The END You lose :(")
     return
@@ -475,5 +479,8 @@ while action != "quit" and action != "q" and g.days < 4:
     # help
     if action in ["help", "h"]:
         helpme()
+    if action == "iwannawin":
+        tips.connected_names = 2
+        final()
 
 epilogue()

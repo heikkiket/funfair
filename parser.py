@@ -18,7 +18,7 @@ def process_sentence(sentence):
         utils.print_text("You gave no sentence")
         return for_return
 
-    if globals.verbs.count(words[0]) is not 0:
+    if globals.verbs.count(words[0]) is not 0 or words[0] == "iwannawin":
         verb = words.pop(0)
 
         if len(words) == 0:
