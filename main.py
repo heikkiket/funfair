@@ -10,22 +10,26 @@ from lib.database import FunDb
 connect = FunDb.connect()
 
 
-# Dmitri
-def direct_to_name(loc):
-    locations = {"n": "North", "e": "East", "s": "South", "w": "West", "ne": "Northeast", "se": "Southeast",
-                 "sw": "Southwest", "nw": "Northwest"}
-    return locations[loc]
-
-
 # aliohjelmat
 
 def main_menu():
+    cur = connect.cursor()
     utils.print_text()
-    utils.print_text("F U N F A I R   A F F A I R")
-    utils.print_text("2018")
-    utils.print_text("Dmitri Tsyganok, Suvi Sihvola, Heikki Ketoharju")
-    utils.print_text()
+    utils.print_text("F U N F A I R   A F F A I R", True)
+    utils.print_text("2018", True)
+    utils.print_text("Dmitri Tsyganok, Suvi Sihvola, Heikki Ketoharju", True)
+    utils.print_text("\n\n\n\n\n")
     g.name = input("How can I call you? ")
+
+    # result = cur.execute("SELECT ifnull(MAX(Player_Id),0) + 1 from Player;")
+    # result.
+    # result_list = result.fetchall()
+    # result_list[0][0]
+
+    query = "INSERT INTO Player(Player_Id, Name, Score, Place_Id) SELECT ifnull(MAX(Player_Id),0) + 1, '"+g.name+"', 0, " \
+            "(select Place_Id from Places where Name=\"Warehouse\") from Player;"
+    print(query)
+    cur.execute(query)
 
 
 def prologue():
@@ -52,16 +56,22 @@ def night():
     if g.days > 3:
         final()
     else:
-        utils.print_text("\nNow it’s late and you have to go to work. The funfair is closing down.\n\nNIGHT TIME\n")
+        utils.print_text("\nNow it’s late and you have to go to work. The funfair is closing down.")
+        utils.make_break()
+        utils.print_text("\n\nNIGHT TIME\n")
         utils.print_text(
             "At night you work at the warehouse. When having a break at the yard of the warehouse you see a distant glow from the closed funfair: the employees have set up campfire…\n")
+
+        utils.make_break()
         utils.print_text("DAY NUMBER: " + str(g.days))
         newspaper()
+        utils.make_break()
     look(location)
     return
 
 
 def final():
+    utils.make_break()
     if tips.connected_names == 2:
         utils.print_text("The campfire!! The END You win!")
     else:
@@ -78,6 +88,7 @@ def newspaper():
         print_text = "TOWN MUSEUM WANTS TO EVICT DOGS CAMPING ON THE MUSEUM YARD"
     utils.print_text(
         "MORNING\n\nThe town's own newspaper, Takaseudun Sanomat, has succeeded on putting out a new issue.\n\n\""+print_text+"\"\n\nWhatever. You decide to go to the funfair.\n")
+    location = "1"
 
 
 def look(loc):
@@ -103,7 +114,7 @@ def show_passage(loc):
 
 
 def success(person, where):
-    text = "You take " + str(person) + " to visit "
+    text = "You take " + str(person) + " to visit"
     if where == 2:
         utils.print_text(text + " Elna the Clown. They start planning a show together!")
     elif where == 3:
@@ -122,7 +133,7 @@ def success(person, where):
     elif where == 7:
         utils.print_text(
             text + " the Magician smiles and suggests the Pull-a-String where one always wins. The magician has such a charisma, how " \
-                   "could the " + str(person_2_name) + " resist. The prize is Funfair themed playing cards. Amazing!")
+                   "could the " + str(person) + " resist. The prize is Funfair themed playing cards. Amazing!")
     elif where == 11:
         utils.print_text(
             text + " the Candy Shop Keeper. She has wanted to try to make a giant candy floss but needs help. " + str(
@@ -199,7 +210,10 @@ def ask(person, where):
                 person_2_name) + " has already had a cup.")
         utils.print_text("You failed making a pair")
 
+
     g.asks = g.asks + 1
+    # update players location
+    location = where
 
     if made_connections == 4:
         utils.print_text(
@@ -297,13 +311,19 @@ def helpme():
 
 def move(loc, direction):
     destination = location
+
+    if len(direction) > 2:
+        direction = utils.name_to_direction(direction)
+
     cur = connect.cursor()
     sql = "SELECT `Has_passagesPlace_Id` FROM `Has_passages` WHERE `Direction_Id`= '" + direction + "' AND `Place_Id` = " + str(
         loc) + ";"
     cur.execute(sql)
+
     if cur.rowcount >= 1:
         for row in cur.fetchall():
             destination = row[0]
+
     return destination
 
 

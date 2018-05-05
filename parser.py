@@ -13,9 +13,10 @@ def process_sentence(sentence):
     verb = ""
     object = ""
     indirect_object = ""
+    for_return = {"verb":"", "object":"", "indirect":""}
     if len(words) == 0:
         utils.print_text("You gave no sentence")
-        return {}
+        return for_return
 
     if globals.verbs.count(words[0]) is not 0:
         verb = words.pop(0)
@@ -47,22 +48,27 @@ def process_sentence(sentence):
             utils.print_text("verb: " + verb)
             utils.print_text("object: " + object)
             utils.print_text("indirect_object: " + indirect_object)
-            utils.print_text
+            utils.print_text()
         for_return = {"verb": verb, "object": object, "indirect": indirect_object}
-        for_return.update(get_alias(object, 1))
-        for_return.update(get_alias(indirect_object, 2))
+
+        # checking if objects are not empty
+        if object:
+            for_return.update(get_alias(object, 1))
+        if indirect_object:
+            for_return.update(get_alias(indirect_object, 2))
+
         if globals.debug is True:
             utils.print_text(str(for_return))
         return for_return
     else:
         utils.print_text("I don't understand what '" + words[0] + "' means.")
         utils.print_text()
-        return
+        return for_return
 
 
 def get_alias(obj, id=1):
     sql1 = "select Person_Id, Alias from Persons where Alias is not null;"
-    sql2 = "select Item_Id, Alias from Items where Alias is not null;"
+    sql2 = "select Items.Item_id, Item_types.Alias from Items, Item_types where Items.Itemtype_Id=Item_types.Itemtype_Id and Item_types.Itemtype_Id is not null;"
     sql3 = "select Place_Id, Alias from Places where Alias is not null;"
 
     aliases = {}
@@ -91,8 +97,8 @@ def get_alias_from_db(sql, to, obj):
     if cur.rowcount >= 1:
         for row in cur.fetchall():
             for alias in row[1].split(";"):
-                if alias == obj:
-                    return_alias = {to: row[0]}
+                if alias.strip() == obj:
+                    return_alias.update({to: row[0]})
     return return_alias
 
 
@@ -102,7 +108,7 @@ def remove_articles(string):
     index = 0
     while index < len(words):
         if articles.count(words[index]) is not 0:
-            del(words[index])
+            del (words[index])
         else:
             index += 1
 

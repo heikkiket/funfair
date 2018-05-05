@@ -63,7 +63,7 @@ CREATE TABLE `Has_passages` (
 
 LOCK TABLES `Has_passages` WRITE;
 /*!40000 ALTER TABLE `Has_passages` DISABLE KEYS */;
-INSERT INTO `Has_passages` VALUES (1,2,'n'),(2,1,'s'),(2,3,'w'),(2,5,'sw'),(2,7,'se'),(2,9,'n'),(3,2,'e'),(3,4,'n'),(4,3,'s'),(4,9,'ne'),(5,2,'sw'),(5,6,'se'),(5,8,'e'),(5,9,'nw'),(6,5,'nw'),(6,7,'s'),(6,8,'n'),(7,2,'nw'),(7,6,'n'),(8,5,'w'),(8,6,'s'),(9,2,'s'),(9,4,'sw'),(9,5,'se'),(9,10,'ne'),(9,11,'n'),(9,12,'nw'),(10,9,'sw'),(11,9,'s'),(11,12,'w'),(12,9,'se'),(12,11,'e'),(12,13,'w'),(13,12,'e');
+INSERT INTO `Has_passages` VALUES (1,2,'n'),(2,1,'s'),(2,3,'w'),(2,5,'sw'),(2,6,'e'),(2,7,'se'),(2,9,'n'),(3,2,'e'),(3,4,'n'),(4,3,'s'),(4,9,'ne'),(5,2,'sw'),(5,6,'se'),(5,8,'e'),(5,9,'nw'),(6,5,'nw'),(6,7,'s'),(6,8,'n'),(7,2,'nw'),(7,6,'n'),(8,5,'w'),(8,6,'s'),(9,2,'s'),(9,4,'sw'),(9,5,'se'),(9,10,'ne'),(9,11,'n'),(9,12,'nw'),(10,9,'sw'),(11,9,'s'),(11,12,'w'),(12,9,'se'),(12,11,'e'),(12,13,'w'),(13,12,'e');
 /*!40000 ALTER TABLE `Has_passages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -78,6 +78,7 @@ CREATE TABLE `Item_types` (
   `Itemtype_Id` int(11) NOT NULL,
   `Name` varchar(40) NOT NULL,
   `Place_Id` int(11) NOT NULL,
+  `Alias` text,
   PRIMARY KEY (`Itemtype_Id`),
   KEY `Place_Id` (`Place_Id`),
   CONSTRAINT `item_types_ibfk_1` FOREIGN KEY (`Place_Id`) REFERENCES `Places` (`Place_Id`)
@@ -90,7 +91,7 @@ CREATE TABLE `Item_types` (
 
 LOCK TABLES `Item_types` WRITE;
 /*!40000 ALTER TABLE `Item_types` DISABLE KEYS */;
-INSERT INTO `Item_types` VALUES (1,'Ride Tickets',1),(2,'Game Prizes',7),(3,'Drinks from Cafe',12),(4,'Foods from Cafe',12),(5,'Candies',11);
+INSERT INTO `Item_types` VALUES (1,'Ride Tickets',1,'tickets; ride tickets'),(2,'Stuffed Teddy Bear',7,'teddy;teddy bear'),(3,'Cup of coffee',12,'coffee; coffee cup; cup of coffee'),(4,'Foods from Cafe',12,NULL),(5,'Candies',11,NULL),(6,'Newspaper',14,NULL),(7,'Cup of Tee',12,'tea; tea cup; cup of tea'),(8,'Soda Can',12,'soda; can of soda; soda can; soda bottle; bottle of soda'),(9,'Bottle of Water',12,'water; water bottle; bottle of water; '),(10,'Cinnamon bun',12,'bun; cinnamon bun'),(11,'Cookie',12,'cookie; chocolate cookie'),(12,'Chocolate brownie',12,'brownie; brownies; chololate brownie; chocolate brownies'),(13,'Pink candy floss',11,'candy floss; cotton candy; pink candy floss; pink cotton candy'),(14,'Candies',11,'candies; mixed candies; candy; mixed sweets; sweets'),(15,'Licorice',11,'licorice; loose licorice; piece of licorice'),(16,'Blue pencil',7,'pencil'),(17,'Funfair themed playing cards',7,'cards;playing cards');
 /*!40000 ALTER TABLE `Item_types` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -132,7 +133,6 @@ CREATE TABLE `Items` (
   `Name` varchar(40) DEFAULT NULL,
   `Itemtype_Id` int(11) NOT NULL,
   `Player_Id` int(11) DEFAULT NULL,
-  `Alias` text,
   PRIMARY KEY (`Item_Id`),
   KEY `Itemtype_Id` (`Itemtype_Id`),
   KEY `Player_Id` (`Player_Id`),
@@ -147,7 +147,7 @@ CREATE TABLE `Items` (
 
 LOCK TABLES `Items` WRITE;
 /*!40000 ALTER TABLE `Items` DISABLE KEYS */;
-INSERT INTO `Items` VALUES (1,'Ride tickets',1,NULL,'tickets; ride tickets'),(2,'Stuffed Teddy Bear',2,NULL,NULL),(3,'Blue pencil',2,NULL,NULL),(4,'Funfair themed playing cards',2,NULL,NULL),(5,'Cup of coffee',3,NULL,'coffee; coffee cup; cup of coffee'),(6,'Cup of tea',3,NULL,'tea; tea cup; cup of tea'),(7,'Can of soda',3,NULL,'soda; can of soda; soda can; soda bottle; bottle of soda'),(8,'Bottle of water',3,NULL,'water; water bottle; bottle of water; '),(9,'Cinnamon bun',4,NULL,'bun; cinnamon bun'),(10,'Cookie',4,NULL,'cookie; chocolate cookie'),(11,'Chocolate brownie',4,NULL,'brownie; brownies; chololate brownie; chocolate brownies'),(12,'Pink candy floss',5,NULL,'candy floss; cotton candy; pink candy floss; pink cotton candy'),(13,'Candies',5,NULL,'candies; mixed candies; candy; mixed sweets; sweets'),(14,'Licorice',5,NULL,'licorice; loose licorice; piece of licorice');
+INSERT INTO `Items` VALUES (1,'Ride tickets',1,NULL),(2,'Stuffed Teddy Bear',2,NULL),(3,'Blue pencil',16,NULL),(4,'Funfair themed playing cards',17,NULL),(5,'Cup of coffee',3,NULL),(6,'Cup of tea',7,NULL),(7,'Can of soda',8,NULL),(8,'Bottle of water',9,NULL),(9,'Cinnamon bun',10,NULL),(10,'Cookie',11,NULL),(11,'Chocolate brownie',12,NULL),(12,'Pink candy floss',13,NULL),(13,'Candies',14,NULL),(14,'Licorice',15,NULL),(15,'Cookie',11,NULL);
 /*!40000 ALTER TABLE `Items` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -242,7 +242,7 @@ CREATE TABLE `Persons` (
 
 LOCK TABLES `Persons` WRITE;
 /*!40000 ALTER TABLE `Persons` DISABLE KEYS */;
-INSERT INTO `Persons` VALUES (1,'Elna the Clown',1,2,NULL,'clown;the clown;pelle;elna;elna the clown',0),(2,'The Magician',1,7,NULL,'valter;magician;game keeper',0),(3,'Security Officer',1,5,NULL,'security;security officer;the security officer;linda',0),(4,'Bumper Car Operator',1,3,NULL,'lena;bumper operator;bumper cars operator;',0),(5,'Carousel Operator',1,6,NULL,'sara;carousel operator;carousel',0),(6,'Cafe Keeper',1,12,NULL,'peter;cafe keeper;cafe',0),(7,'Candy Shop Keeper',1,11,NULL,'matilda;candy shop keeper;candy keeper',0),(8,'Ticket Vendor',NULL,1,NULL,'edvin;ticker seller;ticket vendor',0),(9,'Funfair Director',NULL,13,NULL,'director;birgitta;funfair director;boss',0),(10,'Ferris Wheel Operator',NULL,8,NULL,'arthur;ferris wheel operator;ferris operator',0);
+INSERT INTO `Persons` VALUES (1,'Elna the Clown',1,2,NULL,'clown;the clown;pelle;elna;elna the clown',0),(2,'The Magician',1,7,NULL,'valter;magician;game keeper',0),(3,'Security Officer',1,5,NULL,'security;security officer;the security officer;linda',0),(4,'Bumper Car Operator',1,3,NULL,'lena;bumper operator;bumper cars operator;bumper car operator',0),(5,'Carousel Operator',1,6,NULL,'sara;carousel operator',0),(6,'Cafe Keeper',1,12,NULL,'peter;cafe keeper',0),(7,'Candy Shop Keeper',1,11,NULL,'matilda;candy shop keeper;candy keeper;shop keeper',0),(8,'Ticket Vendor',NULL,1,NULL,'edvin;ticker seller;ticket vendor;vendor',0),(9,'Funfair Director',NULL,13,NULL,'director;birgitta;funfair director;boss',0),(10,'Ferris Wheel Operator',NULL,8,NULL,'arthur;ferris wheel operator;ferris operator',0);
 /*!40000 ALTER TABLE `Persons` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -270,7 +270,7 @@ CREATE TABLE `Places` (
 
 LOCK TABLES `Places` WRITE;
 /*!40000 ALTER TABLE `Places` DISABLE KEYS */;
-INSERT INTO `Places` VALUES (1,'Ticket Office','You are at the ticket office.','The ticket office is near the entrance of the funfair. The ticket vendor is selling tickets. To the south there is exit but you don\'t want to leave just yet. To the north there seems to be some kind of stage.','ticket office',NULL),(2,'Open Air Stage','You are at the open air stage.','There is Elna the clown at the open air stage.','stage',NULL),(3,'Bumper Cars','You are at Bumper Cars.','There is a bumper car opetaror. She seems to be a bit angry to some teens who are all just hitting each other\'s cars.','bumper cars','You ride bumper cars'),(4,'Roller Coaster','You are at the Wormster.','Old man runs the roller coaster very slowly. He seems not to want to talk with you. The roller coaster itself seems smiley though, it looks like a green happy worm. ','roller coaster','You ride wormster'),(5,'Security Station','You are now at the Security Station. ','The security station is a small booth with a red cross on the roof. There is a security officer.','security;security station',NULL),(6,'Carousel','You are now at the Carousel.','There is a carousel operator working. She seems like a nice girl.','carousel','You ride carousel'),(7,'Game Hall','You are now at the Game Hall.','There is a lot of games to choose from. The magician seems to be managing all the games. You see at least Bottle Pyramid and Pull-A-String -games being played.','game hall;games',NULL),(8,'Ferris Wheel','You are at the Ferris Wheel. ','You see an old Ferris Wheel and want to jump in. It seems not to be working though. There is a mechanics working on it but they are too busy to notice you. On the ground there is a ferris wheel operator sitting and looking bored.','ferris wheel',NULL),(9,'Food Court','You are at the Food Court.','To the north there is a Candy Shop, southwest Cafe, southeast Mirror Maze, southwest Rollercoaster, south open air stage and southeast Security Station.\n','food court',NULL),(10,'Mirror Maze','You are at the Mirror Maze.','The mirror maze is full on mirrors. You see some kids making funny faces. Best to leave where you came from, to the southwest where is the food court crossing point.','maze; mirror maze',NULL),(11,'Candy Shop','You are at the Candy Shop.','The candy shop keeper is chewing a licorice. She has big eyeglasses and pink hair. There is a lot of candies and loose licorice around you and a candy floss machine in the corner. ','candy shop',NULL),(12,'Cafe','You are at the Cafe. ','Everything smells so good you almost want to have a cup of coffee. There seems to be good looking cinnamon buns, cookies and brownies on the shelf as well. There is a cafe keeper. He seems happy and old.','cafe',NULL),(13,'Campfire','You are at the campfire behind the Cafe.','You are at the campfire. The cafe keeper yells you from the cafe to come back. The only way out is west back to the cafe.','campfire',NULL);
+INSERT INTO `Places` VALUES (1,'Ticket Office','You are at the ticket office.','The ticket office is near the entrance of the funfair. The ticket vendor is selling tickets. To the south there is exit but you don\'t want to leave just yet. To the north there seems to be some kind of stage.','ticket office',NULL),(2,'Open Air Stage','You are at the open air stage.','There is Elna the clown at the open air stage.','stage',NULL),(3,'Bumper Cars','You are at Bumper Cars.','There is a bumper car opetaror. She seems to be a bit angry to some teens who are all just hitting each other\'s cars.','bumper cars','You ride bumper cars'),(4,'Roller Coaster','You are at the Wormster.','Old man runs the roller coaster very slowly. He seems not to want to talk with you. The roller coaster itself seems smiley though, it looks like a green happy worm. ','roller coaster','You ride wormster'),(5,'Security Station','You are now at the Security Station. ','The security station is a small booth with a red cross on the roof. There is a security officer.','security station',NULL),(6,'Carousel','You are now at the Carousel.','There is a carousel operator working. She seems like a nice girl.','carousel','You ride carousel'),(7,'Game Hall','You are now at the Game Hall.','There is a lot of games to choose from. The magician seems to be managing all the games. You see at least Bottle Pyramid and Pull-A-String -games being played.','game hall;games',NULL),(8,'Ferris Wheel','You are at the Ferris Wheel. ','You see an old Ferris Wheel and want to jump in. It seems not to be working though. There is a mechanics working on it but they are too busy to notice you. On the ground there is a ferris wheel operator sitting and looking bored.','ferris wheel',NULL),(9,'Food Court','You are at the Food Court.','To the north there is a Candy Shop, norhtwest Cafe, norhtheast Mirror Maze, southwest Rollercoaster, south open air stage and southeast Security Station.\n','food court',NULL),(10,'Mirror Maze','You are at the Mirror Maze.','The mirror maze is full on mirrors. You see some kids making funny faces. Best to leave where you came from, to the southwest where is the food court crossing point.','maze;mirror maze',NULL),(11,'Candy Shop','You are at the Candy Shop.','The candy shop keeper is chewing a licorice. She has big eyeglasses and pink hair. There is a lot of candies and loose licorice around you and a candy floss machine in the corner. ','candy shop',NULL),(12,'Cafe','You are at the Cafe. ','Everything smells so good you almost want to have a cup of coffee. There seems to be good looking cinnamon buns, cookies and brownies on the shelf as well. There is a cafe keeper. He seems happy and old.','cafe',NULL),(13,'Campfire','You are at the campfire behind the Cafe.','You are at the campfire. The cafe keeper yells you from the cafe to come back. The only way out is west back to the cafe.','campfire',NULL),(14,'Warehouse','You are working hard here every night','You are working hard in here','work;warehouse','You work here');
 /*!40000 ALTER TABLE `Places` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -314,4 +314,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-04  9:41:33
+-- Dump completed on 2018-05-04 23:15:57

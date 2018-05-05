@@ -8,6 +8,31 @@ Written in Python. Uses SQL database.
 
 Muutama sananen rakenteesta...
 
+## TODO
+
+* ~~DB: Items -> Item types (Dmitri)~~ **Done**
+* ~~utils.print_text() syö välilyöntejä, fix (Dmitri)~~ **Done**
+* ~~utils.print_text() str.center(150) (Dmitri)~~ **Done**
+* pelajan nimen syöttö tietokantaan **(Dmitri)**
+* tips: eka tip tulee heti. (give_tip() tarkistaa, onko first_tip TRUE) **(Heikki)**
+* tips: päivät vaikuttavat todennäköisyyteen **(Heikki)**
+* tips: arvotaanko vihjeitä myös hahmoille, joiden kanssa ei voi jutella? (Director) **(Heikki)**
+* Games: pelien siirto tietokantaan tai omat aliohjelmat? **(Heikki, Suvi)**
+* EAT **(Suvi)**
+* BUY **(Suvi)**
+* DRINK **(Suvi)**
+* Campfire: interaktiivinen? **(Heikki)**
+* Epilogi campfiren jälkeen **(Heikki)**
+* HELP **(Suvi)**
+* HELP [command] **(Dmitri)**
+* Inventory **(Dmitri)**
+* ~~GO, WALK, pitkät versiot ilmansuunnista (Heikki)~~ **Done**
+* Directions kertomaan, mihin ilmansuunnat vievät **(Dmitri)**
+* RIDE tarkistettava, funktion on tarkistettava onko lippu. **(Suvi)**
+
+* Lisää tavaraa tietokantaan **(Dmitri, Heikki, Suvi)**
+
+
 ###Parser
 
 **Parser** palauttaa sanakirjan: {'indirect_place_id': 6, 'verb': 'ask', 'object': 'elna', 'direct_person_id': 1, 'indirect': 'carousel'} missä *verb* on verbi, *object* on objekti ja *indirect* on epäsuora objekti. 
@@ -17,7 +42,7 @@ Suoria voivat olla:
 
 *direct_person_id* - henkilön id aliaksella haettu
 
-*direct_item_id* - esinen id aliaksella haettu
+*direct_item_id* - esinen id aliaksella haettu, voi olla useita
 
 *direct_place_id* - paikan id aliaksella haettu
 
@@ -25,7 +50,7 @@ Epäsuoria voivat olla:
 
 *indirect_person_id* - henkilön id aliaksella haettu
 
-*indirect_item_id* - esinen id aliaksella haettu
+*indirect_item_id* - esinen id aliaksella haettu, voi olla useita
 
 *indirect_place_id* - paikan id aliaksella haettu
 
