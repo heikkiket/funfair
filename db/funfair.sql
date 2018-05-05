@@ -6,8 +6,8 @@
 # https://github.com/sequelpro/sequelpro
 #
 # Host: 127.0.0.1 (MySQL 5.7.21)
-# Database: funfair
-# Generation Time: 2018-05-05 19:49:46 +0000
+# Database: funfairr
+# Generation Time: 2018-05-05 20:36:33 +0000
 # ************************************************************
 
 
@@ -138,9 +138,9 @@ VALUES
 	(9,'Bottle of Water',12,'water;water bottle;bottle of water; '),
 	(10,'Cinnamon bun',12,'bun;cinnamon bun'),
 	(11,'Cookie',12,'cookie;chocolate cookie'),
-	(12,'Chocolate brownie',12,'brownie;chololate brownie;'),
+	(12,'Chocolate brownie',12,'brownie;brownies;chololate brownie;chocolate brownies'),
 	(13,'Pink candy floss',11,'candy floss;cotton candy;pink candy floss;pink cotton candy'),
-	(14,'Candies',11,'candies;mixed candies;candy; mixed sweets;sweets'),
+	(14,'Candies',11,'candies;mixed candies;candy;mixed sweets;sweets'),
 	(15,'Licorice',11,'licorice;loose licorice;piece of licorice'),
 	(16,'Blue pencil',7,'pencil'),
 	(17,'Funfair themed playing cards',7,'cards;playing cards');
@@ -212,6 +212,91 @@ CREATE TABLE `Items` (
   CONSTRAINT `items_ibfk_2` FOREIGN KEY (`Player_Id`) REFERENCES `Player` (`Player_Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `Items` WRITE;
+/*!40000 ALTER TABLE `Items` DISABLE KEYS */;
+
+INSERT INTO `Items` (`Item_Id`, `Name`, `Itemtype_Id`, `Player_Id`)
+VALUES
+	(1,'Ride tickets',1,NULL),
+	(2,'Stuffed Teddy Bear',2,NULL),
+	(3,'Blue pencil',16,NULL),
+	(4,'Funfair themed playing cards',17,NULL),
+	(5,'Cup of coffee',3,NULL),
+	(6,'Cup of tea',7,NULL),
+	(7,'Can of soda',8,NULL),
+	(8,'Bottle of water',9,NULL),
+	(9,'Cinnamon bun',10,NULL),
+	(10,'Cookie',11,NULL),
+	(11,'Chocolate brownie',12,NULL),
+	(12,'Pink candy floss',13,NULL),
+	(13,'Candies',14,NULL),
+	(14,'Licorice',15,NULL),
+	(15,'Cookie',11,NULL);
+
+/*!40000 ALTER TABLE `Items` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table Line
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `Line`;
+
+CREATE TABLE `Line` (
+  `Lines_Id` int(11) NOT NULL AUTO_INCREMENT,
+  `Line_Text` text NOT NULL,
+  `Person_Id` int(11) NOT NULL,
+  `Place_Id` int(11) DEFAULT NULL,
+  `Item_Id` int(11) DEFAULT NULL,
+  `Connects_Person_Id` int(11) DEFAULT NULL,
+  `Is_tip` tinyint(1) NOT NULL,
+  PRIMARY KEY (`Lines_Id`),
+  KEY `Person_Id` (`Person_Id`),
+  KEY `Place_Id` (`Place_Id`),
+  KEY `Item_Id` (`Item_Id`),
+  KEY `Connects_Person_Id` (`Connects_Person_Id`),
+  CONSTRAINT `Line_Persons_FK` FOREIGN KEY (`Connects_Person_Id`) REFERENCES `Persons` (`Person_Id`),
+  CONSTRAINT `line_ibfk_1` FOREIGN KEY (`Person_Id`) REFERENCES `Persons` (`Person_Id`),
+  CONSTRAINT `line_ibfk_2` FOREIGN KEY (`Place_Id`) REFERENCES `Places` (`Place_Id`),
+  CONSTRAINT `line_ibfk_3` FOREIGN KEY (`Item_Id`) REFERENCES `Items` (`Item_Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `Line` WRITE;
+/*!40000 ALTER TABLE `Line` DISABLE KEYS */;
+
+INSERT INTO `Line` (`Lines_Id`, `Line_Text`, `Person_Id`, `Place_Id`, `Item_Id`, `Connects_Person_Id`, `Is_tip`)
+VALUES
+	(1,'There is bad blood around in our funfair. Walk around to find out!',8,1,NULL,NULL,0),
+	(2,'You want to buy ride tickets? Okey, here you go.',8,1,1,NULL,0),
+	(3,'Would you have guessed the clown is my mother? It feels like I\'ve live my whole life here. Sometimes I wonder about the meaning of life. I study philosophy.',8,1,NULL,NULL,0),
+	(4,'My name is Elna and I\'m the funfair clown.',1,2,NULL,NULL,0),
+	(5,'I’m proud of my parents. There isn’t many funfairs nowadays in Finland anymore. I’m bored but this is my life.',5,6,NULL,NULL,0),
+	(6,'It’s such a nice day today. I think the kids will have a blast when I perform later. The janitor roasted some marshmallows last night.',1,2,NULL,NULL,0),
+	(7,'My name Is Valter and I\'m the funfair magician. ',2,7,NULL,NULL,0),
+	(8,'The magician looks at you and winks his eye. You don\'t really know what to think of him. ',2,7,NULL,NULL,0),
+	(9,'I’m glad everything is going so smoothly today. I heard there is almost no crime in this town.',3,5,NULL,NULL,0),
+	(10,'I think this place is really dull.',5,6,NULL,NULL,0),
+	(11,'I think my cookies are excellent today. My name is Peter by the way.',6,12,NULL,NULL,0),
+	(12,'Blah blah! My name is Sara.',5,6,NULL,NULL,0),
+	(13,'I prefer dark roast when it comes to coffee.',6,12,NULL,NULL,0),
+	(14,'I would love to cycle around this town. It’s the best when you go around a lot, you get to see new places and learn new magic tricks.',2,7,NULL,NULL,0),
+	(15,'It seems a bit slower today. Maybe I will read today. I like to travel and sometimes I feel like travelling when exploring a new book!',1,2,NULL,NULL,0),
+	(16,'You can come talk to me if you see a criminal.',3,5,NULL,NULL,0),
+	(17,'I\'m Linda.',3,5,NULL,NULL,0),
+	(18,'Oh my shoes! I\'d love to talk to you but it\'s so crazy here today.',4,3,NULL,NULL,0),
+	(19,'Are you just like one of these vandals? Oh maybe not, you seem a bit older. I\'m Lena by the way. Sometimes I think I will have grey hair at the end of summer becouse all the reckless driving.',4,3,NULL,NULL,0),
+	(20,'The bumper car operator is busy yells at some children. You think it\'s better not to bother her.',4,3,NULL,NULL,0),
+	(21,'You know what\'s the purpose of reindeer? To make grass grow hehehe.',6,12,NULL,NULL,0),
+	(22,'\"I\'m Matilda. \" The candy shop keeper says while arranging all the candy.',7,11,NULL,NULL,0),
+	(23,'This is a cool place to work. Meet new people, see new places, eat lots of candy floss. I study geopgraphy. Won\'t really work for me as practical training for school but no worries.',7,11,NULL,NULL,0),
+	(24,'I make excellent candy floss. You should try some.',7,11,NULL,NULL,0),
+	(25,'I\'m Arthur. I wish the ferris wheel is repaired soon.',10,8,NULL,NULL,0),
+	(26,'...',9,13,NULL,NULL,0),
+	(27,'I like people who drink coffee. They are trustworthy. Here you go, enjoy!',6,12,5,NULL,0),
+	(28,'We have a wide selection of different tea varieties. Black, white, green, chai, blue, rainbow, bubblegum..eh can\'t find anything else but black though. Here you go!',6,12,6,NULL,0);
+
+/*!40000 ALTER TABLE `Line` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table Line_templates
