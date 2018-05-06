@@ -14,7 +14,7 @@ connected_names = 0
 connected_pair = []
 
 # Amount of different tips
-positive_tips = 2
+positive_tips = 1
 negative_tips = 3
 false_tips = 1
 tips = []
@@ -48,6 +48,7 @@ def succesful_connection(connection):
     for person_id in connection:
         print("UPDATE Persons SET Is_Connected=1 WHERE Person_Id="+str(person_id))
         cursor.execute("UPDATE Persons SET Is_Connected=1 WHERE Person_Id=%s", (person_id,))
+        create_tip('positive')
     del(connections[connections.index(connection)])
 
 
@@ -65,7 +66,6 @@ def generate_tips():
     global negative_tips
 
     for i in range(positive_tips):
-        # TODO Positive tips can both be from same pair
         create_tip('positive')
     for i in range(negative_tips):
         create_tip('negative')
