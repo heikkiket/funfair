@@ -21,8 +21,8 @@ Muutama sananen rakenteesta...
 * ~~EAT (Suvi~~ **(Done)**
 * ~~BUY (Suvi)~~ **(Done)**
 * ~~DRINK (Suvi)~~ **(Done)**
-* Campfire: interaktiivinen? **(Heikki)**
-* Epilogi campfiren jälkeen **(Heikki)**
+* ~~Campfire: interaktiivinen? (Heikki)~~**Done**
+* ~~Epilogi campfiren jälkeen (Heikki)~~**Done**
 * Passages: locked=true **(Heikki)**
 * ~~HELP (Suvi)~~ **(Done)**
 * ~~HELP [command] (Dmitri)~~ **Done**
