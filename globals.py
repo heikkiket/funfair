@@ -24,7 +24,7 @@ verbs = ["go", "walk", "move", "chat", "talk", "look", "examine", "view", "direc
          "read"]
 
 prepositions = ["to", "at", "in", "with"]
-debug = False
+debug = True
 
 days = 1
 asks = 0
