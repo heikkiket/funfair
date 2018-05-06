@@ -1,7 +1,8 @@
 # importing DB settings
 from lib.database import FunDb
 
-connect = FunDb.connect()
+connection = FunDb.connect()
+cur = connection.cursor()
 
 # Global variables
 verbs = ["go", "walk", "move", "chat", "talk", "look", "examine", "view", "directions", "direction", "inventory", "i",
@@ -24,7 +25,7 @@ verbs = ["go", "walk", "move", "chat", "talk", "look", "examine", "view", "direc
          "read"]
 
 prepositions = ["to", "at", "in", "with"]
-debug = True
+debug = False
 
 days = 1
 asks = 0
