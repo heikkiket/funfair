@@ -74,10 +74,9 @@ def night():
 
 
 def final():
-    global location
     utils.make_break()
     if tips.connected_names == 2:
-        location = "13"
+        g.location = "13"
         # Bring everyone to the campfire
         sql = "UPDATE Persons SET Place_Id=13"
         cur.execute(sql)
@@ -659,7 +658,7 @@ while action != "quit" and action != "q" and g.days < 4:
     # chat/talk to/with [person]
     if action == "chat" or action == "talk":
         if obj == "":
-            utils.print_text("You have to be a bit more specific")
+            utils.print_text("Please tell who you would like to chat with")
         elif "direct_person_id" in ret:
             chat()
         else:
@@ -669,7 +668,7 @@ while action != "quit" and action != "q" and g.days < 4:
     # ride [ride]
     if action == "ride":
         if obj == "":
-            utils.print_text("You have to be a bit more specific")
+            utils.print_text("Where you want to ride?")
         elif "direct_place_id" in ret:
             if ret["direct_place_id"] == g.location:
                 if g.location in [3, 4, 6]:
