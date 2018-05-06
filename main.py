@@ -80,16 +80,21 @@ def final():
         location = "13"
         # Bring everyone to the campfire
         sql = "UPDATE Persons SET Place_Id=13"
-        # cur.execute(sql)
+        cur.execute(sql)
 
         g.night = True
         g.victory = True
         utils.print_text(
+            "You WON the game!\n" \
             "You are entering a campfire place, where everyone of a funfair staff members gathered together " \
             "around the fire. A busy couple of working days are behind and everyone is relaxing and having " \
-            "a friendly chat with each other. Somebody is laughing. There is a buzz in the air. As soon " \
+            "a friendly chat with each other. You can see a ferris wheel lights shining further. Mechanics have " \
+            "finally fixed it.")
+        utils.make_break()
+        utils.print_text("Somebody is laughing. There is a buzz in the air. As soon " \
             "as you enter the area everyone calms down. You approach the fire. Birgitta, the funfair " \
             "director, rises up.")
+        utils.print_text('"' + g.name + ', I must really thank you. You have helped us so much."')
     else:
         utils.print_text("The campfire!! The END You lose :(")
     return
@@ -186,6 +191,18 @@ def success(person, where):
 
 
 def ask(person, where):
+
+    #ask birgitta to ferris wheel
+    if person == 9 and where ==8:
+        if g.victory == True:
+            utils.print_text("You ask Birgitta to the ferris wheel and everyone else follows. The old wooden wheel "\
+                             "crackles when mechanics turn it on. All the employees step in among general happiness. "\
+                             "When the wheel turns higher and higher you can see over the whole town. Lights shine "\
+                             "and joy fills you overall. These concrete buildings have never looked more beautiful.")
+        else:
+            pass
+    return
+
     person_2 = ""
     sql = "SELECT Person_Id FROM Persons WHERE Place_Id = " + str(where) + ";"
     cur.execute(sql)
@@ -491,9 +508,9 @@ def helpme(comm=""):
         utils.print_text(str(','.join(g.verbs[12:14])))
         utils.print_text(str(','.join(g.verbs[14:16])))
         utils.print_text(str(','.join(g.verbs[16:18]) + " [person] to [place]"))
-        utils.print_text(str('\n'.join(g.verbs[18:23])))
+        utils.print_text(str('\n'.join(g.verbs[18:25])))
         utils.print_text("\nFor moving use compass points:\n")
-        utils.print_text(str(', '.join(g.verbs[24::])))
+        utils.print_text(str(', '.join(g.verbs[25::])))
         utils.print_text('\n')
         utils.print_text("Help with a certain command: help [command]""\n")
         
@@ -576,6 +593,9 @@ while action != "quit" and action != "q" and g.days < 4:
         wrong = "There is something wrong with what you're asking (person or place where you're asking to go)"
         if obj == "":
             utils.print_text("Could you specify who who would you like to take somewhere?")
+        if obj == "birgitta" and iobj == "ferris wheel":
+            # Birgitta == 9 and Ferris Wheel == 8
+            ask(9, 8)
         elif "direct_person_id" in ret and "indirect_place_id" in ret:
             if ret["direct_person_id"] != 0 and ret["indirect_place_id"] != 0 and g.location != ret["indirect_place_id"]:
                 person = ret["direct_person_id"]
