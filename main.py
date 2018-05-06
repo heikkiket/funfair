@@ -391,11 +391,12 @@ def wait():
 
 def inventory():
     utils.print_text("\nINVENTORY\n")
-    sql = "Select Person_Id FROM Persons Where Is_Connected = '1'"
+    sql = "Select Name FROM Persons Where Is_Connected = '1'"
     cur.execute(sql)
     if cur.rowcount >= 1:
+        utils.print_text("Connected:")
         for row in cur.fetchall():
-            utils.print_text("connected: " + str(row[0]))
+            utils.print_text(str(row[0]))
     else:
         utils.print_text("No connections")
 
