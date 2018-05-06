@@ -95,7 +95,7 @@ def final():
             "director, rises up.")
         utils.print_text('"' + g.name + ', I must really thank you. You have helped us so much."')
     else:
-        utils.print_text("The campfire!! The END You lose :(")
+        utils.print_text("You LOST the game :(\nMaybe next time you will do better...")
     return
 
 
@@ -597,6 +597,8 @@ while action != "quit" and action != "q" and g.days < 4:
         if obj == "birgitta" and iobj == "ferris wheel":
             # Birgitta == 9 and Ferris Wheel == 8
             ask(9, 8)
+            utils.make_break()
+            break;
         elif "direct_person_id" in ret and "indirect_place_id" in ret:
             if ret["direct_person_id"] != 0 and ret["indirect_place_id"] != 0 and g.location != ret["indirect_place_id"]:
                 person = ret["direct_person_id"]
