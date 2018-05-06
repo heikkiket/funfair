@@ -407,19 +407,19 @@ def helpme(comm=""):
     if comm in g.verbs:
         outtext = ""
 
-        if comm in ["go", "walk"]:
+        if comm in ["go", "walk", "move"]:
             outtext = " [direction]\" to move yourself to one of the 8 directions"
         if comm in ["chat", "talk"]:
             outtext = " [person]\" to chat with that person"
-        if comm in ["look", "examine"]:
+        if comm in ["look", "examine", "view"]:
             outtext = "\" to look around yourself and find out where you are"
-        if comm == "directions":
+        if comm in ["directions", "direction"]:
             outtext = "\" to find out possible directions to move next"
-        if comm == "inventory":
+        if comm in ["inventory", "i"]:
             outtext = "\" to find out what is in your pockets"
-        if comm == "help":
+        if comm in ["help", "h"]:
             outtext = "\" to find some help on commands possible in this game"
-        if comm == "quit":
+        if comm in ["quit", "q"]:
             outtext = "\" to quit the game without saving your name into the \"Hall of Fame\""
         if comm in ["ask", "take"]:
             outtext = " [person] to [place]\" to ask this person to follow you to that place"
@@ -442,15 +442,15 @@ def helpme(comm=""):
         return
     elif not comm:
         utils.print_text("\nSome commands you could find useful:\n")
-        utils.print_text(str(','.join(g.verbs[0:2])))
-        utils.print_text(str(','.join(g.verbs[3:4])))
-        utils.print_text(str(','.join(g.verbs[5:7])))
-        utils.print_text(str(','.join(g.verbs[8:9])))
-        utils.print_text(str(','.join(g.verbs[10:11])))
-        utils.print_text(str(','.join(g.verbs[12:13])))
-        utils.print_text(str(','.join(g.verbs[14:15])))
-        utils.print_text(str(''.join(g.verbs[16]) + " [person] to [place]"))
-        utils.print_text(str('\n'.join(g.verbs[17:23])))
+        utils.print_text(str(','.join(g.verbs[0:3])))
+        utils.print_text(str(','.join(g.verbs[3:5])))
+        utils.print_text(str(','.join(g.verbs[5:8])))
+        utils.print_text(str(','.join(g.verbs[8:10])))
+        utils.print_text(str(','.join(g.verbs[10:12])))
+        utils.print_text(str(','.join(g.verbs[12:14])))
+        utils.print_text(str(','.join(g.verbs[14:16])))
+        utils.print_text(str(','.join(g.verbs[16:18]) + " [person] to [place]"))
+        utils.print_text(str('\n'.join(g.verbs[18:23])))
         utils.print_text("\nFor moving use compass points:\n")
         utils.print_text(str(', '.join(g.verbs[24::])))
         utils.print_text('\n')
