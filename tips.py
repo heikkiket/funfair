@@ -5,8 +5,7 @@ import random
 
 randint = random.randint
 
-connect = FunDb.connect()
-cursor = connect.cursor()
+cursor = g.cur
 
 # connections in number forms and by names
 connections = []
@@ -14,7 +13,7 @@ connected_names = 0
 connected_pair = []
 
 # Amount of different tips
-positive_tips = 2
+positive_tips = 1
 negative_tips = 3
 false_tips = 1
 tips = []
@@ -46,9 +45,11 @@ def create_connections():
 
 def succesful_connection(connection):
     for person_id in connection:
-        print("UPDATE Persons SET Is_Connected=1 WHERE Person_Id="+str(person_id))
         cursor.execute("UPDATE Persons SET Is_Connected=1 WHERE Person_Id=%s", (person_id,))
     del(connections[connections.index(connection)])
+    create_tip('positive')
+    create_tip('false')
+    create_tip('negative')
 
 
 # this function is not used anywhere, but the SQL is too great to be deleted...
@@ -65,7 +66,6 @@ def generate_tips():
     global negative_tips
 
     for i in range(positive_tips):
-        # TODO Positive tips can both be from same pair
         create_tip('positive')
     for i in range(negative_tips):
         create_tip('negative')
@@ -141,24 +141,25 @@ def random_pair(connected):
 def give_tip(person_id):
     global first_tip
 
+    result = ""
+    found_row = False
     query = "SELECT Lines_Id, Line_text FROM Line WHERE Is_tip = 1 AND Person_Id=%s ORDER BY RAND () LIMIT 1"
     cursor.execute(query, (person_id,))
-    found_row = False
 
     if cursor.rowcount > 0:
         result = cursor.fetchall()
         line_id = result[0][0]
         result = result[0][1]
         found_row = True
+
+    propability = randint(0, (4 - g.days))
+
+    if propability < 2 or first_tip is True:
+        if found_row:
+            cursor.execute("UPDATE Line SET Is_said='1' WHERE Lines_Id=%s", (line_id,))
+            first_tip = False
     else:
         result = ""
-
-    propability = randint(0, 1)
-
-    if propability == 1 or first_tip is True:
-        if found_row:
-            cursor.execute("DELETE FROM Line Where Lines_Id=%s", (line_id,))
-            first_tip = False
 
     return result
 
