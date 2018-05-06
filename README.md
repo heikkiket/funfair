@@ -30,7 +30,7 @@ Muutama sananen rakenteesta...
 * ~~GO, WALK, pitkät versiot ilmansuunnista (Heikki)~~ **Done**
 * Directions kertomaan, mihin ilmansuunnat vievät **(Dmitri)**
 * ~~RIDE tarkistettava, funktion on tarkistettava onko lippu. (Suvi)~~**(Done)**
-* Sanomalehden tekstit tietokannasta **(Dmitri)**
+* ~~Sanomalehden tekstit tietokannasta (Dmitri)~~ **(Done)**
 
 * Lisää tavaraa tietokantaan **(Dmitri, Heikki, Suvi)**
 
