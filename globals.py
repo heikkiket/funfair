@@ -1,10 +1,11 @@
 # importing DB settings
 from lib.database import FunDb
+
 connect = FunDb.connect()
 
 # Global variables
 verbs = ["go", "walk", "move", "chat", "talk", "look", "examine", "view", "directions", "direction", "inventory", "i",
-        "help", "h", "quit", "q", "ask",
+         "help", "h", "quit", "q", "ask",
          "take",
          "buy",
          "eat",

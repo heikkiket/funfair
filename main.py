@@ -23,12 +23,12 @@ def main_menu():
 
     cur.execute("SELECT ifnull(MAX(Player_Id),0) + 1 from Player;")
     g.name_id = cur.fetchone()[0]
-    query = "INSERT INTO Player(Player_Id, Name, Score, Place_Id) values ("+str(g.name_id)+", '"+g.name+"', 0, (select Place_Id from Places where Name='Warehouse'));"
+    query = "INSERT INTO Player(Player_Id, Name, Score, Place_Id) values (" + str(
+        g.name_id) + ", '" + g.name + "', 0, (select Place_Id from Places where Name='Warehouse'));"
     cur.execute(query)
 
 
 def prologue():
-
     clear_screen()
     utils.print_text("Hello, " + str(g.name) + ", and welcome! Let's play!")
     utils.print_text("\nThere is a funfair in town...the game begins.\n\nDAY NUMBER: " + str(g.days))
@@ -85,7 +85,7 @@ def newspaper():
     if g.days == 3:
         print_text = "A MOOSE FROM THE LOCAL FOREST VISITED TOWN'S ZOOLOGICAL MUSEUM"
     utils.print_text(
-        "MORNING\n\nThe town's own newspaper, Takaseudun Sanomat, has succeeded on putting out a new issue.\n\n\""+print_text+"\"\n\nWhatever. You decide to go to the funfair.\n")
+        "MORNING\n\nThe town's own newspaper, Takaseudun Sanomat, has succeeded on putting out a new issue.\n\n\"" + print_text + "\"\n\nWhatever. You decide to go to the funfair.\n")
     location = "1"
 
 
@@ -205,7 +205,6 @@ def ask(person, where):
                 person_2_name) + " has already had a cup.")
         utils.print_text("You failed making a pair")
 
-
     g.asks = g.asks + 1
     # update players location
     location = where
@@ -234,62 +233,69 @@ def chat():
         utils.print_text("The person you want to chat with is not here")
     return
 
+
 # Need to change Player_Id
 def buy(item):
     sql = "SELECT Itemtype_Id FROM Item_types WHERE Alias LIKE '%" + item + "%' AND Place_Id = " + str(location) + ";"
     cur.execute(sql)
     if cur.rowcount >= 1:
         for row in cur:
-           item_id = row[0]
-           sql = "SELECT Name FROM Item_types WHERE Alias LIKE '%" + item + "%';"
-           cur.execute(sql)
-           if cur.rowcount >= 1:
-               for row in cur:
-                   item_name = row[0]
-                   sql = "INSERT INTO Items(Item_Id, Name, Itemtype_Id, Player_Id) SELECT MAX(Item_Id) + 1, + '"+ item_name +"' , " + str(item_id) +", 1 FROM Items;"
-                   cur.execute(sql)
-                   sql = "SELECT Line_Text FROM Line Where Item_Id = " + str(item_id) +" ORDER BY RAND() LIMIT 1;"
-                   cur.execute(sql)
-                   for row in cur:
-                       utils.print_text(row[0])
+            item_id = row[0]
+            sql = "SELECT Name FROM Item_types WHERE Alias LIKE '%" + item + "%';"
+            cur.execute(sql)
+            if cur.rowcount >= 1:
+                for row in cur:
+                    item_name = row[0]
+                    sql = "INSERT INTO Items(Item_Id, Name, Itemtype_Id, Player_Id) SELECT MAX(Item_Id) + 1, + '" + item_name + "' , " + str(
+                        item_id) + ", 1 FROM Items;"
+                    cur.execute(sql)
+                    sql = "SELECT Line_Text FROM Line Where Item_Id = " + str(item_id) + " ORDER BY RAND() LIMIT 1;"
+                    cur.execute(sql)
+                    for row in cur:
+                        utils.print_text(row[0])
     else:
-        utils.print_text("You cannot buy " + item + " from here") 
+        utils.print_text("You cannot buy " + item + " from here")
     return
 
 
 def drink(item):
-    sql = "SELECT * FROM Items WHERE Itemtype_Id = "+str(item)+" AND Player_Id = 1;"
+    sql = "SELECT * FROM Items WHERE Itemtype_Id = " + str(item) + " AND Player_Id = 1;"
     cur.execute(sql)
     if cur.rowcount >= 1:
         action = "drink"
-        sql = "SELECT Description From Item_types_Action WHERE Action = '" + action +"' and Itemtype_Id = "+str(item)+";"
+        sql = "SELECT Description From Item_types_Action WHERE Action = '" + action + "' and Itemtype_Id = " + str(
+            item) + ";"
         cur.execute(sql)
         if cur.rowcount >= 1:
             for row in cur:
                 utils.print_text(row[0])
-                sql = "DELETE FROM Items WHERE Itemtype_Id ="+str(item)+" and Player_Id = 1 ORDER BY RAND() LIMIT 1;"
+                sql = "DELETE FROM Items WHERE Itemtype_Id =" + str(
+                    item) + " and Player_Id = 1 ORDER BY RAND() LIMIT 1;"
                 cur.execute(sql)
     else:
         utils.print_text("You cannot drink what you don't have")
-    
+
     return
 
 
 def eat(item):
-    sql = "SELECT * FROM Items WHERE Itemtype_Id = "+str(item)+" AND Player_Id = 1;"
+    sql = "SELECT * FROM Items WHERE Itemtype_Id = " + str(item) + " AND Player_Id = 1;"
     cur.execute(sql)
     if cur.rowcount >= 1:
         action = "eat"
-        sql = "SELECT Description From Item_types_Action WHERE Action = '" + action +"' and Itemtype_Id = "+str(item)+";"
+        sql = "SELECT Description From Item_types_Action WHERE Action = '" + action + "' and Itemtype_Id = " + str(
+            item) + ";"
         cur.execute(sql)
         if cur.rowcount >= 1:
             for row in cur:
                 utils.print_text(row[0])
-                sql = "DELETE FROM Items WHERE Itemtype_Id ="+str(item)+" and Player_Id = 1 ORDER BY RAND() LIMIT 1;"
+                sql = "DELETE FROM Items WHERE Itemtype_Id =" + str(
+                    item) + " and Player_Id = 1 ORDER BY RAND() LIMIT 1;"
                 cur.execute(sql)
     else:
         utils.print_text("You cannot eat what you don't have")
     return
+
 
 # Need to change Player_Id
 def ride():
@@ -332,17 +338,21 @@ def play(game):
 
     return
 
+
 def bottle_pyramid(win):
     if win == 1:
         utils.print_text("You play bottle pyramid and master every throw!")
     else:
         utils.print_text("You play bottle pyramid but it doesn't go very well.")
 
+
 def pull_a_string(win):
     utils.print_text("You play pull-a-string")
 
+
 def climb_ladder(win):
     utils.print_text("You play climb the ladder")
+
 
 def wait():
     utils.print_text("What on earth are you waiting for?")
@@ -377,6 +387,7 @@ def helpme():
     utils.print_text("For moving use compass points:")
     utils.print_text(str(','.join(g.verbs[24::])))
     return
+
 
 def move(loc, direction):
     destination = location
@@ -469,7 +480,8 @@ while action != "quit" and action != "q" and g.days < 4:
         elif "direct_item_id" in ret:
             itemtype_id = ret["direct_item_id"]
             action = "buy"
-            sql = "SELECT * FROM `Item_types_Action` WHERE Itemtype_Id = "+str(itemtype_id)+" AND Action = '" + action +"';"
+            sql = "SELECT * FROM `Item_types_Action` WHERE Itemtype_Id = " + str(
+                itemtype_id) + " AND Action = '" + action + "';"
             cur.execute(sql)
             if cur.rowcount >= 1:
                 buy(obj)
@@ -482,13 +494,14 @@ while action != "quit" and action != "q" and g.days < 4:
         elif "direct_item_id" in ret:
             itemtype_id = ret["direct_item_id"]
             action = "drink"
-            sql = "SELECT * FROM `Item_types_Action` WHERE Itemtype_Id = "+str(itemtype_id)+" AND Action = '" + action +"';"
+            sql = "SELECT * FROM `Item_types_Action` WHERE Itemtype_Id = " + str(
+                itemtype_id) + " AND Action = '" + action + "';"
             cur.execute(sql)
             if cur.rowcount >= 1:
                 drink(itemtype_id)
             else:
                 utils.print_text("That is not drinkable")
-            
+
     # eat [item]
     if action == "eat":
         if obj == "":
@@ -496,7 +509,8 @@ while action != "quit" and action != "q" and g.days < 4:
         elif "direct_item_id" in ret:
             itemtype_id = ret["direct_item_id"]
             action = "eat"
-            sql = "SELECT * FROM `Item_types_Action` WHERE Itemtype_Id = "+str(itemtype_id)+" AND Action = '" + action +"';"
+            sql = "SELECT * FROM `Item_types_Action` WHERE Itemtype_Id = " + str(
+                itemtype_id) + " AND Action = '" + action + "';"
             cur.execute(sql)
             if cur.rowcount >= 1:
                 eat(itemtype_id)
