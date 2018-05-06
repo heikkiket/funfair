@@ -491,13 +491,18 @@ def move(loc, direction):
 
     if len(direction) > 2:
         direction = utils.name_to_direction(direction)
-    sql = "SELECT `Has_passagesPlace_Id` FROM `Has_passages` WHERE `Direction_Id`= '" + direction + "' AND `Place_Id` = " + str(
+
+    sql = "SELECT `Has_passagesPlace_Id`, Locked, Lock_message  FROM `Has_passages` WHERE `Direction_Id`= '" + direction + "' AND `Place_Id` = " + str(
         loc) + ";"
     cur.execute(sql)
 
     if cur.rowcount >= 1:
         for row in cur.fetchall():
             destination = row[0]
+            # Locked == True
+            if row[1] == 1:
+                utils.print_text(row[2])
+                destination = location
 
     return destination
 
