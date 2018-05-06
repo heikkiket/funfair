@@ -1,6 +1,6 @@
 def print_text(text="", center=False):
     # width of text to be printed
-    print_width = 150
+    print_width = 120
 
     lines = text.split("\n")
     list_lines = []
