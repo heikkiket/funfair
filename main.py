@@ -28,7 +28,16 @@ def main_menu():
 def prologue():
     clear_screen()
     utils.print_text("Hello, " + str(g.name) + ", and welcome! Let's play!")
-    utils.print_text("\nThere is a funfair in town...the game begins.\n\nDAY NUMBER: " + str(g.days))
+    utils.print_text("\nIt is summer and the town is boring as always. You live there like summers before, with your " \
+                     "family, in one of the dull concrete buildings. The town is said to be beautiful in the summertime. "\
+                     "That is true for every Finnish town apparently. \nNot quite in the center of the city, there is "\
+                     "an empty gravel pitch. One day you see trucks arriving. They have a big text on their side:" \
+                     "TIVOLI SÖDERHOLM")
+    utils.make_break()
+    utils.print_text("\nThere is not much to do here. This is why you become really interested about the funfair. You "\
+                     "Wait two days until the funfair is built on the field. "\
+                     "This is where the story begins."
+                     "\n\nDAY NUMBER: " + str(g.days))
     utils.make_break()
     newspaper()
     look(g.location)
@@ -37,13 +46,14 @@ def prologue():
 
 def epilogue(success):
     if success:
-        utils.print_text("You have joined the Tivoli Söderholm and moved far away from the town and started to travel " \
-                         "with funfair. You’ve traveled around Finland lived a happy life ever after.")
+        utils.print_text("You have joined the Tivoli Söderholm and moved far away from the town. The world looks so much " \
+                         "more beautiful when travelling with funfair. You think you are a lucky one, and that's " \
+                         "probably true.")
     else:
         utils.print_text("In the morning when you are returning from the night shift you notice that the field is " \
                          "empty. You can still barely see few last trucks with funfair logos moving away in the another " \
                          "end of the town main street.\n" \
-                         "The summer is soon over and you think how your life is still the same it was when you was a" \
+                         "The summer is soon over and you think how your life is still the same it was when you was a " \
                          "teenager, hoping to get away from this town.")
 
 
@@ -68,8 +78,8 @@ def night():
         utils.print_text("DAY NUMBER: " + str(g.days))
         newspaper()
         utils.make_break()
-    g.location = "1"
-    look(g.location)
+        g.location = "1"
+        look(g.location)
     return
 
 
@@ -200,7 +210,7 @@ def ask(person, where):
                              "and joy fills you overall. These concrete buildings have never looked more beautiful.")
         else:
             pass
-    return
+        return
 
     person_2 = ""
     sql = "SELECT Person_Id FROM Persons WHERE Place_Id = " + str(where) + ";"
@@ -267,6 +277,7 @@ def ask(person, where):
 
     # update players location
     g.location = where
+    utils.make_break()
 
     if made_connections == 4:
         utils.print_text(
@@ -277,10 +288,13 @@ def ask(person, where):
 
     if g.asks > 1:
         night()
+    else:
+        look(g.location)
     return
 
 
 def chat():
+
     sql = "SELECT line_text FROM Line LEFT JOIN Persons On Persons.`Person_Id` = Line.`Person_Id` " \
           "WHERE Alias like '%" + obj + "%' AND Line.`Place_Id` = " + str(g.location) + " AND Line.`Item_Id` is null " \
                                                                                       "ORDER BY RAND() LIMIT 1;"
@@ -295,6 +309,10 @@ def chat():
 
 
 def buy(item):
+
+    if g.night:
+        return
+
     sql = "SELECT Itemtype_Id FROM Item_types WHERE Alias LIKE '%" + item + "%' AND Place_Id = " + str(g.location) + ";"
     cur.execute(sql)
     if cur.rowcount >= 1:
@@ -357,6 +375,10 @@ def eat(item):
 
 
 def ride():
+
+    if g.night:
+        return
+
     sql = "SELECT * FROM Items WHERE Itemtype_Id = 1 AND Player_Id = " + str(g.name_id) + ";"
     cur.execute(sql)
     if cur.rowcount >= 1:
@@ -374,6 +396,10 @@ def ride():
 
 
 def play(game):
+
+    if g.night:
+        return
+
     win = random.randint(1, 4)
 
     if game == "bottle pyramid":
@@ -417,7 +443,10 @@ def pull_a_string(win):
 
 
 def climb_ladder(win):
-    utils.print_text("You play climb the ladder")
+    if win ==1:
+        utils.print_text("You play climb the ladder and manage to get all the way!")
+    else:
+        utils.print_text("You play climb the ladder but despite brave attempt, fall down shortly.")
 
 
 def wait():
@@ -427,6 +456,7 @@ def wait():
 
 def inventory():
     utils.print_text("\nINVENTORY\n")
+    utils.print_text("Day: " + g.days + "  Trials: " + g.asks)
     sql = "Select Name FROM Persons Where Is_Connected = '1'"
     cur.execute(sql)
     if cur.rowcount >= 1:
@@ -710,3 +740,5 @@ if action not in ["quit", "q"]:
     epilogue(g.victory)
 else:
     utils.print_text("See you soon again!")
+
+utils.print_text("\nThank you for playing Funfair Affair!")
