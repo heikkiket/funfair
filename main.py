@@ -454,6 +454,8 @@ def helpme(comm=""):
         utils.print_text("\nFor moving use compass points:\n")
         utils.print_text(str(', '.join(g.verbs[24::])))
         utils.print_text('\n')
+        utils.print_text("Help with a certain command: help [command]""\n")
+        
         return
     else:
         utils.print_text("I cannot find help for this command!")
