@@ -179,7 +179,7 @@ def ask(person, where):
     if cur.rowcount >= 1:
         for row in cur.fetchall():
             person_2 = row[0]
-            print("You tried:" + str(person) + " and " + str(person_2))
+            print("You tried: " + str(person) + " and " + str(person_2))
 
     sql = "SELECT Name FROM Persons WHERE Person_Id = " + str(person) + ";"
     cur.execute(sql)
@@ -209,7 +209,7 @@ def ask(person, where):
 
     # Print no success -message
     if not success_to_connect:
-        text = "You take " + str(person_2_name) + " to visit"
+        text = "You took " + str(person_2_name) + " to visit"
         if where == 2:
             utils.print_text(text + " Elna at the Open-Air Stage. Elna starts her show, but " + str(
                 person_2_name) + " doesn’t seem to like it at all.")
@@ -237,6 +237,7 @@ def ask(person, where):
         utils.print_text("You failed making a pair")
 
     g.asks = g.asks + 1
+
     # update players location
     location = where
 
@@ -390,6 +391,14 @@ def wait():
 
 
 def inventory():
+    sql = "Select Person_Id FROM Persons Where Is_Connected = '1'"
+    cur.execute(sql)
+    if cur.rowcount >= 1:
+        for row in cur.fetchall():
+            print("connected: "+str(row[0]))
+    else:
+        print("No connections")
+
     sql = "select Items.Name, Places.Name from Items,Item_types,Places where Items.Itemtype_Id=Item_types.Itemtype_Id and "\
           "Item_types.Place_Id=Places.Place_Id and Items.Player_Id= "+ str(g.name_id) + ";"
     cur.execute(sql)
@@ -630,4 +639,7 @@ while action != "quit" and action != "q" and g.days < 4:
     if action == "iwannawin":
         tips.connected_names = 2
         final()
-epilogue(g.victory)
+if action not in ["quit", "q"]:
+    epilogue(g.victory)
+else:
+    utils.print_text("See you soon again!")
