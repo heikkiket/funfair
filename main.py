@@ -411,7 +411,9 @@ def bottle_pyramid(win):
 
 
 def pull_a_string(win):
-    utils.print_text("You play pull-a-string")
+    utils.print_text("You play pull-a-string. Select a string:")
+    utils.print_text("1 2 3 4 5 6 7 8 9\n")
+    string = input("Please give a number: ")
 
 
 def climb_ladder(win):
