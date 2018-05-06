@@ -157,7 +157,7 @@ def give_tip(person_id):
 
     if propability == 1 or first_tip is True:
         if found_row:
-            cursor.execute("DELETE FROM Line Where Lines_Id=%s", (line_id,))
+            cursor.execute("UPDATE Line SET Is_said=1 WHERE Lines_Id=%s", (line_id,))
             first_tip = False
 
     return result
