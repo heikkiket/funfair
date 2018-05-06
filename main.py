@@ -9,6 +9,7 @@ cur = g.cur
 
 # aliohjelmat
 
+
 def main_menu():
     utils.print_text()
     utils.print_text("F U N F A I R   A F F A I R", True)
@@ -30,7 +31,7 @@ def prologue():
     utils.print_text("\nThere is a funfair in town...the game begins.\n\nDAY NUMBER: " + str(g.days))
     utils.make_break()
     newspaper()
-    look(location)
+    look(g.location)
     return
 
 
@@ -67,7 +68,8 @@ def night():
         utils.print_text("DAY NUMBER: " + str(g.days))
         newspaper()
         utils.make_break()
-    look(location)
+    g.location = "1"
+    look(g.location)
     return
 
 
@@ -99,11 +101,23 @@ def final():
 
 
 def newspaper(from_where=""):
-    # TODO print_text can be pulled from the DB
-    # SELECT Line_text FROM Line WHERE Item_Id = %(newspaper_id)s ORDER BY RAND() LIMIT 1
-    sql = "SELECT Line_text FROM Line, Items, Item_types WHERE Line.Item_Id = Items.Item_Id and Items.Itemtype_Id=Item_types.Itemtype_Id and Item_types.Name='Newspaper' ORDER BY RAND() LIMIT 1"
-    cur.execute(sql)
-    print_text = cur.fetchone()[0].upper()
+    cur2 = g.connection.cursor()
+    sql = "SELECT Line.Line_text, Line.Lines_Id FROM Line, Items, Item_types WHERE Line.Item_Id = Items.Item_Id " \
+          "and Items.Itemtype_Id=Item_types.Itemtype_Id and Item_types.Name='Newspaper' and Line.Is_said != 1 " \
+          "ORDER BY RAND() LIMIT 1;"
+    cur2.execute(sql)
+    if cur2.rowcount >= 1:
+        x = cur2.fetchone()
+        print_text = x[0].upper()
+        sql3 = "update Line set Line.Is_said = 1 where Line.Lines_Id = "+str(x[1])+";"
+        cur2.execute(sql3)
+
+    else:
+        sql2 = "update Line set Line.Is_said = 0 WHERE Line.Item_Id = (select Items.Item_Id from Items, Item_types " \
+               "where Items.Itemtype_Id = Item_types.Itemtype_Id and Item_types.Name='Newspaper');"
+        cur2.execute(sql2)
+        cur2.execute(sql)
+        print_text = cur2.fetchone()[0].upper()
     if from_where:
         utils.print_text("\nToday's headline of Takaseudun Sanomat is:\n\n\"" + print_text+"\"\n")
     else:
@@ -134,8 +148,7 @@ def show_passage(loc):
     sql = "select Directions.Description, Places.Name from Has_passages, Directions, Places " \
           "where Has_passages.Direction_Id = Directions.Direction_Id and Has_passages.Has_passagesPlace_Id=Places.Place_Id" \
           " and Has_passages.Place_Id=" + str(loc) + " order by Directions.Description asc;"
-    # sql = "SELECT Description FROM Directions WHERE Direction_id IN (SELECT direction_id FROM Has_passages WHERE place_id =" + str(
-    #    loc) + ")Order by direction_id ASC LIMIT 10;"
+
     cur.execute(sql)
     if cur.rowcount >= 1:
         utils.print_text("\nFrom here you can go: \n")
@@ -254,7 +267,7 @@ def ask(person, where):
     g.asks = g.asks + 1
 
     # update players location
-    location = where
+    g.location = where
 
     if made_connections == 4:
         utils.print_text(
@@ -270,7 +283,7 @@ def ask(person, where):
 
 def chat():
     sql = "SELECT line_text FROM Line LEFT JOIN Persons On Persons.`Person_Id` = Line.`Person_Id` " \
-          "WHERE Alias like '%" + obj + "%' AND Line.`Place_Id` = " + str(location) + " AND Line.`Item_Id` is null " \
+          "WHERE Alias like '%" + obj + "%' AND Line.`Place_Id` = " + str(g.location) + " AND Line.`Item_Id` is null " \
                                                                                       "ORDER BY RAND() LIMIT 1;"
     cur.execute(sql)
     if cur.rowcount >= 1:
@@ -283,7 +296,7 @@ def chat():
 
 
 def buy(item):
-    sql = "SELECT Itemtype_Id FROM Item_types WHERE Alias LIKE '%" + item + "%' AND Place_Id = " + str(location) + ";"
+    sql = "SELECT Itemtype_Id FROM Item_types WHERE Alias LIKE '%" + item + "%' AND Place_Id = " + str(g.location) + ";"
     cur.execute(sql)
     if cur.rowcount >= 1:
         for row in cur:
@@ -348,7 +361,7 @@ def ride():
     sql = "SELECT * FROM Items WHERE Itemtype_Id = 1 AND Player_Id = " + str(g.name_id) + ";"
     cur.execute(sql)
     if cur.rowcount >= 1:
-        sql = "SELECT ACTION FROM Places Where Place_Id =" + str(location) + ";"
+        sql = "SELECT ACTION FROM Places Where Place_Id =" + str(g.location) + ";"
         cur.execute(sql)
         if cur.rowcount >= 1:
             for row in cur:
@@ -377,11 +390,16 @@ def play(game):
         return
 
     if win == 1:
-        sql = "SELECT Name From Item_types Where Itemtype_Id = 2 OR Itemtype_Id = 16 OR Itemtype_Id = 17 ORDER BY RAND() LIMIT 1;"
+        sql = "SELECT Name, Itemtype_Id From Item_types Where Itemtype_Id = 2 OR Itemtype_Id = 16 OR Itemtype_Id = 17 ORDER BY RAND() LIMIT 1;"
         cur.execute(sql)
         if cur.rowcount >= 1:
             for row in cur:
                 utils.print_text("You win "+ str(row[0]) + "! Amazing!")
+                item_name = row[0]
+                item_id = row[1]
+                sql = "INSERT INTO Items(Item_Id, Name, Itemtype_Id, Player_Id) SELECT MAX(Item_Id) + 1, + '" + item_name + "' , " + str(
+                item_id) + ", " + str(g.name_id) + " FROM Items;"
+                cur.execute(sql)
                
     return
 
@@ -504,7 +522,7 @@ def helpme(comm=""):
 
 
 def move(loc, direction):
-    destination = location
+    destination = g.location
 
     if len(direction) > 2:
         direction = utils.name_to_direction(direction)
@@ -519,7 +537,7 @@ def move(loc, direction):
             # Locked == True
             if row[1] == 1:
                 utils.print_text(row[2])
-                destination = location
+                destination = g.location
 
     return destination
 
@@ -538,8 +556,7 @@ if g.debug is True:
     print("Connections: " + str(tips.connections))
 
 # player location
-global location
-location = "1"
+g.location = "1"
 
 main_menu()
 
@@ -555,21 +572,21 @@ while action != "quit" and action != "q" and g.days < 4:
 
     # look [location]
     if action in ["look", "examine", "view"]:
-        look(location)
+        look(g.location)
     # directions
     if action in ["directions", "direction"]:
-        show_passage(location)
+        show_passage(g.location)
     # move
     if action in ["go", "walk", "move"] and obj in ["e", "n", "ne", "nw", "s", "se", "sw", "w", "east", "north",
                                                     "northeast", "northwest", "south", "southwest", "west"]:
-        newlocation = move(location, obj)
-        location = newlocation
-        look(location)
+        newlocation = move(g.location, obj)
+        g.location = newlocation
+        look(g.location)
     if action in ["e", "n", "ne", "nw", "s", "se", "sw", "w", "east", "north", "northeast", "northwest", "south",
                   "southwest", "west"]:
-        newlocation = move(location, action)
-        location = newlocation
-        look(location)
+        newlocation = move(g.location, action)
+        g.location = newlocation
+        look(g.location)
     # ask/take [person] to [place]
     if action == "ask" or action == "take":
         wrong = "There is something wrong with what you're asking (person or place where you're asking to go)"
@@ -579,7 +596,7 @@ while action != "quit" and action != "q" and g.days < 4:
             # Birgitta == 9 and Ferris Wheel == 8
             ask(9, 8)
         elif "direct_person_id" in ret and "indirect_place_id" in ret:
-            if ret["direct_person_id"] != 0 and ret["indirect_place_id"] != 0 and location != ret["indirect_place_id"]:
+            if ret["direct_person_id"] != 0 and ret["indirect_place_id"] != 0 and g.location != ret["indirect_place_id"]:
                 person = ret["direct_person_id"]
                 where = ret["indirect_place_id"]
                 sql = "SELECT Person_Id, Place_Id From Persons WHERE Connectable = 1 AND Person_Id ='" + str(
@@ -654,8 +671,8 @@ while action != "quit" and action != "q" and g.days < 4:
         if obj == "":
             utils.print_text("You have to be a bit more specific")
         elif "direct_place_id" in ret:
-            if ret["direct_place_id"] == location:
-                if location in [3, 4, 6]:
+            if ret["direct_place_id"] == g.location:
+                if g.location in [3, 4, 6]:
                     ride()
                 else:
                     utils.print_text("Excuse me?")
@@ -664,9 +681,9 @@ while action != "quit" and action != "q" and g.days < 4:
         else:
             utils.print_text("Are you nuts?")
     # play [game]
-    if action == "play" and location == 7:
+    if action == "play" and g.location == 7:
         play(obj)
-    if action == "play" and location != 7:
+    if action == "play" and g.location != 7:
         utils.print_text("You have to go to the game hall to play games")
     # wait
     if action == "wait":

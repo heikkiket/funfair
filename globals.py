@@ -30,6 +30,7 @@ debug = False
 
 days = 1
 asks = 0
+location = "1"
 
 name = ""
 name_id = 0
