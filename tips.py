@@ -1,5 +1,6 @@
 # Tips system
 from lib.database import FunDb
+import globals as g
 import random
 
 randint = random.randint
@@ -17,6 +18,8 @@ positive_tips = 2
 negative_tips = 3
 false_tips = 1
 tips = []
+
+first_tip = True;
 
 
 def create_connections():
@@ -104,7 +107,7 @@ def create_tip(tip_type):
     line = line_template % names
 
     while True:
-        person_id = randint(1, 7)
+        person_id = randint(1, 8)
         if ids.count(person_id) == 0:
             break
 
@@ -137,6 +140,8 @@ def random_pair(connected):
 
 
 def give_tip(person_id):
+    global first_tip
+
     query = "SELECT Lines_Id, Line_text FROM Line WHERE Is_tip = 1 AND Person_Id=%s ORDER BY RAND () LIMIT 1"
     cursor.execute(query, (person_id,))
     found_row = False
@@ -149,11 +154,13 @@ def give_tip(person_id):
     else:
         result = ""
 
-    if randint(0, 1) > 0:
-        result = ""
-    else:
+    propability = randint(0, 1)
+
+    if propability == 1 or first_tip == True:
         if found_row:
             cursor.execute("DELETE FROM Line Where Lines_Id=%s", (line_id,))
+            first_tip = False
+
     return result
 
 

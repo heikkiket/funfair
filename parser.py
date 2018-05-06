@@ -18,7 +18,7 @@ def process_sentence(sentence):
         utils.print_text("You gave no sentence")
         return for_return
 
-    if globals.verbs.count(words[0]) is not 0:
+    if globals.verbs.count(words[0]) is not 0 or words[0] == "iwannawin":
         verb = words.pop(0)
 
         if len(words) == 0:
@@ -68,7 +68,7 @@ def process_sentence(sentence):
 
 def get_alias(obj, id=1):
     sql1 = "select Person_Id, Alias from Persons where Alias is not null;"
-    sql2 = "select Items.Item_id, Item_types.Alias from Items, Item_types where Items.Itemtype_Id=Item_types.Itemtype_Id and Item_types.Itemtype_Id is not null;"
+    sql2 = "select Itemtype_Id, Item_types.Alias from Item_types where Alias is not null;"
     sql3 = "select Place_Id, Alias from Places where Alias is not null;"
 
     aliases = {}

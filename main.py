@@ -234,39 +234,77 @@ def chat():
         utils.print_text("The person you want to chat with is not here")
     return
 
-# Need to change Player_Id later if not 1
+# Need to change Player_Id
 def buy(item):
     sql = "SELECT Itemtype_Id FROM Item_types WHERE Alias LIKE '%" + item + "%' AND Place_Id = " + str(location) + ";"
     cur.execute(sql)
     if cur.rowcount >= 1:
         for row in cur:
            item_id = row[0]
-           sql = "UPDATE Items SET Player_Id = 1 WHERE Item_Id = " + str(item_id) + ";"
-           cur.execute(sql)
            sql = "SELECT Name FROM Item_types WHERE Alias LIKE '%" + item + "%';"
            cur.execute(sql)
            if cur.rowcount >= 1:
                for row in cur:
-                   utils.print_text("You bought " + row[0])
+                   item_name = row[0]
+                   sql = "INSERT INTO Items(Item_Id, Name, Itemtype_Id, Player_Id) SELECT MAX(Item_Id) + 1, + '"+ item_name +"' , " + str(item_id) +", 1 FROM Items;"
+                   cur.execute(sql)
+                   sql = "SELECT Line_Text FROM Line Where Item_Id = " + str(item_id) +" ORDER BY RAND() LIMIT 1;"
+                   cur.execute(sql)
+                   for row in cur:
+                       utils.print_text(row[0])
     else:
-        utils.print_text("You cannot buy " + item + " from here")
-                                                                                                       
+        utils.print_text("You cannot buy " + item + " from here") 
     return
 
+
 def drink(item):
-    return item
+    sql = "SELECT * FROM Items WHERE Itemtype_Id = "+str(item)+" AND Player_Id = 1;"
+    cur.execute(sql)
+    if cur.rowcount >= 1:
+        action = "drink"
+        sql = "SELECT Description From Item_types_Action WHERE Action = '" + action +"' and Itemtype_Id = "+str(item)+";"
+        cur.execute(sql)
+        if cur.rowcount >= 1:
+            for row in cur:
+                utils.print_text(row[0])
+                sql = "DELETE FROM Items WHERE Itemtype_Id ="+str(item)+" and Player_Id = 1 ORDER BY RAND() LIMIT 1;"
+                cur.execute(sql)
+    else:
+        utils.print_text("You cannot drink what you don't have")
+    
+    return
 
 
 def eat(item):
-    return item
-
-
-def ride():
-    sql = "SELECT ACTION FROM Places Where Place_Id =" + str(location) + ";"
+    sql = "SELECT * FROM Items WHERE Itemtype_Id = "+str(item)+" AND Player_Id = 1;"
     cur.execute(sql)
     if cur.rowcount >= 1:
-        for row in cur:
-            utils.print_text(row[0])
+        action = "eat"
+        sql = "SELECT Description From Item_types_Action WHERE Action = '" + action +"' and Itemtype_Id = "+str(item)+";"
+        cur.execute(sql)
+        if cur.rowcount >= 1:
+            for row in cur:
+                utils.print_text(row[0])
+                sql = "DELETE FROM Items WHERE Itemtype_Id ="+str(item)+" and Player_Id = 1 ORDER BY RAND() LIMIT 1;"
+                cur.execute(sql)
+    else:
+        utils.print_text("You cannot eat what you don't have")
+    return
+
+# Need to change Player_Id
+def ride():
+    sql = "SELECT * FROM Items WHERE Itemtype_Id = 1 AND Player_Id = 1;"
+    cur.execute(sql)
+    if cur.rowcount >= 1:
+        sql = "SELECT ACTION FROM Places Where Place_Id =" + str(location) + ";"
+        cur.execute(sql)
+        if cur.rowcount >= 1:
+            for row in cur:
+                utils.print_text(row[0])
+                sql = "DELETE FROM Items WHERE Itemtype_Id = 1 and Player_Id = 1 ORDER BY RAND() LIMIT 1;"
+                cur.execute(sql)
+    else:
+        utils.print_text("You don't have any ride tickets")
     return
 
 
@@ -429,11 +467,41 @@ while action != "quit" and action != "q" and g.days < 4:
         if obj == "":
             utils.print_text("You have to be a bit more specific")
         elif "direct_item_id" in ret:
+            itemtype_id = ret["direct_item_id"]
+            action = "buy"
+            sql = "SELECT * FROM `Item_types_Action` WHERE Itemtype_Id = "+str(itemtype_id)+" AND Action = '" + action +"';"
+            cur.execute(sql)
+            if cur.rowcount >= 1:
                 buy(obj)
         else:
             utils.print_text("Don't be silly, that's not something you can buy from here")
     # drink [item]
+    if action == "drink":
+        if obj == "":
+            utils.print_text("You have to be a bit more specific")
+        elif "direct_item_id" in ret:
+            itemtype_id = ret["direct_item_id"]
+            action = "drink"
+            sql = "SELECT * FROM `Item_types_Action` WHERE Itemtype_Id = "+str(itemtype_id)+" AND Action = '" + action +"';"
+            cur.execute(sql)
+            if cur.rowcount >= 1:
+                drink(itemtype_id)
+            else:
+                utils.print_text("That is not drinkable")
+            
     # eat [item]
+    if action == "eat":
+        if obj == "":
+            utils.print_text("You have to be a bit more specific")
+        elif "direct_item_id" in ret:
+            itemtype_id = ret["direct_item_id"]
+            action = "eat"
+            sql = "SELECT * FROM `Item_types_Action` WHERE Itemtype_Id = "+str(itemtype_id)+" AND Action = '" + action +"';"
+            cur.execute(sql)
+            if cur.rowcount >= 1:
+                eat(itemtype_id)
+            else:
+                utils.print_text("That is not edible")
     # chat/talk to/with [person]
     if action == "chat" or action == "talk":
         if obj == "":
