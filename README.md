@@ -27,8 +27,9 @@ Muutama sananen rakenteesta...
 * ~~HELP (Suvi)~~ **(Done)**
 * ~~HELP [command] (Dmitri)~~ **Done**
 * Inventory **(Dmitri)**
+* Inventory listaa vihjeet **(Heikki)**
 * ~~GO, WALK, pitkät versiot ilmansuunnista (Heikki)~~ **Done**
-* Directions kertomaan, mihin ilmansuunnat vievät **(Dmitri)**
+* ~~Directions kertomaan, mihin ilmansuunnat vievät (Dmitri)~~ **Done**
 * ~~RIDE tarkistettava, funktion on tarkistettava onko lippu. (Suvi)~~**(Done)**
 * ~~Sanomalehden tekstit tietokannasta (Dmitri)~~ **(Done)**
 
