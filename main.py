@@ -5,11 +5,7 @@ from lib import utils
 import random
 
 # importing DB settings
-from lib.database import FunDb
-
-connect = FunDb.connect()
-cur = connect.cursor()
-
+cur = g.cur
 
 # aliohjelmat
 
@@ -183,8 +179,6 @@ def ask(person, where):
     if cur.rowcount >= 1:
         for row in cur.fetchall():
             person_2 = row[0]
-            print("You tried: " + str(person) + " and " + str(person_2))
-
     sql = "SELECT Name FROM Persons WHERE Person_Id = " + str(person) + ";"
     cur.execute(sql)
     if cur.rowcount >= 1:
@@ -396,13 +390,26 @@ def wait():
 
 
 def inventory():
+    utils.print_text("\nINVENTORY\n")
     sql = "Select Person_Id FROM Persons Where Is_Connected = '1'"
     cur.execute(sql)
     if cur.rowcount >= 1:
         for row in cur.fetchall():
-            print("connected: " + str(row[0]))
+            utils.print_text("connected: " + str(row[0]))
     else:
-        print("No connections")
+        utils.print_text("No connections")
+
+    sql = "SELECT Line_text FROM Line WHERE Is_tip=1 AND Is_said=1"
+    cur.execute(sql)
+    if g.debug:
+        print(cur._executed)
+    utils.print_text("\nYou have got following tips:")
+    if cur.rowcount >= 1:
+        for row in cur.fetchall():
+            utils.print_text('"' + str(row[0]) +'"')
+        utils.print_text("(Remember: some tips can be false)")
+    else:
+        utils.print_text("No tips.")
 
     sql = "select Items.Name, Places.Name from Items,Item_types,Places where Items.Itemtype_Id=Item_types.Itemtype_Id and " \
           "Item_types.Place_Id=Places.Place_Id and Items.Player_Id= " + str(g.name_id) + ";"
