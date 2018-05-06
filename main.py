@@ -491,6 +491,8 @@ def helpme(comm=""):
             outtext = "\" to rides different fun rides"
         if comm == "play":
             outtext = "\" to play different games in Game Hall"
+        if comm == "read":
+            outtext = " newspaper\" to read headlines of local newspaper Takaseudun Sanomat"
         if comm in ["e", "n", "ne", "nw", "s", "se", "sw", "w", "east", "north", "northeast", "northwest", "south",
                     "southwest", "west"]:
             outtext = "\" to move into that direction"
