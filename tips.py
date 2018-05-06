@@ -19,7 +19,7 @@ negative_tips = 3
 false_tips = 1
 tips = []
 
-first_tip = True;
+first_tip = True
 
 
 def create_connections():
@@ -46,13 +46,12 @@ def create_connections():
 
 def succesful_connection(connection):
     for person_id in connection:
+        print("UPDATE Persons SET Is_Connected=1 WHERE Person_Id="+str(person_id))
         cursor.execute("UPDATE Persons SET Is_Connected=1 WHERE Person_Id=%s", (person_id,))
     del(connections[connections.index(connection)])
 
 
-
-
-#this function is not used anywhere, but the SQL is too great to be deleted...
+# this function is not used anywhere, but the SQL is too great to be deleted...
 def get_names():
     query = "SELECT DISTINCT Persons1.Name AS Person1, Persons2.Name AS Person2 FROM Persons AS Persons1 "\
             "JOIN Persons As Persons2 ON Persons1.Person_Id=Persons2.Connects_Person_Id "
@@ -66,7 +65,7 @@ def generate_tips():
     global negative_tips
 
     for i in range(positive_tips):
-        #TODO Positive tips can both be from same pair
+        # TODO Positive tips can both be from same pair
         create_tip('positive')
     for i in range(negative_tips):
         create_tip('negative')
@@ -156,7 +155,7 @@ def give_tip(person_id):
 
     propability = randint(0, 1)
 
-    if propability == 1 or first_tip == True:
+    if propability == 1 or first_tip is True:
         if found_row:
             cursor.execute("DELETE FROM Line Where Lines_Id=%s", (line_id,))
             first_tip = False

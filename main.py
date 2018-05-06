@@ -40,10 +40,10 @@ def prologue():
 
 def epilogue(success):
     if success:
-        utils.print_text("You have joined the Tivoli Söderholm and moved far away from the town and started to travel "\
+        utils.print_text("You have joined the Tivoli Söderholm and moved far away from the town and started to travel " \
                          "with funfair. You’ve traveled around Finland lived a happy life ever after.")
     else:
-        utils.print_text("In the morning when you are returning from the night shift you notice that the field is "\
+        utils.print_text("In the morning when you are returning from the night shift you notice that the field is " \
                          "empty. You can still barely see few last trucks with funfair logos moving away in the another " \
                          "end of the town main street.\n" \
                          "The summer is soon over and you think how your life is still the same it was when you was a" \
@@ -64,7 +64,7 @@ def night():
         utils.make_break()
         utils.print_text("\n\nNIGHT TIME\n")
         utils.print_text(
-            "At night you work at the warehouse. When having a break at the yard of the warehouse you see a distant glow "\
+            "At night you work at the warehouse. When having a break at the yard of the warehouse you see a distant glow " \
             "from the closed funfair: the employees have set up campfire…\n")
 
         utils.make_break()
@@ -80,39 +80,38 @@ def final():
     utils.make_break()
     if tips.connected_names == 2:
         location = "13"
-        #Bring everyone to the campfire
+        # Bring everyone to the campfire
         sql = "UPDATE Persons SET Place_Id=13"
-        #cur.execute(sql)
+        # cur.execute(sql)
 
         g.night = True
         g.victory = True
-        utils.print_text("You are entering a campfire place, where everyone of a funfair staff members gathered together " \
-                         "around the fire. A busy couple of working days are behind and everyone is relaxing and having " \
-                         "a friendly chat with each other. Somebody is laughing. There is a buzz in the air. As soon " \
-                         "as you enter the area everyone calms down. You approach the fire. Birgitta, the funfair " \
-                         "director, rises up.")
+        utils.print_text(
+            "You are entering a campfire place, where everyone of a funfair staff members gathered together " \
+            "around the fire. A busy couple of working days are behind and everyone is relaxing and having " \
+            "a friendly chat with each other. Somebody is laughing. There is a buzz in the air. As soon " \
+            "as you enter the area everyone calms down. You approach the fire. Birgitta, the funfair " \
+            "director, rises up.")
     else:
         utils.print_text("The campfire!! The END You lose :(")
     return
 
 
-def newspaper():
+def newspaper(from_where=""):
     # TODO print_text can be pulled from the DB
     # SELECT Line_text FROM Line WHERE Item_Id = %(newspaper_id)s ORDER BY RAND() LIMIT 1
-    if g.days == 1:
-        print_text = "THE FISHING FESTIVAL MIGHT TAKE PLACE AT THE MARKET PLACE INSTEAD OF THE LOCAL LAKE"
-    if g.days == 2:
-        print_text = "TOWN MUSEUM WANTS TO EVICT DOGS CAMPING ON THE MUSEUM YARD"
-    if g.days == 3:
-        print_text = "A MOOSE FROM THE LOCAL FOREST VISITED TOWN'S ZOOLOGICAL MUSEUM"
-    utils.print_text(
-        "MORNING\n\nThe town's own newspaper, Takaseudun Sanomat, has succeeded on putting out a new issue.\n\n\""
-        + print_text + "\"\n\nWhatever. You decide to go to the funfair.\n")
-    location = "1"
+    sql = "SELECT Line_text FROM Line, Items, Item_types WHERE Line.Item_Id = Items.Item_Id and Items.Itemtype_Id=Item_types.Itemtype_Id and Item_types.Name='Newspaper' ORDER BY RAND() LIMIT 1"
+    cur.execute(sql)
+    print_text = cur.fetchone()[0].upper()
+    if from_where:
+        utils.print_text("\nToday's headline of the newspapers:\n" + print_text+"\n")
+    else:
+        utils.print_text(
+            "Morning! \n\nThe town's own newspaper, Takaseudun Sanomat, has succeeded on putting out a new issue.\n\n\""
+            + print_text + "\"\n\nWhatever. You decide to go to the funfair.\n")
 
 
 def look(loc):
-
     if g.night:
         description = "Description_night"
         details = "Details_night"
@@ -122,7 +121,8 @@ def look(loc):
 
     sql = "SELECT Name, %s, %s FROM Places where Place_Id='%s'" % (description, details, str(loc))
     cur.execute(sql)
-    print(cur._executed)
+    if g.debug:
+        print(cur._executed)
     if cur.rowcount >= 1:
         for row in cur.fetchall():
             utils.print_text("\n" + row[0] + "\n\n" + row[1] + "\n\n" + row[2] + "\n\n")
@@ -179,7 +179,7 @@ def ask(person, where):
     if cur.rowcount >= 1:
         for row in cur.fetchall():
             person_2 = row[0]
-            print("You tried:" + str(person) + " and " + str(person_2))
+            print("You tried: " + str(person) + " and " + str(person_2))
 
     sql = "SELECT Name FROM Persons WHERE Person_Id = " + str(person) + ";"
     cur.execute(sql)
@@ -209,7 +209,7 @@ def ask(person, where):
 
     # Print no success -message
     if not success_to_connect:
-        text = "You take " + str(person_2_name) + " to visit"
+        text = "You took " + str(person_2_name) + " to visit"
         if where == 2:
             utils.print_text(text + " Elna at the Open-Air Stage. Elna starts her show, but " + str(
                 person_2_name) + " doesn’t seem to like it at all.")
@@ -237,6 +237,7 @@ def ask(person, where):
         utils.print_text("You failed making a pair")
 
     g.asks = g.asks + 1
+
     # update players location
     location = where
 
@@ -290,7 +291,7 @@ def buy(item):
 
 
 def drink(item):
-    sql = "SELECT * FROM Items WHERE Itemtype_Id = " + str(item) + " AND Player_Id = "+ str(g.name_id) + ";"
+    sql = "SELECT * FROM Items WHERE Itemtype_Id = " + str(item) + " AND Player_Id = " + str(g.name_id) + ";"
     cur.execute(sql)
     if cur.rowcount >= 1:
         action = "drink"
@@ -301,7 +302,7 @@ def drink(item):
             for row in cur:
                 utils.print_text(row[0])
                 sql = "DELETE FROM Items WHERE Itemtype_Id =" + str(
-                    item) + " and Player_Id = "+ str(g.name_id) + " ORDER BY RAND() LIMIT 1;"
+                    item) + " and Player_Id = " + str(g.name_id) + " ORDER BY RAND() LIMIT 1;"
                 cur.execute(sql)
     else:
         utils.print_text("You cannot drink what you don't have")
@@ -310,7 +311,7 @@ def drink(item):
 
 
 def eat(item):
-    sql = "SELECT * FROM Items WHERE Itemtype_Id = " + str(item) + " AND Player_Id = "+ str(g.name_id) + ";"
+    sql = "SELECT * FROM Items WHERE Itemtype_Id = " + str(item) + " AND Player_Id = " + str(g.name_id) + ";"
     cur.execute(sql)
     if cur.rowcount >= 1:
         action = "eat"
@@ -321,7 +322,7 @@ def eat(item):
             for row in cur:
                 utils.print_text(row[0])
                 sql = "DELETE FROM Items WHERE Itemtype_Id =" + str(
-                    item) + " and Player_Id = "+ str(g.name_id) + " ORDER BY RAND() LIMIT 1;"
+                    item) + " and Player_Id = " + str(g.name_id) + " ORDER BY RAND() LIMIT 1;"
                 cur.execute(sql)
     else:
         utils.print_text("You cannot eat what you don't have")
@@ -329,7 +330,7 @@ def eat(item):
 
 
 def ride():
-    sql = "SELECT * FROM Items WHERE Itemtype_Id = 1 AND Player_Id = "+ str(g.name_id) + ";"
+    sql = "SELECT * FROM Items WHERE Itemtype_Id = 1 AND Player_Id = " + str(g.name_id) + ";"
     cur.execute(sql)
     if cur.rowcount >= 1:
         sql = "SELECT ACTION FROM Places Where Place_Id =" + str(location) + ";"
@@ -337,7 +338,8 @@ def ride():
         if cur.rowcount >= 1:
             for row in cur:
                 utils.print_text(row[0])
-                sql = "DELETE FROM Items WHERE Itemtype_Id = 1 and Player_Id = "+ str(g.name_id) + " ORDER BY RAND() LIMIT 1;"
+                sql = "DELETE FROM Items WHERE Itemtype_Id = 1 and Player_Id = " + str(
+                    g.name_id) + " ORDER BY RAND() LIMIT 1;"
                 cur.execute(sql)
     else:
         utils.print_text("You don't have any ride tickets")
@@ -390,8 +392,16 @@ def wait():
 
 
 def inventory():
-    sql = "select Items.Name, Places.Name from Items,Item_types,Places where Items.Itemtype_Id=Item_types.Itemtype_Id and "\
-          "Item_types.Place_Id=Places.Place_Id and Items.Player_Id= "+ str(g.name_id) + ";"
+    sql = "Select Person_Id FROM Persons Where Is_Connected = '1'"
+    cur.execute(sql)
+    if cur.rowcount >= 1:
+        for row in cur.fetchall():
+            print("connected: " + str(row[0]))
+    else:
+        print("No connections")
+
+    sql = "select Items.Name, Places.Name from Items,Item_types,Places where Items.Itemtype_Id=Item_types.Itemtype_Id and " \
+          "Item_types.Place_Id=Places.Place_Id and Items.Player_Id= " + str(g.name_id) + ";"
     cur.execute(sql)
     if cur.rowcount >= 1:
         utils.print_text("\nYou are holding:\n")
@@ -494,6 +504,7 @@ if g.debug is True:
     print("Connections: " + str(tips.connections))
 
 # player location
+global location
 location = "1"
 
 main_menu()
@@ -629,7 +640,12 @@ while action != "quit" and action != "q" and g.days < 4:
     # help
     if action in ["help", "h"]:
         helpme(obj)
+    if action == "read" and obj == "newspaper":
+        newspaper("from_main")
     if action == "iwannawin":
         tips.connected_names = 2
         final()
-epilogue(g.victory)
+if action not in ["quit", "q"]:
+    epilogue(g.victory)
+else:
+    utils.print_text("See you soon again!")

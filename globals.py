@@ -20,7 +20,8 @@ verbs = ["go", "walk", "move", "chat", "talk", "look", "examine", "view", "direc
          "south", "s",
          "southwest", "sw",
          "west", "w",
-         "northwest", "nw"]
+         "northwest", "nw",
+         "read"]
 
 prepositions = ["to", "at", "in", "with"]
 debug = True
