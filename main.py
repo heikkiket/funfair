@@ -360,11 +360,16 @@ def play(game):
         return
 
     if win == 1:
-        sql = "SELECT Name From Item_types Where Itemtype_Id = 2 OR Itemtype_Id = 16 OR Itemtype_Id = 17 ORDER BY RAND() LIMIT 1;"
+        sql = "SELECT Name, Itemtype_Id From Item_types Where Itemtype_Id = 2 OR Itemtype_Id = 16 OR Itemtype_Id = 17 ORDER BY RAND() LIMIT 1;"
         cur.execute(sql)
         if cur.rowcount >= 1:
             for row in cur:
                 utils.print_text("You win "+ str(row[0]) + "! Amazing!")
+                item_name = row[0]
+                item_id = row[1]
+                sql = "INSERT INTO Items(Item_Id, Name, Itemtype_Id, Player_Id) SELECT MAX(Item_Id) + 1, + '" + item_name + "' , " + str(
+                item_id) + ", " + str(g.name_id) + " FROM Items;"
+                cur.execute(sql)
                
     return
 
