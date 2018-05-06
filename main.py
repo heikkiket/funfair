@@ -18,7 +18,7 @@ def main_menu():
     utils.print_text("F U N F A I R   A F F A I R", True)
     utils.print_text("2018", True)
     utils.print_text("Dmitri Tsyganok, Suvi Sihvola, Heikki Ketoharju", True)
-    utils.print_text("\n\n\n\n\n")
+    utils.print_text("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
     g.name = input("How can I call you? ")
 
     cur.execute("SELECT ifnull(MAX(Player_Id),0) + 1 from Player;")
@@ -373,19 +373,62 @@ def inventory():
     return
 
 
-def helpme():
-    utils.print_text("Some commands you could find useful:")
-    utils.print_text(str(','.join(g.verbs[0:2])))
-    utils.print_text(str(','.join(g.verbs[3:4])))
-    utils.print_text(str(','.join(g.verbs[5:7])))
-    utils.print_text(str(','.join(g.verbs[8:9])))
-    utils.print_text(str(','.join(g.verbs[10:11])))
-    utils.print_text(str(','.join(g.verbs[12:13])))
-    utils.print_text(str(','.join(g.verbs[14:15])))
-    utils.print_text(str(''.join(g.verbs[16]) + " [person] to [place]"))
-    utils.print_text(str('\n'.join(g.verbs[17:23])))
-    utils.print_text("For moving use compass points:")
-    utils.print_text(str(','.join(g.verbs[24::])))
+def helpme(comm=""):
+    if comm in g.verbs:
+        outtext = ""
+
+        if comm in ["go", "walk"]:
+            outtext = " [direction]\" to move yourself to one of the 8 directions"
+        if comm in ["chat", "talk"]:
+            outtext = " [person]\" to chat with that person"
+        if comm in ["look", "examine"]:
+            outtext = "\" to look around yourself and find out where you are"
+        if comm == "directions":
+            outtext = "\" to find out possible directions to move next"
+        if comm == "inventory":
+            outtext = "\" to find out what is in your pockets"
+        if comm == "help":
+            outtext = "\" to find some help on commands possible in this game"
+        if comm == "quit":
+            outtext = "\" to quit the game without saving your name into the \"Hall of Fame\""
+        if comm in ["ask", "take"]:
+            outtext = " [person] to [place]\" to ask this person to follow you to that place"
+        if comm == "buy":
+            outtext = "\" to buy different items"
+        if comm == "eat":
+            outtext = "\" to eat different products"
+        if comm == "drink":
+            outtext = "\" to drink different drinks"
+        if comm == "ride":
+            outtext = "\" to rides different fun rides"
+        if comm == "play":
+            outtext = "\" to play different games in Game Hall"
+        if comm in ["e", "n", "ne", "nw", "s", "se", "sw", "w", "east", "north", "northeast", "northwest", "south",
+                    "southwest", "west"]:
+            outtext = "\" to move into that direction"
+
+        if outtext:
+            utils.print_text("\n\nUse command \"" + comm + outtext + "\n\n")
+        return
+    elif not comm:
+        utils.print_text("\nSome commands you could find useful:\n")
+        utils.print_text(str(','.join(g.verbs[0:2])))
+        utils.print_text(str(','.join(g.verbs[3:4])))
+        utils.print_text(str(','.join(g.verbs[5:7])))
+        utils.print_text(str(','.join(g.verbs[8:9])))
+        utils.print_text(str(','.join(g.verbs[10:11])))
+        utils.print_text(str(','.join(g.verbs[12:13])))
+        utils.print_text(str(','.join(g.verbs[14:15])))
+        utils.print_text(str(''.join(g.verbs[16]) + " [person] to [place]"))
+        utils.print_text(str('\n'.join(g.verbs[17:23])))
+        utils.print_text("\nFor moving use compass points:\n")
+        utils.print_text(str(', '.join(g.verbs[24::])))
+        utils.print_text('\n')
+        return
+    else:
+        utils.print_text("I cannot find help for this command!")
+        return
+
     return
 
 
@@ -553,6 +596,6 @@ while action != "quit" and action != "q" and g.days < 4:
         inventory()
     # help
     if action in ["help", "h"]:
-        helpme()
+        helpme(obj)
 
 epilogue()

@@ -25,7 +25,7 @@ Muutama sananen rakenteesta...
 * Epilogi campfiren jälkeen **(Heikki)**
 * Passages: locked=true **(Heikki)**
 * HELP **(Suvi)**
-* HELP [command] **(Dmitri)**
+* ~~HELP [command] (Dmitri)~~ **Done**
 * Inventory **(Dmitri)**
 * ~~GO, WALK, pitkät versiot ilmansuunnista (Heikki)~~ **Done**
 * Directions kertomaan, mihin ilmansuunnat vievät **(Dmitri)**

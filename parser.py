@@ -13,7 +13,7 @@ def process_sentence(sentence):
     verb = ""
     object = ""
     indirect_object = ""
-    for_return = {"verb":"", "object":"", "indirect":""}
+    for_return = {"verb": "", "object": "", "indirect": ""}
     if len(words) == 0:
         utils.print_text("You gave no sentence")
         return for_return
@@ -84,7 +84,9 @@ def get_alias(obj, id=1):
         aliases.update(get_alias_from_db(sql2, "direct_item_id", obj))
         # checking places
         aliases.update(get_alias_from_db(sql3, "direct_place_id", obj))
-    if obj is not '' and aliases == {}:
+
+    # the last one helps to avoid shouting if "help command" is used
+    if obj is not '' and aliases == {} and obj not in globals.verbs:
         utils.print_text("I don't understand what '" + obj + "' means.")
         utils.print_text()
     return aliases
