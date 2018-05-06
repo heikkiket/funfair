@@ -1,8 +1,23 @@
+<<<<<<< HEAD
 -- MySQL dump 10.16  Distrib 10.1.30-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: funfair
 -- ------------------------------------------------------
 -- Server version	10.1.30-MariaDB-0ubuntu0.17.10.1
+=======
+# ************************************************************
+# Sequel Pro SQL dump
+# Version 4541
+#
+# http://www.sequelpro.com/
+# https://github.com/sequelpro/sequelpro
+#
+# Host: 127.0.0.1 (MySQL 5.7.21)
+# Database: funfair
+# Generation Time: 2018-05-06 16:51:40 +0000
+# ************************************************************
+
+>>>>>>> 9ba5d2b3aa5f9e83893b92943c9850f667b02c99
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -93,7 +108,25 @@ CREATE TABLE `Item_types` (
 
 LOCK TABLES `Item_types` WRITE;
 /*!40000 ALTER TABLE `Item_types` DISABLE KEYS */;
-INSERT INTO `Item_types` VALUES (1,'Ride Tickets',1,'tickets;ride tickets;ticket'),(2,'Stuffed Teddy Bear',7,'teddy;teddy bear'),(3,'Cup of coffee',12,'coffee;coffee cup;cup of coffee'),(6,'Newspaper',14,'newspaper'),(7,'Cup of Tea',12,'tea;tea cup;cup of tea'),(8,'Soda Can',12,'soda;can of soda;soda can;soda bottle;bottle of soda'),(9,'Bottle of Water',12,'water;water bottle;bottle of water; '),(10,'Cinnamon bun',12,'bun;cinnamon bun;buns;cinnamon buns'),(11,'Cookie',12,'cookie;chocolate cookie;cookies;chocolate cookies;'),(12,'Chocolate brownie',12,'brownie;brownies;chololate brownie;chocolate brownies'),(13,'Pink candy floss',11,'candy floss;cotton candy;pink candy floss;pink cotton candy'),(14,'Candies',11,'candies;mixed candies;candy;mixed sweets;sweets;candy'),(15,'Licorice',11,'licorice;loose licorice;piece of licorice'),(16,'Blue pencil',7,'pencil'),(17,'Funfair themed playing cards',7,'cards;playing cards');
+
+INSERT INTO `Item_types` (`Itemtype_Id`, `Name`, `Place_Id`, `Alias`)
+VALUES
+	(1,'Ride Tickets',1,'tickets;ride tickets;ticket'),
+	(2,'Stuffed Teddy Bear',7,'teddy;teddy bear'),
+	(3,'Cup of coffee',12,'coffee;coffee cup;cup of coffee'),
+	(6,'Newspaper',14,'newspaper'),
+	(7,'Cup of Tea',12,'tea;tea cup;cup of tea'),
+	(8,'Soda Can',12,'soda;can of soda;soda can;soda bottle;bottle of soda'),
+	(9,'Bottle of Water',12,'water;water bottle;bottle of water; '),
+	(10,'Cinnamon bun',12,'bun;cinnamon bun;buns;cinnamon buns'),
+	(11,'Cookie',12,'cookie;chocolate cookie;cookies;chocolate cookies'),
+	(12,'Chocolate brownie',12,'brownie;brownies;chololate brownie;chocolate brownies'),
+	(13,'Pink candy floss',11,'candy floss;cotton candy;pink candy floss;pink cotton candy'),
+	(14,'Candies',11,'candies;mixed candies;candy;mixed sweets;sweets'),
+	(15,'Licorice',11,'licorice;loose licorice;piece of licorice'),
+	(16,'Blue pencil',7,'pencil'),
+	(17,'Funfair themed playing cards',7,'cards;playing cards');
+
 /*!40000 ALTER TABLE `Item_types` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -188,7 +221,63 @@ CREATE TABLE `Line` (
 
 LOCK TABLES `Line` WRITE;
 /*!40000 ALTER TABLE `Line` DISABLE KEYS */;
-INSERT INTO `Line` VALUES (1,'There is bad blood around in our funfair. Walk around to find out!',8,1,NULL,NULL,0,0),(2,'You want to buy ride tickets? Okey, here you go.',8,1,1,NULL,0,0),(3,'Would you have guessed the clown is my mother? It feels like I\'ve live my whole life here. Sometimes I wonder about the meaning of life. I study philosophy.',8,1,NULL,NULL,0,0),(4,'My name is Elna and I\'m the funfair clown.',1,2,NULL,NULL,0,0),(5,'I’m proud of my parents. There isn’t many funfairs nowadays in Finland anymore. I’m bored but this is my life.',5,6,NULL,NULL,0,0),(6,'It’s such a nice day today. I think the kids will have a blast when I perform later. The janitor roasted some marshmallows last night.',1,2,NULL,NULL,0,0),(7,'My name Is Valter and I\'m the funfair magician. ',2,7,NULL,NULL,0,0),(8,'The magician looks at you and winks his eye. You don\'t really know what to think of him. ',2,7,NULL,NULL,0,0),(9,'I’m glad everything is going so smoothly today. I heard there is almost no crime in this town.',3,5,NULL,NULL,0,0),(10,'I think this place is really dull.',5,6,NULL,NULL,0,0),(11,'I think my cookies are excellent today. My name is Peter by the way.',6,12,NULL,NULL,0,0),(12,'Blah blah! My name is Sara.',5,6,NULL,NULL,0,0),(13,'I prefer dark roast when it comes to coffee.',6,12,NULL,NULL,0,0),(14,'I would love to cycle around this town. It’s the best when you go around a lot, you get to see new places and learn new magic tricks.',2,7,NULL,NULL,0,0),(15,'It seems a bit slower today. Maybe I will read today. I like to travel and sometimes I feel like travelling when exploring a new book!',1,2,NULL,NULL,0,0),(16,'You can come talk to me if you see a criminal.',3,5,NULL,NULL,0,0),(17,'I\'m Linda.',3,5,NULL,NULL,0,0),(18,'Oh my shoes! I\'d love to talk to you but it\'s so crazy here today.',4,3,NULL,NULL,0,0),(19,'Are you just like one of these vandals? Oh maybe not, you seem a bit older. I\'m Lena by the way. Sometimes I think I will have grey hair at the end of summer becouse all the reckless driving.',4,3,NULL,NULL,0,0),(20,'The bumper car operator is busy yells at some children. You think it\'s better not to bother her.',4,3,NULL,NULL,0,0),(21,'You know what\'s the purpose of reindeer? To make grass grow hehehe.',6,12,NULL,NULL,0,0),(22,'\"I\'m Matilda. \" The candy shop keeper says while arranging all the candy.',7,11,NULL,NULL,0,0),(23,'This is a cool place to work. Meet new people, see new places, eat lots of candy floss. I study geopgraphy. Won\'t really work for me as practical training for school but no worries.',7,11,NULL,NULL,0,0),(24,'I make excellent candy floss. You should try some.',7,11,NULL,NULL,0,0),(25,'I\'m Arthur. I wish the ferris wheel is repaired soon.',10,8,NULL,NULL,0,0),(26,'I think I must thank you.',9,13,NULL,NULL,0,0),(27,'I like people who drink coffee. They are trustworthy. Here you go, enjoy!',6,12,5,NULL,0,0),(28,'We have a wide selection of different tea varieties. Black, white, green, chai, blue, rainbow, bubblegum..eh can\'t find anything else but black though. Here you go!',6,12,6,NULL,0,0),(29,'Our funfair had been so long in terrible troubles. Finally you found a way to connect people together.',9,13,NULL,NULL,0,0),(30,'You seem to be a bright-minded and empathetic person. I believe you will have a great future!',9,13,NULL,NULL,0,0),(31,'You seem to be a bright-minded and empathetic person. I believe you will have a great future!',9,13,NULL,NULL,0,0),(32,'Somehow this reminds me about a time when I was at your age. Elna, do you feel the same? Our new friend has young spirit.',9,13,NULL,NULL,0,0),(33,'THE FISHING FESTIVAL MIGHT TAKE PLACE AT THE MARKET PLACE INSTEAD OF THE LOCAL LAKE',8,14,16,NULL,0,0),(34,'TOWN MUSEUM WANTS TO EVICT DOGS CAMPING ON THE MUSEUM YARD',8,14,16,NULL,0,0),(35,'A MOOSE FROM THE LOCAL FOREST VISITED TOWN\'S ZOOLOGICAL MUSEUM',8,14,16,NULL,0,0),(36,'Postman beaten by lavander bush',8,14,16,NULL,0,0),(37,'Town\'s firefighters rescue duck from lake',8,14,16,NULL,0,0),(38,'Man\'s legs stolen - wedding dream shattered',8,14,16,NULL,0,0),(39,'Old man: I\'ve been posting my letter in the dog poo box for two years',8,14,16,NULL,0,0),(40,'Kitten chokes on mouse',8,14,16,NULL,0,0),(41,'yawning almost killed man',8,14,16,NULL,0,0),(42,'toilet curse strikes again',8,14,16,NULL,0,0),(43,'man who stabbed inflatable duck with scissors avoids jail',8,14,16,NULL,0,0),(44,'dealer sold tea to cops',8,14,16,NULL,0,0),(45,'dead man found in graveyard',8,14,16,NULL,0,0),(46,'Sure you can have a soda. Here you go.',6,12,8,NULL,0,0),(47,'Water water water...it\'n not even so hot in here, but here you go.',6,12,9,NULL,0,0),(48,'I have made this cinnamon buns myself. Hope you like it.',6,12,10,NULL,0,0),(49,'One brownie coming right up.',6,12,12,NULL,0,0),(50,'Oh so nice of you to buy some candy floss from me. Candy Shop Keeper smiles at you.',7,11,13,NULL,0,0),(51,'You buy a lot of candies.',7,11,14,NULL,0,0),(52,'Not everyone likes licorice. Here you go!',7,11,15,NULL,0,0);
+
+INSERT INTO `Line` (`Lines_Id`, `Line_Text`, `Person_Id`, `Place_Id`, `Item_Id`, `Connects_Person_Id`, `Is_tip`)
+VALUES
+	(1,'There is bad blood around in our funfair. Walk around to find out!',8,1,NULL,NULL,0),
+	(2,'You want to buy ride tickets? Okey, here you go.',8,1,1,NULL,0),
+	(3,'Would you have guessed the clown is my mother? It feels like I\'ve live my whole life here. Sometimes I wonder about the meaning of life. I study philosophy.',8,1,NULL,NULL,0),
+	(4,'My name is Elna and I\'m the funfair clown.',1,2,NULL,NULL,0),
+	(5,'I’m proud of my parents. There isn’t many funfairs nowadays in Finland anymore. I’m bored but this is my life.',5,6,NULL,NULL,0),
+	(6,'It’s such a nice day today. I think the kids will have a blast when I perform later. The janitor roasted some marshmallows last night.',1,2,NULL,NULL,0),
+	(7,'My name Is Valter and I\'m the funfair magician. ',2,7,NULL,NULL,0),
+	(8,'The magician looks at you and winks his eye. You don\'t really know what to think of him. ',2,7,NULL,NULL,0),
+	(9,'I’m glad everything is going so smoothly today. I heard there is almost no crime in this town.',3,5,NULL,NULL,0),
+	(10,'I think this place is really dull.',5,6,NULL,NULL,0),
+	(11,'I think my cookies are excellent today. My name is Peter by the way.',6,12,NULL,NULL,0),
+	(12,'Blah blah! My name is Sara.',5,6,NULL,NULL,0),
+	(13,'I prefer dark roast when it comes to coffee.',6,12,NULL,NULL,0),
+	(14,'I would love to cycle around this town. It’s the best when you go around a lot, you get to see new places and learn new magic tricks.',2,7,NULL,NULL,0),
+	(15,'It seems a bit slower today. Maybe I will read today. I like to travel and sometimes I feel like travelling when exploring a new book!',1,2,NULL,NULL,0),
+	(16,'You can come talk to me if you see a criminal.',3,5,NULL,NULL,0),
+	(17,'I\'m Linda.',3,5,NULL,NULL,0),
+	(18,'Oh my shoes! I\'d love to talk to you but it\'s so crazy here today.',4,3,NULL,NULL,0),
+	(19,'Are you just like one of these vandals? Oh maybe not, you seem a bit older. I\'m Lena by the way. Sometimes I think I will have grey hair at the end of summer becouse all the reckless driving.',4,3,NULL,NULL,0),
+	(20,'The bumper car operator is busy yells at some children. You think it\'s better not to bother her.',4,3,NULL,NULL,0),
+	(21,'You know what\'s the purpose of reindeer? To make grass grow hehehe.',6,12,NULL,NULL,0),
+	(22,'\"I\'m Matilda. \" The candy shop keeper says while arranging all the candy.',7,11,NULL,NULL,0),
+	(23,'This is a cool place to work. Meet new people, see new places, eat lots of candy floss. I study geopgraphy. Won\'t really work for me as practical training for school but no worries.',7,11,NULL,NULL,0),
+	(24,'I make excellent candy floss. You should try some.',7,11,NULL,NULL,0),
+	(25,'I\'m Arthur. I wish the ferris wheel is repaired soon.',10,8,NULL,NULL,0),
+	(26,'I think I must thank you.',9,13,NULL,NULL,0),
+	(27,'I like people who drink coffee. They are trustworthy. Here you go, enjoy!',6,12,3,NULL,0),
+	(28,'We have a wide selection of different tea varieties. Black, white, green, chai, blue, rainbow, bubblegum..eh can\'t find anything else but black though. Here you go!',6,12,7,NULL,0),
+	(29,'Our funfair had been so long in terrible troubles. Finally you found a way to connect people together.',9,13,NULL,NULL,0),
+	(30,'You seem to be a bright-minded and empathetic person. I believe you will have a great future!',9,13,NULL,NULL,0),
+	(31,'You seem to be a bright-minded and empathetic person. I believe you will have a great future!',9,13,NULL,NULL,0),
+	(32,'Somehow this reminds me about a time when I was at your age. Elna, do you feel the same? Our new friend has young spirit.',9,13,NULL,NULL,0),
+	(33,'THE FISHING FESTIVAL MIGHT TAKE PLACE AT THE MARKET PLACE INSTEAD OF THE LOCAL LAKE',8,14,16,NULL,0),
+	(34,'TOWN MUSEUM WANTS TO EVICT DOGS CAMPING ON THE MUSEUM YARD',8,14,16,NULL,0),
+	(35,'A MOOSE FROM THE LOCAL FOREST VISITED TOWN\'S ZOOLOGICAL MUSEUM',8,14,16,NULL,0),
+	(36,'Postman beaten by lavander bush',8,14,16,NULL,0),
+	(37,'Town\'s firefighters rescue duck from lake',8,14,16,NULL,0),
+	(38,'Man\'s legs stolen - wedding dream shattered',8,14,16,NULL,0),
+	(39,'Old man: I\'ve been posting my letter in the dog poo box for two years',8,14,16,NULL,0),
+	(40,'Kitten chokes on mouse',8,14,16,NULL,0),
+	(41,'yawning almost killed man',8,14,16,NULL,0),
+	(42,'toilet curse strikes again',8,14,16,NULL,0),
+	(43,'man who stabbed inflatable duck with scissors avoids jail',8,14,16,NULL,0),
+	(44,'dealer sold tea to cops',8,14,16,NULL,0),
+	(45,'dead man found in graveyard',8,14,16,NULL,0),
+	(46,'Sure you can have a soda. Here you go.',6,12,8,NULL,0),
+	(47,'Water water water...it\'n not even so hot in here, but here you go.',6,12,9,NULL,0),
+	(48,'I have made this cinnamon buns myself. Hope you like it.',6,12,10,NULL,0),
+	(49,'One brownie coming right up.',6,12,12,NULL,0),
+	(50,'Oh so nice of you to buy some candy floss from me. Candy Shop Keeper smiles at you.',7,11,13,NULL,0),
+	(51,'You buy a lot of candies.',7,11,14,NULL,0),
+	(52,'Not everyone likes licorice. Here you go!',7,11,15,NULL,0),
+	(53,'One cookie for you!',6,12,11,NULL,0);
+
 /*!40000 ALTER TABLE `Line` ENABLE KEYS */;
 UNLOCK TABLES;
 
