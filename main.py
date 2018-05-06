@@ -38,8 +38,16 @@ def prologue():
     return
 
 
-def epilogue():
-    return
+def epilogue(success):
+    if success:
+        utils.print_text("You have joined the Tivoli Söderholm and moved far away from the town and started to travel "\
+                         "with funfair. You’ve traveled around Finland lived a happy life ever after.")
+    else:
+        utils.print_text("In the morning when you are returning from the night shift you notice that the field is "\
+                         "empty. You can still barely see few last trucks with funfair logos moving away in the another " \
+                         "end of the town main street.\n" \
+                         "The summer is soon over and you think how your life is still the same it was when you was a" \
+                         "teenager, hoping to get away from this town.")
 
 
 def clear_screen():
@@ -56,7 +64,8 @@ def night():
         utils.make_break()
         utils.print_text("\n\nNIGHT TIME\n")
         utils.print_text(
-            "At night you work at the warehouse. When having a break at the yard of the warehouse you see a distant glow from the closed funfair: the employees have set up campfire…\n")
+            "At night you work at the warehouse. When having a break at the yard of the warehouse you see a distant glow "\
+            "from the closed funfair: the employees have set up campfire…\n")
 
         utils.make_break()
         utils.print_text("DAY NUMBER: " + str(g.days))
@@ -67,9 +76,21 @@ def night():
 
 
 def final():
+    global location
     utils.make_break()
     if tips.connected_names == 2:
-        utils.print_text("The campfire!! The END You win!")
+        location = "13"
+        #Bring everyone to the campfire
+        sql = "UPDATE Persons SET Place_Id=13"
+        #cur.execute(sql)
+
+        g.night = True
+        g.victory = True
+        utils.print_text("You are entering a campfire place, where everyone of a funfair staff members gathered together " \
+                         "around the fire. A busy couple of working days are behind and everyone is relaxing and having " \
+                         "a friendly chat with each other. Somebody is laughing. There is a buzz in the air. As soon " \
+                         "as you enter the area everyone calms down. You approach the fire. Birgitta, the funfair " \
+                         "director, rises up.")
     else:
         utils.print_text("The campfire!! The END You lose :(")
     return
@@ -85,13 +106,23 @@ def newspaper():
     if g.days == 3:
         print_text = "A MOOSE FROM THE LOCAL FOREST VISITED TOWN'S ZOOLOGICAL MUSEUM"
     utils.print_text(
-        "MORNING\n\nThe town's own newspaper, Takaseudun Sanomat, has succeeded on putting out a new issue.\n\n\"" + print_text + "\"\n\nWhatever. You decide to go to the funfair.\n")
+        "MORNING\n\nThe town's own newspaper, Takaseudun Sanomat, has succeeded on putting out a new issue.\n\n\""
+        + print_text + "\"\n\nWhatever. You decide to go to the funfair.\n")
     location = "1"
 
 
 def look(loc):
-    sql = "SELECT Name, Description, Details FROM Places where Place_Id=" + str(loc) + ";"
+
+    if g.night:
+        description = "Description_night"
+        details = "Details_night"
+    else:
+        description = "Description"
+        details = "Details"
+
+    sql = "SELECT Name, %s, %s FROM Places where Place_Id='%s'" % (description, details, str(loc))
     cur.execute(sql)
+    print(cur._executed)
     if cur.rowcount >= 1:
         for row in cur.fetchall():
             utils.print_text("\n" + row[0] + "\n\n" + row[1] + "\n\n" + row[2] + "\n\n")
@@ -211,7 +242,8 @@ def ask(person, where):
 
     if made_connections == 4:
         utils.print_text(
-            "You have made two connections! No reason to wander around anymore. It's time to enjoy the campfire with all the funfair employees and hear what they have to say.")
+            "You have made two connections! No reason to wander around anymore. It's time to enjoy the campfire " \
+            "with all the funfair employees and hear what they have to say.")
         g.days = 4
         final()
 
@@ -234,7 +266,6 @@ def chat():
     return
 
 
-# Need to change Player_Id
 def buy(item):
     sql = "SELECT Itemtype_Id FROM Item_types WHERE Alias LIKE '%" + item + "%' AND Place_Id = " + str(location) + ";"
     cur.execute(sql)
@@ -247,7 +278,7 @@ def buy(item):
                 for row in cur:
                     item_name = row[0]
                     sql = "INSERT INTO Items(Item_Id, Name, Itemtype_Id, Player_Id) SELECT MAX(Item_Id) + 1, + '" + item_name + "' , " + str(
-                        item_id) + ", 1 FROM Items;"
+                        item_id) + ", " + str(g.name_id) + " FROM Items;"
                     cur.execute(sql)
                     sql = "SELECT Line_Text FROM Line Where Item_Id = " + str(item_id) + " ORDER BY RAND() LIMIT 1;"
                     cur.execute(sql)
@@ -259,7 +290,7 @@ def buy(item):
 
 
 def drink(item):
-    sql = "SELECT * FROM Items WHERE Itemtype_Id = " + str(item) + " AND Player_Id = 1;"
+    sql = "SELECT * FROM Items WHERE Itemtype_Id = " + str(item) + " AND Player_Id = "+ str(g.name_id) + ";"
     cur.execute(sql)
     if cur.rowcount >= 1:
         action = "drink"
@@ -270,7 +301,7 @@ def drink(item):
             for row in cur:
                 utils.print_text(row[0])
                 sql = "DELETE FROM Items WHERE Itemtype_Id =" + str(
-                    item) + " and Player_Id = 1 ORDER BY RAND() LIMIT 1;"
+                    item) + " and Player_Id = "+ str(g.name_id) + " ORDER BY RAND() LIMIT 1;"
                 cur.execute(sql)
     else:
         utils.print_text("You cannot drink what you don't have")
@@ -279,7 +310,7 @@ def drink(item):
 
 
 def eat(item):
-    sql = "SELECT * FROM Items WHERE Itemtype_Id = " + str(item) + " AND Player_Id = 1;"
+    sql = "SELECT * FROM Items WHERE Itemtype_Id = " + str(item) + " AND Player_Id = "+ str(g.name_id) + ";"
     cur.execute(sql)
     if cur.rowcount >= 1:
         action = "eat"
@@ -290,16 +321,15 @@ def eat(item):
             for row in cur:
                 utils.print_text(row[0])
                 sql = "DELETE FROM Items WHERE Itemtype_Id =" + str(
-                    item) + " and Player_Id = 1 ORDER BY RAND() LIMIT 1;"
+                    item) + " and Player_Id = "+ str(g.name_id) + " ORDER BY RAND() LIMIT 1;"
                 cur.execute(sql)
     else:
         utils.print_text("You cannot eat what you don't have")
     return
 
 
-# Need to change Player_Id
 def ride():
-    sql = "SELECT * FROM Items WHERE Itemtype_Id = 1 AND Player_Id = 1;"
+    sql = "SELECT * FROM Items WHERE Itemtype_Id = 1 AND Player_Id = "+ str(g.name_id) + ";"
     cur.execute(sql)
     if cur.rowcount >= 1:
         sql = "SELECT ACTION FROM Places Where Place_Id =" + str(location) + ";"
@@ -307,7 +337,7 @@ def ride():
         if cur.rowcount >= 1:
             for row in cur:
                 utils.print_text(row[0])
-                sql = "DELETE FROM Items WHERE Itemtype_Id = 1 and Player_Id = 1 ORDER BY RAND() LIMIT 1;"
+                sql = "DELETE FROM Items WHERE Itemtype_Id = 1 and Player_Id = "+ str(g.name_id) + " ORDER BY RAND() LIMIT 1;"
                 cur.execute(sql)
     else:
         utils.print_text("You don't have any ride tickets")
@@ -360,8 +390,8 @@ def wait():
 
 
 def inventory():
-    # Need to change "1" at the end of this line
-    sql = "select Items.Name, Places.Name from Items,Item_types,Places where Items.Itemtype_Id=Item_types.Itemtype_Id and Item_types.Place_Id=Places.Place_Id and Items.Player_Id=\"1\""
+    sql = "select Items.Name, Places.Name from Items,Item_types,Places where Items.Itemtype_Id=Item_types.Itemtype_Id and "\
+          "Item_types.Place_Id=Places.Place_Id and Items.Player_Id= "+ str(g.name_id) + ";"
     cur.execute(sql)
     if cur.rowcount >= 1:
         utils.print_text("\nYou are holding:\n")
@@ -575,7 +605,7 @@ while action != "quit" and action != "q" and g.days < 4:
             utils.print_text("You have to be a bit more specific")
         elif "direct_place_id" in ret:
             if ret["direct_place_id"] == location:
-                if location == (3 or 4 or 6):
+                if location in [3, 4, 6]:
                     ride()
                 else:
                     utils.print_text("Excuse me?")
@@ -597,5 +627,7 @@ while action != "quit" and action != "q" and g.days < 4:
     # help
     if action in ["help", "h"]:
         helpme(obj)
-
-epilogue()
+    if action == "iwannawin":
+        tips.connected_names = 2
+        final()
+epilogue(g.victory)

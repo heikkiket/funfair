@@ -30,3 +30,7 @@ asks = 0
 
 name = ""
 name_id = 0
+
+night = False
+
+victory = False
