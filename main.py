@@ -104,7 +104,7 @@ def newspaper(from_where=""):
     cur.execute(sql)
     print_text = cur.fetchone()[0].upper()
     if from_where:
-        utils.print_text("\nToday's headline of the newspapers:\n" + print_text+"\n")
+        utils.print_text("\nToday's headline of Takaseudun Sanomat is:\n\n\"" + print_text+"\"\n")
     else:
         utils.print_text(
             "Morning! \n\nThe town's own newspaper, Takaseudun Sanomat, has succeeded on putting out a new issue.\n\n\""
@@ -638,6 +638,7 @@ while action != "quit" and action != "q" and g.days < 4:
     # help
     if action in ["help", "h"]:
         helpme(obj)
+    # read newspaper
     if action == "read" and obj == "newspaper":
         newspaper("from_main")
     if action == "iwannawin":
