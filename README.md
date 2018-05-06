@@ -15,7 +15,7 @@ Muutama sananen rakenteesta...
 * ~~utils.print_text() str.center(150) (Dmitri)~~ **Done**
 * ~~pelajan nimen syöttö tietokantaan (Dmitri)~~ **Done**
 * ~~tips: eka tip tulee heti. (give_tip() tarkistaa, onko first_tip TRUE) (Heikki)~~ **Done**
-* tips: päivät vaikuttavat todennäköisyyteen **(Heikki)**
+* ~~tips: päivät vaikuttavat todennäköisyyteen (Heikki)~~ **(Done)**
 * ~~tips: arvotaanko vihjeitä myös hahmoille, joiden kanssa ei voi jutella? (Director) (Heikki)~~ **Done**
 * Games: pelien siirto tietokantaan tai omat aliohjelmat? **(Heikki, Suvi)**
 * ~~EAT (Suvi~~ **(Done)**
@@ -27,7 +27,7 @@ Muutama sananen rakenteesta...
 * ~~HELP (Suvi)~~ **(Done)**
 * ~~HELP [command] (Dmitri)~~ **Done**
 * Inventory **(Dmitri)**
-* Inventory listaa vihjeet **(Heikki)**
+* ~~Inventory listaa vihjeet (Heikki)~~ **(Done)**
 * ~~GO, WALK, pitkät versiot ilmansuunnista (Heikki)~~ **Done**
 * ~~Directions kertomaan, mihin ilmansuunnat vievät (Dmitri)~~ **Done**
 * ~~RIDE tarkistettava, funktion on tarkistettava onko lippu. (Suvi)~~**(Done)**
