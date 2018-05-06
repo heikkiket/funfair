@@ -38,9 +38,16 @@ def prologue():
     return
 
 
-def epilogue():
-    utils.print_text("You have joined the Tivoli Söderholm and moved far away from the town and started to travel with funfair. You’ve traveled around Finland lived a happy life ever after.")
-    return
+def epilogue(success):
+    if success:
+        utils.print_text("You have joined the Tivoli Söderholm and moved far away from the town and started to travel "\
+                         "with funfair. You’ve traveled around Finland lived a happy life ever after.")
+    else:
+        utils.print_text("In the morning when you are returning from the night shift you notice that the field is "\
+                         "empty. You can still barely see few last trucks with funfair logos moving away in the another " \
+                         "end of the town main street.\n" \
+                         "The summer is soon over and you think how your life is still the same it was when you was a" \
+                         "teenager, hoping to get away from this town.")
 
 
 def clear_screen():
@@ -57,7 +64,8 @@ def night():
         utils.make_break()
         utils.print_text("\n\nNIGHT TIME\n")
         utils.print_text(
-            "At night you work at the warehouse. When having a break at the yard of the warehouse you see a distant glow from the closed funfair: the employees have set up campfire…\n")
+            "At night you work at the warehouse. When having a break at the yard of the warehouse you see a distant glow " \
+            "from the closed funfair: the employees have set up campfire…\n")
 
         utils.make_break()
         utils.print_text("DAY NUMBER: " + str(g.days))
@@ -72,7 +80,17 @@ def final():
     utils.make_break()
     if tips.connected_names == 2:
         location = "13"
-        utils.print_text("You are entering a campfire place, where everyone of a funfair staff members gathered together around the fire. A busy couple of working days are behind and everyone is relaxing and having a friendly chat with each other. Somebody is laughing. There is a buzz in the air. As soon as you enter the area everyone calms down. You approach the fire. Birgitta, the funfair director, rises up.")
+        #Bring everyone to the campfire
+        sql = "UPDATE Persons SET Place_Id=13"
+        #cur.execute(sql)
+
+        g.night = True
+        g.victory = True
+        utils.print_text("You are entering a campfire place, where everyone of a funfair staff members gathered together " \
+                         "around the fire. A busy couple of working days are behind and everyone is relaxing and having " \
+                         "a friendly chat with each other. Somebody is laughing. There is a buzz in the air. As soon " \
+                         "as you enter the area everyone calms down. You approach the fire. Birgitta, the funfair " \
+                         "director, rises up.")
     else:
         utils.print_text("The campfire!! The END You lose :(")
     return
@@ -88,13 +106,23 @@ def newspaper():
     if g.days == 3:
         print_text = "A MOOSE FROM THE LOCAL FOREST VISITED TOWN'S ZOOLOGICAL MUSEUM"
     utils.print_text(
-        "MORNING\n\nThe town's own newspaper, Takaseudun Sanomat, has succeeded on putting out a new issue.\n\n\"" + print_text + "\"\n\nWhatever. You decide to go to the funfair.\n")
+        "MORNING\n\nThe town's own newspaper, Takaseudun Sanomat, has succeeded on putting out a new issue.\n\n\""
+        + print_text + "\"\n\nWhatever. You decide to go to the funfair.\n")
     location = "1"
 
 
 def look(loc):
-    sql = "SELECT Name, Description, Details FROM Places where Place_Id=" + str(loc) + ";"
+
+    if g.night:
+        description = "Description_night"
+        details = "Details_night"
+    else:
+        description = "Description"
+        details = "Details"
+
+    sql = "SELECT Name, %s, %s FROM Places where Place_Id='%s'" % (description, details, str(loc))
     cur.execute(sql)
+    print(cur._executed)
     if cur.rowcount >= 1:
         for row in cur.fetchall():
             utils.print_text("\n" + row[0] + "\n\n" + row[1] + "\n\n" + row[2] + "\n\n")
@@ -363,8 +391,9 @@ def wait():
 
 
 def inventory():
-    # Need to change "1" at the end of this line
-    sql = "select Items.Name, Places.Name from Items,Item_types,Places where Items.Itemtype_Id=Item_types.Itemtype_Id and Item_types.Place_Id=Places.Place_Id and Items.Player_Id=\"1\""
+    #TODO Need to change "1" at the end of this line
+    sql = "select Items.Name, Places.Name from Items,Item_types,Places where Items.Itemtype_Id=Item_types.Itemtype_Id" \
+          "and Item_types.Place_Id=Places.Place_Id and Items.Player_Id=\"1\""
     cur.execute(sql)
     if cur.rowcount >= 1:
         utils.print_text("\nYou are holding:\n")
@@ -560,5 +589,4 @@ while action != "quit" and action != "q" and g.days < 4:
     if action == "iwannawin":
         tips.connected_names = 2
         final()
-
-epilogue()
+epilogue(g.victory)
