@@ -130,13 +130,17 @@ def look(loc):
 
 
 def show_passage(loc):
-    sql = "SELECT Description FROM Directions WHERE Direction_id IN (SELECT direction_id FROM Has_passages WHERE place_id =" + str(
-        loc) + ")Order by direction_id ASC LIMIT 10;"
+    sql = "select Directions.Description, Places.Name from Has_passages, Directions, Places " \
+          "where Has_passages.Direction_Id = Directions.Direction_Id and Has_passages.Has_passagesPlace_Id=Places.Place_Id" \
+          " and Has_passages.Place_Id=" + str(loc) + " order by Directions.Description asc;"
+    # sql = "SELECT Description FROM Directions WHERE Direction_id IN (SELECT direction_id FROM Has_passages WHERE place_id =" + str(
+    #    loc) + ")Order by direction_id ASC LIMIT 10;"
     cur.execute(sql)
     if cur.rowcount >= 1:
-        utils.print_text("From here you can go: ")
+        utils.print_text("\nFrom here you can go: \n")
         for row in cur.fetchall():
-            utils.print_text(row[0])
+            utils.print_text("\"" + row[0] + "\" to get to \""+ row[1] + "\"")
+        utils.print_text("\n")
     return
 
 
