@@ -352,6 +352,7 @@ def play(game):
     if game == "bottle pyramid":
         bottle_pyramid(win)
     elif game == "pull-a-string" or game == "pull string":
+        win = 1
         pull_a_string(win)
     elif game == "climb ladder":
         climb_ladder(win)
@@ -361,13 +362,12 @@ def play(game):
         return
 
     if win == 1:
-        sql = "SELECT Name From Items Where Itemtype_Id = 2 ORDER BY RAND() LIMIT 1;"
+        sql = "SELECT Name From Item_types Where Itemtype_Id = 2 OR Itemtype_Id = 16 OR Itemtype_Id = 17 ORDER BY RAND() LIMIT 1;"
         cur.execute(sql)
         if cur.rowcount >= 1:
-            utils.print_text("You win!")
             for row in cur:
-                utils.print_text("You win " + row[0] + "! Amazing!")
-
+                utils.print_text("You win "+ str(row[0]) + "! Amazing!")
+               
     return
 
 
