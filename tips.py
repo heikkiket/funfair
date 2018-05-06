@@ -48,6 +48,8 @@ def succesful_connection(connection):
         cursor.execute("UPDATE Persons SET Is_Connected=1 WHERE Person_Id=%s", (person_id,))
     del(connections[connections.index(connection)])
     create_tip('positive')
+    create_tip('false')
+    create_tip('negative')
 
 
 # this function is not used anywhere, but the SQL is too great to be deleted...
@@ -152,7 +154,7 @@ def give_tip(person_id):
 
     propability = randint(0, (4 - g.days))
 
-    if propability == 1 or first_tip is True:
+    if propability < 2 or first_tip is True:
         if found_row:
             cursor.execute("UPDATE Line SET Is_said='1' WHERE Lines_Id=%s", (line_id,))
             first_tip = False
