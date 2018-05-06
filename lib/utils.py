@@ -27,10 +27,12 @@ def make_break():
     input("[PRESS ENTER]")
     print()
 
+
 def direction_to_name(loc):
     locations = {"n": "North", "e": "East", "s": "South", "w": "West", "ne": "Northeast", "se": "Southeast",
                  "sw": "Southwest", "nw": "Northwest"}
     return locations[loc]
+
 
 def name_to_direction(loc):
     locations = {'north': 'n', 'east': 'e', 'south': 's', 'west': 'w', 'northeast': 'ne', 'southeast': 'se',

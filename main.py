@@ -98,11 +98,23 @@ def final():
 
 
 def newspaper(from_where=""):
-    # TODO print_text can be pulled from the DB
-    # SELECT Line_text FROM Line WHERE Item_Id = %(newspaper_id)s ORDER BY RAND() LIMIT 1
-    sql = "SELECT Line_text FROM Line, Items, Item_types WHERE Line.Item_Id = Items.Item_Id and Items.Itemtype_Id=Item_types.Itemtype_Id and Item_types.Name='Newspaper' ORDER BY RAND() LIMIT 1"
+    sql = "SELECT Line.Line_text, Line.Lines_Id FROM Line, Items, Item_types WHERE Line.Item_Id = Items.Item_Id " \
+          "and Items.Itemtype_Id=Item_types.Itemtype_Id and Item_types.Name='Newspaper' and Line.Is_said != 1 " \
+          "ORDER BY RAND() LIMIT 1;"
     cur.execute(sql)
-    print_text = cur.fetchone()[0].upper()
+    if cur.rowcount >= 1:
+        x = cur.fetchone()
+        print_text = x[0].upper()
+        sql3 = "update Line set Line.Is_said = 1 where Line.Lines_Id = "+str(x[1])+";"
+        cur.execute(sql3)
+
+    else:
+        sql2 = "update Line set Line.Is_said = 0 WHERE Line.Item_Id = (select Items.Item_Id from Items, Item_types " \
+               "where Items.Itemtype_Id = Item_types.Itemtype_Id and Item_types.Name='Newspaper');"
+        cur.execute(sql2)
+        print(sql2)
+        cur.execute(sql)
+        print_text = cur.fetchone()[0].upper()
     if from_where:
         utils.print_text("\nToday's headline of Takaseudun Sanomat is:\n\n\"" + print_text+"\"\n")
     else:
