@@ -414,6 +414,7 @@ def inventory():
         utils.print_text("Connected:")
         for row in cur.fetchall():
             utils.print_text(str(row[0]))
+        utils.print_text("\n")
     else:
         utils.print_text("No connections")
 
