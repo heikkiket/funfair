@@ -5,9 +5,9 @@
 # http://www.sequelpro.com/
 # https://github.com/sequelpro/sequelpro
 #
-# Host: 127.0.0.1 (MySQL 5.5.5-10.2.14-MariaDB)
+# Host: 127.0.0.1 (MySQL 5.7.21)
 # Database: funfair
-# Generation Time: 2018-05-06 15:06:50 +0000
+# Generation Time: 2018-05-06 16:51:40 +0000
 # ************************************************************
 
 
@@ -118,7 +118,7 @@ CREATE TABLE `Item_types` (
   `Itemtype_Id` int(11) NOT NULL,
   `Name` varchar(40) NOT NULL,
   `Place_Id` int(11) NOT NULL,
-  `Alias` text DEFAULT NULL,
+  `Alias` text,
   PRIMARY KEY (`Itemtype_Id`),
   KEY `Place_Id` (`Place_Id`),
   CONSTRAINT `item_types_ibfk_1` FOREIGN KEY (`Place_Id`) REFERENCES `Places` (`Place_Id`)
@@ -133,7 +133,7 @@ VALUES
 	(2,'Stuffed Teddy Bear',7,'teddy;teddy bear'),
 	(3,'Cup of coffee',12,'coffee;coffee cup;cup of coffee'),
 	(6,'Newspaper',14,'newspaper'),
-	(7,'Cup of Tee',12,'tea;tea cup;cup of tea'),
+	(7,'Cup of Tea',12,'tea;tea cup;cup of tea'),
 	(8,'Soda Can',12,'soda;can of soda;soda can;soda bottle;bottle of soda'),
 	(9,'Bottle of Water',12,'water;water bottle;bottle of water; '),
 	(10,'Cinnamon bun',12,'bun;cinnamon bun'),
@@ -157,7 +157,7 @@ DROP TABLE IF EXISTS `Item_types_Action`;
 CREATE TABLE `Item_types_Action` (
   `Action` varchar(11) NOT NULL DEFAULT '',
   `Itemtype_Id` int(11) NOT NULL,
-  `Description` text DEFAULT NULL,
+  `Description` text,
   PRIMARY KEY (`Action`,`Itemtype_Id`),
   KEY `Itemtype_Id` (`Itemtype_Id`),
   CONSTRAINT `item_types_action_ibfk_1` FOREIGN KEY (`Itemtype_Id`) REFERENCES `Item_types` (`Itemtype_Id`)
@@ -250,7 +250,7 @@ CREATE TABLE `Line` (
   `Place_Id` int(11) DEFAULT NULL,
   `Item_Id` int(11) DEFAULT NULL,
   `Connects_Person_Id` int(11) DEFAULT NULL,
-  `Is_tip` tinyint(1) NOT NULL DEFAULT 0,
+  `Is_tip` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`Lines_Id`),
   KEY `Person_Id` (`Person_Id`),
   KEY `Place_Id` (`Place_Id`),
@@ -293,8 +293,8 @@ VALUES
 	(24,'I make excellent candy floss. You should try some.',7,11,NULL,NULL,0),
 	(25,'I\'m Arthur. I wish the ferris wheel is repaired soon.',10,8,NULL,NULL,0),
 	(26,'I think I must thank you.',9,13,NULL,NULL,0),
-	(27,'I like people who drink coffee. They are trustworthy. Here you go, enjoy!',6,12,5,NULL,0),
-	(28,'We have a wide selection of different tea varieties. Black, white, green, chai, blue, rainbow, bubblegum..eh can\'t find anything else but black though. Here you go!',6,12,6,NULL,0),
+	(27,'I like people who drink coffee. They are trustworthy. Here you go, enjoy!',6,12,3,NULL,0),
+	(28,'We have a wide selection of different tea varieties. Black, white, green, chai, blue, rainbow, bubblegum..eh can\'t find anything else but black though. Here you go!',6,12,7,NULL,0),
 	(29,'Our funfair had been so long in terrible troubles. Finally you found a way to connect people together.',9,13,NULL,NULL,0),
 	(30,'You seem to be a bright-minded and empathetic person. I believe you will have a great future!',9,13,NULL,NULL,0),
 	(31,'You seem to be a bright-minded and empathetic person. I believe you will have a great future!',9,13,NULL,NULL,0),
@@ -311,7 +311,15 @@ VALUES
 	(42,'toilet curse strikes again',8,14,16,NULL,0),
 	(43,'man who stabbed inflatable duck with scissors avoids jail',8,14,16,NULL,0),
 	(44,'dealer sold tea to cops',8,14,16,NULL,0),
-	(45,'dead man found in graveyard',8,14,16,NULL,0);
+	(45,'dead man found in graveyard',8,14,16,NULL,0),
+	(46,'Sure you can have a soda. Here you go.',6,12,8,NULL,0),
+	(47,'Water water water...it\'n not even so hot in here, but here you go.',6,12,9,NULL,0),
+	(48,'I have made this cinnamon buns myself. Hope you like it.',6,12,10,NULL,0),
+	(49,'One brownie coming right up.',6,12,12,NULL,0),
+	(50,'Oh so nice of you to buy some candy floss from me. Candy Shop Keeper smiles at you.',7,11,13,NULL,0),
+	(51,'You buy a lot of candies.',7,11,14,NULL,0),
+	(52,'Not everyone likes licorice. Here you go!',7,11,15,NULL,0),
+	(53,'One cookie for you!',6,12,11,NULL,0);
 
 /*!40000 ALTER TABLE `Line` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -354,8 +362,8 @@ CREATE TABLE `Persons` (
   `Connectable` int(11) DEFAULT NULL,
   `Place_Id` int(11) NOT NULL,
   `Connects_Person_Id` int(11) DEFAULT NULL,
-  `Alias` text DEFAULT NULL,
-  `Is_Connected` tinyint(1) NOT NULL DEFAULT 0,
+  `Alias` text,
+  `Is_Connected` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`Person_Id`),
   KEY `Place_Id` (`Place_Id`),
   KEY `Connects_Person_Id` (`Connects_Person_Id`),
@@ -392,9 +400,9 @@ CREATE TABLE `Places` (
   `Place_Id` int(11) NOT NULL,
   `Name` varchar(30) NOT NULL DEFAULT '',
   `Description` text NOT NULL,
-  `Details` text DEFAULT NULL,
-  `Alias` text DEFAULT NULL,
-  `Action` text DEFAULT NULL,
+  `Details` text,
+  `Alias` text,
+  `Action` text,
   `Description_night` varchar(100) NOT NULL,
   `Details_night` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`Place_Id`)
@@ -407,10 +415,10 @@ INSERT INTO `Places` (`Place_Id`, `Name`, `Description`, `Details`, `Alias`, `Ac
 VALUES
 	(1,'Ticket Office','You are at the ticket office.','The ticket office is near the entrance of the funfair. The ticket vendor is selling tickets. To the south there is exit but you don\'t want to leave just yet. To the north there seems to be some kind of stage.','ticket office',NULL,'',NULL),
 	(2,'Open Air Stage','You are at the open air stage.','There is Elna the clown at the open air stage.','stage',NULL,'',NULL),
-	(3,'Bumper Cars','You are at Bumper Cars.','There is a bumper car opetaror. She seems to be a bit angry to some teens who are all just hitting each other\'s cars.','bumper cars','You ride bumper cars','',NULL),
-	(4,'Roller Coaster','You are at the Wormster.','Old man runs the roller coaster very slowly. He seems not to want to talk with you. The roller coaster itself seems smiley though, it looks like a green happy worm. ','roller coaster','You ride wormster','',NULL),
+	(3,'Bumper Cars','You are at Bumper Cars.','There is a bumper car opetaror. She seems to be a bit angry to some teens who are all just hitting each other\'s cars.','bumper cars','You really want to try the bumper cars. You hit so many other cars while riding them. Luckily you live in a small town. Not so much traffic on the actual roads.','',NULL),
+	(4,'Roller Coaster','You are at the Wormster.','Old man runs the roller coaster very slowly. He seems not to want to talk with you. The roller coaster itself seems smiley though, it looks like a green happy worm. ','roller coaster','You and a lot of kids queue for the Wormster. It seems a bit silly, but still so much fun. You ride the roller coaster and he track goes around three times. It certainly was worth the ride ticket!','',NULL),
 	(5,'Security Station','You are now at the Security Station. ','The security station is a small booth with a red cross on the roof. There is a security officer.','security station',NULL,'',NULL),
-	(6,'Carousel','You are now at the Carousel.','There is a carousel operator working. She seems like a nice girl.','carousel','You ride carousel','',NULL),
+	(6,'Carousel','You are now at the Carousel.','There is a carousel operator working. She seems like a nice girl.','carousel','You get on the carousel. You almost cannot choose between a horse carriage and a spinning coffee cup, but finally you see a zebra and you enjoy the carousel ride riding it. What a ride!','',NULL),
 	(7,'Game Hall','You are now at the Game Hall.','There is a lot of games to choose from. The magician seems to be managing all the games. You see at least Bottle Pyramid and Pull-A-String -games being played.','game hall;games',NULL,'',NULL),
 	(8,'Ferris Wheel','You are at the Ferris Wheel. ','You see an old Ferris Wheel and want to jump in. It seems not to be working though. There is a mechanics working on it but they are too busy to notice you. On the ground there is a ferris wheel operator sitting and looking bored.','ferris wheel',NULL,'',NULL),
 	(9,'Food Court','You are at the Food Court.','To the north there is a Candy Shop, norhtwest Cafe, norhtheast Mirror Maze, southwest Rollercoaster, south open air stage and southeast Security Station.\n','food court',NULL,'',NULL),
