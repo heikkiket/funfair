@@ -153,7 +153,7 @@ def give_tip(person_id):
     else:
         result = ""
 
-    propability = randint(0, 1)
+    propability = randint(0, (4 - g.days))
 
     if propability == 1 or first_tip is True:
         if found_row:
