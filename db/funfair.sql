@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.21)
 # Database: funfair
-# Generation Time: 2018-05-06 16:31:34 +0000
+# Generation Time: 2018-05-06 16:51:40 +0000
 # ************************************************************
 
 
@@ -133,7 +133,7 @@ VALUES
 	(2,'Stuffed Teddy Bear',7,'teddy;teddy bear'),
 	(3,'Cup of coffee',12,'coffee;coffee cup;cup of coffee'),
 	(6,'Newspaper',14,'newspaper'),
-	(7,'Cup of Tee',12,'tea;tea cup;cup of tea'),
+	(7,'Cup of Tea',12,'tea;tea cup;cup of tea'),
 	(8,'Soda Can',12,'soda;can of soda;soda can;soda bottle;bottle of soda'),
 	(9,'Bottle of Water',12,'water;water bottle;bottle of water; '),
 	(10,'Cinnamon bun',12,'bun;cinnamon bun'),
@@ -293,8 +293,8 @@ VALUES
 	(24,'I make excellent candy floss. You should try some.',7,11,NULL,NULL,0),
 	(25,'I\'m Arthur. I wish the ferris wheel is repaired soon.',10,8,NULL,NULL,0),
 	(26,'I think I must thank you.',9,13,NULL,NULL,0),
-	(27,'I like people who drink coffee. They are trustworthy. Here you go, enjoy!',6,12,5,NULL,0),
-	(28,'We have a wide selection of different tea varieties. Black, white, green, chai, blue, rainbow, bubblegum..eh can\'t find anything else but black though. Here you go!',6,12,6,NULL,0),
+	(27,'I like people who drink coffee. They are trustworthy. Here you go, enjoy!',6,12,3,NULL,0),
+	(28,'We have a wide selection of different tea varieties. Black, white, green, chai, blue, rainbow, bubblegum..eh can\'t find anything else but black though. Here you go!',6,12,7,NULL,0),
 	(29,'Our funfair had been so long in terrible troubles. Finally you found a way to connect people together.',9,13,NULL,NULL,0),
 	(30,'You seem to be a bright-minded and empathetic person. I believe you will have a great future!',9,13,NULL,NULL,0),
 	(31,'You seem to be a bright-minded and empathetic person. I believe you will have a great future!',9,13,NULL,NULL,0),
@@ -318,7 +318,8 @@ VALUES
 	(49,'One brownie coming right up.',6,12,12,NULL,0),
 	(50,'Oh so nice of you to buy some candy floss from me. Candy Shop Keeper smiles at you.',7,11,13,NULL,0),
 	(51,'You buy a lot of candies.',7,11,14,NULL,0),
-	(52,'Not everyone likes licorice. Here you go!',7,11,15,NULL,0);
+	(52,'Not everyone likes licorice. Here you go!',7,11,15,NULL,0),
+	(53,'One cookie for you!',6,12,11,NULL,0);
 
 /*!40000 ALTER TABLE `Line` ENABLE KEYS */;
 UNLOCK TABLES;
