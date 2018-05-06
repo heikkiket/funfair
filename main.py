@@ -9,6 +9,7 @@ cur = g.cur
 
 # aliohjelmat
 
+
 def main_menu():
     utils.print_text()
     utils.print_text("F U N F A I R   A F F A I R", True)
@@ -94,23 +95,23 @@ def final():
 
 
 def newspaper(from_where=""):
+    cur2 = g.connection.cursor()
     sql = "SELECT Line.Line_text, Line.Lines_Id FROM Line, Items, Item_types WHERE Line.Item_Id = Items.Item_Id " \
           "and Items.Itemtype_Id=Item_types.Itemtype_Id and Item_types.Name='Newspaper' and Line.Is_said != 1 " \
           "ORDER BY RAND() LIMIT 1;"
-    cur.execute(sql)
-    if cur.rowcount >= 1:
-        x = cur.fetchone()
+    cur2.execute(sql)
+    if cur2.rowcount >= 1:
+        x = cur2.fetchone()
         print_text = x[0].upper()
         sql3 = "update Line set Line.Is_said = 1 where Line.Lines_Id = "+str(x[1])+";"
-        cur.execute(sql3)
+        cur2.execute(sql3)
 
     else:
         sql2 = "update Line set Line.Is_said = 0 WHERE Line.Item_Id = (select Items.Item_Id from Items, Item_types " \
                "where Items.Itemtype_Id = Item_types.Itemtype_Id and Item_types.Name='Newspaper');"
-        cur.execute(sql2)
-        print(sql2)
-        cur.execute(sql)
-        print_text = cur.fetchone()[0].upper()
+        cur2.execute(sql2)
+        cur2.execute(sql)
+        print_text = cur2.fetchone()[0].upper()
     if from_where:
         utils.print_text("\nToday's headline of Takaseudun Sanomat is:\n\n\"" + print_text+"\"\n")
     else:
@@ -141,8 +142,7 @@ def show_passage(loc):
     sql = "select Directions.Description, Places.Name from Has_passages, Directions, Places " \
           "where Has_passages.Direction_Id = Directions.Direction_Id and Has_passages.Has_passagesPlace_Id=Places.Place_Id" \
           " and Has_passages.Place_Id=" + str(loc) + " order by Directions.Description asc;"
-    # sql = "SELECT Description FROM Directions WHERE Direction_id IN (SELECT direction_id FROM Has_passages WHERE place_id =" + str(
-    #    loc) + ")Order by direction_id ASC LIMIT 10;"
+
     cur.execute(sql)
     if cur.rowcount >= 1:
         utils.print_text("\nFrom here you can go: \n")
