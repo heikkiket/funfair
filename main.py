@@ -302,7 +302,8 @@ def chat():
     if cur.rowcount >= 1:
         for row in cur:
             utils.print_text(row[0])
-            utils.print_text(tips.give_tip(ret['direct_person_id']))
+            if not g.night:
+                utils.print_text(tips.give_tip(ret['direct_person_id']))
     else:
         utils.print_text("The person you want to chat with is not here")
     return
