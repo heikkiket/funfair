@@ -5,9 +5,9 @@
 # http://www.sequelpro.com/
 # https://github.com/sequelpro/sequelpro
 #
-# Host: 127.0.0.1 (MySQL 5.7.21)
+# Host: 127.0.0.1 (MySQL 5.5.5-10.2.14-MariaDB)
 # Database: funfair
-# Generation Time: 2018-05-07 06:37:36 +0000
+# Generation Time: 2018-05-07 08:31:26 +0000
 # ************************************************************
 
 
@@ -58,7 +58,7 @@ CREATE TABLE `Has_passages` (
   `Place_Id` int(11) NOT NULL,
   `Has_passagesPlace_Id` int(11) NOT NULL,
   `Direction_Id` varchar(10) NOT NULL DEFAULT '',
-  `Locked` tinyint(1) NOT NULL DEFAULT '0',
+  `Locked` tinyint(1) NOT NULL DEFAULT 0,
   `Lock_message` varchar(400) DEFAULT NULL,
   PRIMARY KEY (`Place_Id`,`Has_passagesPlace_Id`),
   KEY `Has_passagesPlace_Id` (`Has_passagesPlace_Id`),
@@ -74,12 +74,13 @@ VALUES
 	(1,2,'n',0,NULL),
 	(2,1,'s',0,NULL),
 	(2,3,'w',0,NULL),
-	(2,5,'sw',0,NULL),
+	(2,5,'ne',0,NULL),
 	(2,6,'e',0,NULL),
 	(2,7,'se',0,NULL),
 	(2,9,'n',0,NULL),
 	(3,2,'e',0,NULL),
 	(3,4,'n',0,NULL),
+	(4,2,'se',0,NULL),
 	(4,3,'s',0,NULL),
 	(4,9,'ne',0,NULL),
 	(5,2,'sw',0,NULL),
@@ -121,7 +122,7 @@ CREATE TABLE `Item_types` (
   `Itemtype_Id` int(11) NOT NULL,
   `Name` varchar(40) NOT NULL,
   `Place_Id` int(11) NOT NULL,
-  `Alias` text,
+  `Alias` text DEFAULT NULL,
   PRIMARY KEY (`Itemtype_Id`),
   KEY `Place_Id` (`Place_Id`),
   CONSTRAINT `item_types_ibfk_1` FOREIGN KEY (`Place_Id`) REFERENCES `Places` (`Place_Id`)
@@ -163,7 +164,7 @@ DROP TABLE IF EXISTS `Item_types_Action`;
 CREATE TABLE `Item_types_Action` (
   `Action` varchar(11) NOT NULL DEFAULT '',
   `Itemtype_Id` int(11) NOT NULL,
-  `Description` text,
+  `Description` text DEFAULT NULL,
   PRIMARY KEY (`Action`,`Itemtype_Id`),
   KEY `Itemtype_Id` (`Itemtype_Id`),
   CONSTRAINT `item_types_action_ibfk_1` FOREIGN KEY (`Itemtype_Id`) REFERENCES `Item_types` (`Itemtype_Id`)
@@ -256,8 +257,8 @@ CREATE TABLE `Line` (
   `Place_Id` int(11) DEFAULT NULL,
   `Item_Id` int(11) DEFAULT NULL,
   `Connects_Person_Id` int(11) DEFAULT NULL,
-  `Is_tip` tinyint(1) NOT NULL DEFAULT '0',
-  `Is_said` tinyint(1) DEFAULT '0',
+  `Is_tip` tinyint(1) NOT NULL DEFAULT 0,
+  `Is_said` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`Lines_Id`),
   KEY `Person_Id` (`Person_Id`),
   KEY `Place_Id` (`Place_Id`),
@@ -391,8 +392,8 @@ CREATE TABLE `Persons` (
   `Connectable` int(11) DEFAULT NULL,
   `Place_Id` int(11) NOT NULL,
   `Connects_Person_Id` int(11) DEFAULT NULL,
-  `Alias` text,
-  `Is_Connected` tinyint(1) NOT NULL DEFAULT '0',
+  `Alias` text DEFAULT NULL,
+  `Is_Connected` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`Person_Id`),
   KEY `Place_Id` (`Place_Id`),
   KEY `Connects_Person_Id` (`Connects_Person_Id`),
@@ -429,9 +430,9 @@ CREATE TABLE `Places` (
   `Place_Id` int(11) NOT NULL,
   `Name` varchar(30) NOT NULL DEFAULT '',
   `Description` text NOT NULL,
-  `Details` text,
-  `Alias` text,
-  `Action` text,
+  `Details` text DEFAULT NULL,
+  `Alias` text DEFAULT NULL,
+  `Action` text DEFAULT NULL,
   `Description_night` varchar(100) NOT NULL,
   `Details_night` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`Place_Id`)
