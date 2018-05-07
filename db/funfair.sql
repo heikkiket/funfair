@@ -305,7 +305,7 @@ VALUES
 	(28,'We have a wide selection of different tea varieties. Black, white, green, chai, blue, rainbow, bubblegum..eh can\'t find anything else but black though. Here you go!',6,12,7,NULL,0,0),
 	(29,'Our funfair had been so long in terrible troubles. Finally you found a way to connect people together.',9,13,NULL,NULL,0,0),
 	(30,'You seem to be a bright-minded and empathetic person. I believe you will have a great future!',9,13,NULL,NULL,0,0),
-	(31,'You seem to be a bright-minded and empathetic person. I believe you will have a great future!',9,13,NULL,NULL,0,0),
+	(31,'Rabbits surf on sheep's backs to escape rising floodwaters',8,14,16,NULL,0,0),
 	(32,'Somehow this reminds me about a time when I was at your age. Elna, do you feel the same? Our new friend has young spirit.',9,13,NULL,NULL,0,0),
 	(33,'THE FISHING FESTIVAL MIGHT TAKE PLACE AT THE MARKET PLACE INSTEAD OF THE LOCAL LAKE',8,14,16,NULL,0,0),
 	(34,'TOWN MUSEUM WANTS TO EVICT DOGS CAMPING ON THE MUSEUM YARD',8,14,16,NULL,0,0),
@@ -349,7 +349,9 @@ VALUES
 	(72,'This campfire has given you a warm welcome. Hehehe.',6,13,NULL,NULL,0,0),
 	(73,'You are one of a sweet package my dear.',7,13,NULL,NULL,0,0),
 	(74,'I do not know how much better this place gets with you. Still nice that you are here.',8,13,NULL,NULL,0,0),
-	(75,'We got finally the ferris wheel fixed. I hope you would ask Birgitta to the ferris wheel.',10,13,NULL,NULL,0,0);
+	(75,'We got finally the ferris wheel fixed. I hope you would ask Birgitta to the ferris wheel.',10,13,NULL,NULL,0,0),
+	(76,'The obese hedgehog so fat he can't curl into a ball',8,14,16,NULL,0,0),
+	(77,"I sold all I had to move to this town - now I'm home, and broke",8,14,16,NULL,0,0);
 
 /*!40000 ALTER TABLE `Line` ENABLE KEYS */;
 UNLOCK TABLES;
