@@ -47,7 +47,9 @@ def succesful_connection(connection):
     for person_id in connection:
         cursor.execute("UPDATE Persons SET Is_Connected=1 WHERE Person_Id=%s", (person_id,))
     del(connections[connections.index(connection)])
-    create_tip('positive')
+
+    if len(connections) > 0:
+        create_tip('positive')
     create_tip('false')
     create_tip('negative')
 
