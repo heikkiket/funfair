@@ -5,9 +5,9 @@
 # http://www.sequelpro.com/
 # https://github.com/sequelpro/sequelpro
 #
-# Host: 127.0.0.1 (MySQL 5.5.5-10.2.14-MariaDB)
+# Host: 127.0.0.1 (MySQL 5.7.21)
 # Database: funfair
-# Generation Time: 2018-05-06 23:46:29 +0000
+# Generation Time: 2018-05-07 06:37:36 +0000
 # ************************************************************
 
 
@@ -58,7 +58,7 @@ CREATE TABLE `Has_passages` (
   `Place_Id` int(11) NOT NULL,
   `Has_passagesPlace_Id` int(11) NOT NULL,
   `Direction_Id` varchar(10) NOT NULL DEFAULT '',
-  `Locked` tinyint(1) NOT NULL DEFAULT 0,
+  `Locked` tinyint(1) NOT NULL DEFAULT '0',
   `Lock_message` varchar(400) DEFAULT NULL,
   PRIMARY KEY (`Place_Id`,`Has_passagesPlace_Id`),
   KEY `Has_passagesPlace_Id` (`Has_passagesPlace_Id`),
@@ -121,7 +121,7 @@ CREATE TABLE `Item_types` (
   `Itemtype_Id` int(11) NOT NULL,
   `Name` varchar(40) NOT NULL,
   `Place_Id` int(11) NOT NULL,
-  `Alias` text DEFAULT NULL,
+  `Alias` text,
   PRIMARY KEY (`Itemtype_Id`),
   KEY `Place_Id` (`Place_Id`),
   CONSTRAINT `item_types_ibfk_1` FOREIGN KEY (`Place_Id`) REFERENCES `Places` (`Place_Id`)
@@ -163,7 +163,7 @@ DROP TABLE IF EXISTS `Item_types_Action`;
 CREATE TABLE `Item_types_Action` (
   `Action` varchar(11) NOT NULL DEFAULT '',
   `Itemtype_Id` int(11) NOT NULL,
-  `Description` text DEFAULT NULL,
+  `Description` text,
   PRIMARY KEY (`Action`,`Itemtype_Id`),
   KEY `Itemtype_Id` (`Itemtype_Id`),
   CONSTRAINT `item_types_action_ibfk_1` FOREIGN KEY (`Itemtype_Id`) REFERENCES `Item_types` (`Itemtype_Id`)
@@ -256,8 +256,8 @@ CREATE TABLE `Line` (
   `Place_Id` int(11) DEFAULT NULL,
   `Item_Id` int(11) DEFAULT NULL,
   `Connects_Person_Id` int(11) DEFAULT NULL,
-  `Is_tip` tinyint(1) NOT NULL DEFAULT 0,
-  `Is_said` tinyint(1) DEFAULT 0,
+  `Is_tip` tinyint(1) NOT NULL DEFAULT '0',
+  `Is_said` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`Lines_Id`),
   KEY `Person_Id` (`Person_Id`),
   KEY `Place_Id` (`Place_Id`),
@@ -339,7 +339,16 @@ VALUES
 	(63,'devil otter ate my minivan',8,14,16,NULL,0,0),
 	(64,'Lost dogs return home after owners cook sausages near where they went missing',8,14,16,NULL,0,0),
 	(65,'guy tries to buy toy poodles, gets fluffy, steroid-pumped giant ferrets instead',8,14,16,NULL,0,0),
-	(66,'teen burglar kills goldenfish because he did not want to leave any witnesses, cops say',8,14,16,NULL,0,0);
+	(66,'teen burglar kills goldenfish because he did not want to leave any witnesses, cops say',8,14,16,NULL,0,0),
+	(67,'It\'s lovely that you will join us!',2,13,NULL,NULL,0,0),
+	(68,'I remember the time when all I wanted was to join a circus but then I found this funfair. I hope your future with us wil be bright.',1,13,NULL,NULL,0,0),
+	(69,'It has been nice to meet you. I like this campfire.',3,13,NULL,NULL,0,0),
+	(70,'We could go jogging together someday?',4,13,NULL,NULL,0,0),
+	(71,'You seem like a great find to our funfair. HR stuff is stuff I\'m yet not so good at.',5,13,NULL,NULL,0,0),
+	(72,'This campfire has given you a warm welcome. Hehehe.',6,13,NULL,NULL,0,0),
+	(73,'You are one of a sweet package my dear.',7,13,NULL,NULL,0,0),
+	(74,'I do not know how much better this place gets with you. Still nice that you are here.',8,13,NULL,NULL,0,0),
+	(75,'We got finally the ferris wheel fixed. I hope you would ask Birgitta to the ferris wheel.',10,13,NULL,NULL,0,0);
 
 /*!40000 ALTER TABLE `Line` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -382,8 +391,8 @@ CREATE TABLE `Persons` (
   `Connectable` int(11) DEFAULT NULL,
   `Place_Id` int(11) NOT NULL,
   `Connects_Person_Id` int(11) DEFAULT NULL,
-  `Alias` text DEFAULT NULL,
-  `Is_Connected` tinyint(1) NOT NULL DEFAULT 0,
+  `Alias` text,
+  `Is_Connected` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`Person_Id`),
   KEY `Place_Id` (`Place_Id`),
   KEY `Connects_Person_Id` (`Connects_Person_Id`),
@@ -420,9 +429,9 @@ CREATE TABLE `Places` (
   `Place_Id` int(11) NOT NULL,
   `Name` varchar(30) NOT NULL DEFAULT '',
   `Description` text NOT NULL,
-  `Details` text DEFAULT NULL,
-  `Alias` text DEFAULT NULL,
-  `Action` text DEFAULT NULL,
+  `Details` text,
+  `Alias` text,
+  `Action` text,
   `Description_night` varchar(100) NOT NULL,
   `Details_night` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`Place_Id`)
