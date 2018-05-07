@@ -624,12 +624,13 @@ while action != "quit" and action != "q" and g.days < 4:
         wrong = "There is something wrong with what you're asking (person or place where you're asking to go)"
         if obj == "":
             utils.print_text("Could you specify who who would you like to take somewhere?")
-        if ret["direct_person_id"] == 9 and ret["indirect_place_id"] == 8:
-            # Birgitta == 9 and Ferris Wheel == 8
-            ask(9, 8)
-            utils.make_break()
-            break;
         elif "direct_person_id" in ret and "indirect_place_id" in ret:
+            if ret["direct_person_id"] == 9 and ret["indirect_place_id"] == 8:
+                # Birgitta == 9 and Ferris Wheel == 8
+                ask(9, 8)
+                utils.make_break()
+                break;
+                
             if ret["direct_person_id"] != 0 and ret["indirect_place_id"] != 0 and g.location != ret[
                 "indirect_place_id"]:
                 person = ret["direct_person_id"]
