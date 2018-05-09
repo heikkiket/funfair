@@ -23,6 +23,11 @@
 # Dump of table Directions
 # ------------------------------------------------------------
 
+drop database if exists funfair;
+create database funfair;
+use funfair;
+
+
 DROP TABLE IF EXISTS `Directions`;
 
 CREATE TABLE `Directions` (
@@ -479,7 +484,10 @@ CREATE TABLE `Player` (
   CONSTRAINT `player_ibfk_1` FOREIGN KEY (`Place_Id`) REFERENCES `Places` (`Place_Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
+DROP USER IF EXISTS 'dbusergroup02'@'127.0.0.1';
+CREATE USER 'dbusergroup02'@'127.0.0.1' IDENTIFIED BY 'dbpass';
+GRANT ALL PRIVILEGES ON funfair.* TO 'dbusergroup02'@'127.0.0.1';
+FLUSH PRIVILEGES;
 
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;

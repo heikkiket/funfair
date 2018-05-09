@@ -4,36 +4,11 @@ This is a game that happens in a small town where funfair arrives.
 
 Written in Python. Uses SQL database.
 
-## Pelin rakenteen suunnittelua
+## Installation
 
-Muutama sananen rakenteesta...
-
-## TODO
-
-* ~~DB: Items -> Item types (Dmitri)~~ **Done**
-* ~~utils.print_text() syö välilyöntejä, fix (Dmitri)~~ **Done**
-* ~~utils.print_text() str.center(150) (Dmitri)~~ **Done**
-* ~~pelajan nimen syöttö tietokantaan (Dmitri)~~ **Done**
-* ~~tips: eka tip tulee heti. (give_tip() tarkistaa, onko first_tip TRUE) (Heikki)~~ **Done**
-* ~~tips: päivät vaikuttavat todennäköisyyteen (Heikki)~~ **(Done)**
-* ~~tips: arvotaanko vihjeitä myös hahmoille, joiden kanssa ei voi jutella? (Director) (Heikki)~~ **Done**
-* Games: pelien siirto tietokantaan tai omat aliohjelmat? **(Heikki, Suvi)**
-* ~~EAT (Suvi~~ **(Done)**
-* ~~BUY (Suvi)~~ **(Done)**
-* ~~DRINK (Suvi)~~ **(Done)**
-* ~~Campfire: interaktiivinen? (Heikki)~~**Done**
-* ~~Epilogi campfiren jälkeen (Heikki)~~**Done**
-* Passages: locked=true **(Heikki)**
-* ~~HELP (Suvi)~~ **(Done)**
-* ~~HELP [command] (Dmitri)~~ **Done**
-* Inventory **(Dmitri)**
-* ~~Inventory listaa vihjeet (Heikki)~~ **(Done)**
-* ~~GO, WALK, pitkät versiot ilmansuunnista (Heikki)~~ **Done**
-* ~~Directions kertomaan, mihin ilmansuunnat vievät (Dmitri)~~ **Done**
-* ~~RIDE tarkistettava, funktion on tarkistettava onko lippu. (Suvi)~~**(Done)**
-* ~~Sanomalehden tekstit tietokannasta (Dmitri)~~ **(Done)**
-
-* Lisää tavaraa tietokantaan **(Dmitri, Heikki, Suvi)**
+To install this game download the whole package to your hard drive, open Terminal, move to directory funfair/db and run command <pre>mysql -u root -p <funfair.sql </pre>, then enter your root password.
+This should install the db structure and content, but also it adds user and grant all the necessary rights for this user to access the database.
+Move one directory up (ex. <pre>cd ..</pre>) and run the game by typing <pre>python3 main.py</pre>
 
 
 ###Parser
