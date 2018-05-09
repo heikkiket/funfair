@@ -12,6 +12,9 @@ To install this game download the whole package to your hard drive, open Termina
 
 then enter your root password.
 This should install the db structure and content, but also it adds user and grant all the necessary rights for this user to access the database.
+
+Remember to adjust variable *print_width* in the file "lib/utils.py" according to the width of your terminal window.
+
 Move one directory up 
 
 <pre>(ex. cd ..)</pre> 
