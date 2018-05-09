@@ -7,13 +7,20 @@ Written in Python. Uses SQL database.
 ## Installation
 
 To install this game download the whole package to your hard drive, open Terminal, move to directory funfair/db and run command
+
  <pre>mysql -u root -p <funfair.sql </pre>
+
 then enter your root password.
 This should install the db structure and content, but also it adds user and grant all the necessary rights for this user to access the database.
 Move one directory up 
-<pre>(ex. cd ..</pre>) 
+
+<pre>(ex. cd ..)</pre> 
+
 and run the game by typing 
+
 <pre>python3 main.py</pre>
+
+P.s. Python should be installed on your system!
 
 
 ###Parser
