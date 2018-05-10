@@ -177,7 +177,7 @@ def success(person, where):
         utils.print_text(
             text + " the Bumper Car Operator. It's odd but she seems to be in a good mood. She offers the " + str(
                 person) + " a ride " \
-                          " and this might turn into a friendship")
+                          "and this might turn into a friendship")
     elif where == 5:
         utils.print_text(text + " the Security Station. She has been wanting to discuss the weather. " \
                                 " " + str(person) + " tells her to cheer up. " \
@@ -228,9 +228,7 @@ def ask(person, where):
     success_to_connect = False
 
     # Get already made connections
-    sql = "Select Person_Id FROM Persons Where NOT Connects_Person_Id IS NULL AND Is_Connected = '1'"
-    cur.execute(sql)
-    made_connections = cur.fetchall()
+    made_connections = check_connections()
 
     if tuple([person]) in made_connections and tuple([person_2]) in made_connections:
         utils.print_text("You have already connected this pair")
@@ -280,18 +278,32 @@ def ask(person, where):
     g.location = where
     utils.make_break()
 
-    if made_connections == 4:
+    made_connections = check_connections()
+
+    if g.debug:
+        print("made_connections:", made_connections)
+
+    if len(made_connections) == 4:
         utils.print_text(
             "You have made two connections! No reason to wander around anymore. It's time to enjoy the campfire " \
             "with all the funfair employees and hear what they have to say.")
-        g.days = 4
         final()
+        return
 
     if g.asks > 1:
         night()
     else:
         look(g.location)
     return
+
+def check_connections():
+    # Get already made connections
+    sql = "Select Person_Id FROM Persons Where NOT Connects_Person_Id IS NULL AND Is_Connected = '1'"
+    cur.execute(sql)
+    result = tuple()
+    if cur.rowcount >= 1:
+        result = cur.fetchall()
+    return result
 
 
 def chat():
@@ -630,7 +642,7 @@ while action != "quit" and action != "q" and g.days < 4:
                 ask(9, 8)
                 utils.make_break()
                 break;
-                
+
             if ret["direct_person_id"] != 0 and ret["indirect_place_id"] != 0 and g.location != ret[
                 "indirect_place_id"]:
                 person = ret["direct_person_id"]

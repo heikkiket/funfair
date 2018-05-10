@@ -44,14 +44,16 @@ def create_connections():
 
 
 def succesful_connection(connection):
+    global connected_names
     for person_id in connection:
         cursor.execute("UPDATE Persons SET Is_Connected=1 WHERE Person_Id=%s", (person_id,))
     del(connections[connections.index(connection)])
+    connected_names += 1
 
     if len(connections) > 0:
         create_tip('positive')
-    create_tip('false')
-    create_tip('negative')
+        create_tip('false')
+        create_tip('negative')
 
 
 # this function is not used anywhere, but the SQL is too great to be deleted...
