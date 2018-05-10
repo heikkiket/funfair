@@ -106,6 +106,7 @@ def final():
                          "as you enter the area everyone calms down. You approach the fire. Birgitta, the funfair " \
                          "director, rises up.")
         utils.print_text('"' + g.name + ', I must really thank you. You have helped us so much."')
+        utils.print_text("You think that it would be wonderful to take Birgitta to the shining ferris wheel.")
     else:
         utils.print_text("You LOST the game :(\nMaybe next time you will do better...")
     return
