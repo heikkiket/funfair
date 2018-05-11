@@ -284,7 +284,7 @@ def ask(person, where):
     if g.debug:
         print("made_connections:", made_connections)
 
-    if len(made_connections) == 4:
+    if len(made_connections) > 4:
         utils.print_text(
             "You have made two connections! No reason to wander around anymore. It's time to enjoy the campfire " \
             "with all the funfair employees and hear what they have to say.")
