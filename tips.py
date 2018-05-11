@@ -29,6 +29,8 @@ def create_connections():
     raw_connections = []
     for i in result:
         raw_connections.append(i[0])
+    if g.debug:
+        raw_connections=[1,5,3,6]
     half = len(raw_connections) // 2
     connections = [raw_connections[:half], raw_connections[half:]]
 
